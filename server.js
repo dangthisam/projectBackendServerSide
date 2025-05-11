@@ -8,16 +8,16 @@ const app = express();
 const methodOverride = require('method-override')
 const port = process.env.PORT || 4000;
 //file dot nay có nhiệm vụ lưu các biến dùng nhiều để fix cho dễ
-const {configViewEngine , configPug }= require("./node/src/config/viewEngine");
-const clienRouter=require("./node/src/routes/client/routerCliten");
-//const productsRouter=require("./node/src/routes/client/routerProducts");
-const webRouter = require("./node/src/routes/web");
-const connection = require("./node/src/config/db");
+const {configViewEngine , configPug }= require(path.join(__dirname, "node/src/config/viewEngine"));
+const clienRouter = require(path.join(__dirname, "node/src/routes/client/routerCliten"));
+//const productsRouter = require(path.join(__dirname, "node/src/routes/client/routerProducts"));
+const webRouter = require(path.join(__dirname, "node/src/routes/web"));
+const connection = require(path.join(__dirname, "node/src/config/db"));
 const fileUpload = require("express-fileupload");
-const Kitten = require("./node/src/models/user");
-const prefixAdmin =require("./node/src/config/system");
-const routeradmin =require("./node/src/routes/admin/index.router");
-const productAdmin =require("./node/src/routes/admin/products.router");
+const Kitten = require(path.join(__dirname, "node/src/models/user"));
+const prefixAdmin = require(path.join(__dirname, "node/src/config/system"));
+const routeradmin = require(path.join(__dirname, "node/src/routes/admin/index.router"));
+const productAdmin = require(path.join(__dirname, "node/src/routes/admin/products.router"));
 const { MongoClient } = require("mongodb");
 const { mongo, default: mongoose } = require("mongoose");
 //hien thi thong bao khi thay doi tang trang thai app.use(express.cookieParser('keyboard cat'));
