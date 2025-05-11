@@ -39,4 +39,29 @@ const getAllProducts = async (req, res) => {
       });
     }
   };
-module.exports={productEdit,homeProducts , getAllProducts};
+const getProductBySlug = async (req, res) => {
+    const slug = req.params.slug;
+    try {
+      const slug = req.params.slug;
+      const find = {
+        deleted: false,
+        slug: slug
+      };
+      const product = await Product.findOne(find);
+
+      //console.log(product);
+      console.log(product);
+      res.render('clients/pages/products/detail', {
+        pageTitle: "Detail Product",
+        product: product,
+        status:"active"
+      });
+    } catch (err) {
+      console.log(err);
+
+        res.status(500).send("Server Error");
+        res.send("Lỗi không tìm thấy sản phẩm");
+        res.redirect("/products");
+      }
+  }
+module.exports={productEdit,homeProducts , getAllProducts , getProductBySlug};

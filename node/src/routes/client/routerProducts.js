@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {productEdit, homeProducts , getAllProducts}=require("../../controllers/clients/productsController");
+const {productEdit, homeProducts , getAllProducts , getProductBySlug}=require("../../controllers/clients/productsController");
 // Route con cho /products
 // router.get('/', (req, res) => {
 //   res.render('clients/pages/products/index'); // Render trang danh sách sản phẩm
@@ -22,4 +22,6 @@ router.post('/delete', (req, res) => {
   res.send('Sản phẩm đã bị xóa');
 });
   router.get("/getAllproducts" , getAllProducts);
+
+router.get("/:slug", getProductBySlug);
 module.exports = router;

@@ -1,0 +1,40 @@
+extends ../../layout/default.pug
+include ../../mixins/box-head.pug
+
+
+block main
+    .container.mt-5
+        .card
+            .card-header.bg-danger.text-white
+                h1.mb-0.text-center #{product.title || "Chi tiết sản phẩm"}
+            .card-body
+                if (product.price)
+                    .mb-4
+                        span.font-weight-bold Giá: 
+                        b.text-success #{product.price}$
+                if product.discountPercentage
+                    .mb-4
+                        span.font-weight-bold Giảm giá: 
+                        b.text-danger #{product.discountPercentage}%
+                if product.stock
+                    .mb-4
+                        span.font-weight-bold Còn lại: 
+                        b.text-info #{product.stock}
+                if product.thumbnail
+                    .mb-4.text-center
+                        img(
+                            src=product.thumbnail
+                            class="img-thumbnail"
+                            style="width: 150px"
+                        )
+               
+                    .mb-4
+                        span.font-weight-bold Vị trí: 
+                        b.text-primary #{product.position}
+                if product.description
+                    .mb-4
+                        span.font-weight-bold Mô tả: 
+                        p.mt-2 #{product.description}
+       
+
+    script(src="/admin/js/product.js")
