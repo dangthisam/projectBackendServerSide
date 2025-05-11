@@ -1,0 +1,58 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    .container.mt-5
+        .card
+            .card-header.bg-danger.text-white
+                h1.mb-0.text-center #{product.title || "Chi tiết sản phẩm"}
+            .card-body
+                if (product.price)
+                    .mb-4
+                        span.font-weight-bold Giá: 
+                        b.text-success #{product.price}$
+                if product.discountPercentage
+                    .mb-4
+                        span.font-weight-bold Giảm giá: 
+                        b.text-danger #{product.discountPercentage}%
+                if product.stock
+                    .mb-4
+                        span.font-weight-bold Còn lại: 
+                        b.text-info #{product.stock}
+                if product.thumbnail
+                    .mb-4.text-center
+                        img(
+                            src=product.thumbnail
+                            class="img-thumbnail"
+                            style="width: 150px"
+                        )
+                if product.status
+                    .mb-4
+                        span.font-weight-bold Trạng thái: 
+                        if (product.status === "active")
+                            span(class="badge badge-success" style="background-color: green") Hoạt động
+                        else
+                            span(class="badge badge-warning" style="background-color: orange") Ngừng hoạt động
+                if product.position
+                    .mb-4
+                        span.font-weight-bold Vị trí: 
+                        b.text-primary #{product.position}
+                if product.description
+                    .mb-4
+                        span.font-weight-bold Mô tả: 
+                        p.mt-2 #{product.description}
+        .card-footer.text-center
+            a.btn.btn-warning.mr-3.mb-3(
+            href=`${prefixAdmin}/products/edit/${product.id}`
+            style="background-color: orange; margin-right: 10px;"
+            ) Chỉnh sửa
+            a.btn.btn-danger.mr-3.mb-3(
+            href="/admin/pages/products/#{product.id}/delete"
+            style="background-color: red; margin-right: 10px;"
+            ) Xóa
+            a.btn.btn-primary.mb-3(
+            href=`${prefixAdmin}/products`
+            style="background-color: blue;"
+            ) Quay lại
+
+    script(src="/admin/js/product.js")

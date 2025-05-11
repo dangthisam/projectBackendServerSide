@@ -1,0 +1,163 @@
+extends ../../layouts/default.pug
+include ../../mixins/filter-status.pug
+include ../../mixins/search.pug
+include ../../mixins/alert.pug
+block main
+  +alert( 5000)
+      
+  h1 Danh Sach San Pham
+   .card.mb-6  
+   
+     .card-body
+    
+      .row 
+       .col-6
+        +filter-status(filterStatus)
+       .col-6 
+        +search(keyword)
+       form(
+        action=`${prefixAdmin}/products/change-multi?_method=PATCH`
+        method="POST"
+        form-change-multi
+      ) 
+
+        .d-flex.align-items-center 
+         .row
+          .col-4
+           .form-group.mb-0.mr-2
+          .col-3
+           
+            .d-flex.justify-content-between
+              a(
+              href=`${prefixAdmin}/products/create`,
+              class="btn btn-success mr-2"
+              ) Thêm chuyến bay mới
+             
+          .form-group.mb-0.mr-2
+            select(name='type' class="form-control")
+              option(value="" , selected) Chọn hành động
+              option(value="active") Active
+              option(value="inactive") Inactive
+              option(value="delete-all") Delete
+              option(value="update-position") Update Position
+          .form-group.mb-0.mr-2
+            input(
+              type="text",
+              class="form-control d-none",
+              name="ids",
+              value=""
+            )
+          
+          button(type="submit", class="btn btn-danger") Apply
+              
+  table(
+    class ="table table-success table-striped"
+    multiTable
+  )
+   thead 
+      tr 
+       th 
+        input(
+          type="checkbox"
+          name="check-all")
+       th STT 
+       th Hinh anh 
+       th Tieu de 
+       th Gia 
+       th Vi tri
+       th Trang Thai 
+       th Hang Dong 
+   tbody 
+    each item,index in products
+     tr
+      td 
+       input(
+        type="checkbox"
+        name="id"
+        value=item.id)
+      td #{index+1}
+      td 
+       img(src=item.thumbnail, alt="San pham 1 ", srcset="" , width="100px", height="auto")
+      td #{item.title}
+      td #{item.price}
+      td 
+        input(
+          type="number" 
+          value= item.position
+          style="width: 50px"
+          name="position"
+          min="1")
+      td 
+        if (item.status == 'active')
+           a(href="javascript:;"
+           data-id=item.id
+           data-status=item.status
+           button-change-status
+           class="btn btn-outline-danger") ON
+        else 
+          a(href="javascript:;"
+           data-id=item.id
+           data-status=item.status
+           button-change-status
+           class="btn btn-outline-info") OFF 
+
+      td 
+       a(
+        type="button" 
+        class="btn btn-primary"
+        href=`${prefixAdmin}/products/edit/${item.id}`
+        ) Edit
+       a(
+        type="button" 
+        class="btn btn-warning"
+        href=`${prefixAdmin}/products/detail/${item.id}`
+        ) Detail
+       
+     
+       button(type="button" 
+        class="btn btn-danger"
+          data-id=item.id
+          data-toggle="modal"
+          data-target="#exampleModal"
+          button-delete
+          button-delete-product) DELETE
+       
+      //-  phan trang
+  nav(aria-label="...")
+   ul(class="pagination")
+    if(pagination.currentPage>1)
+     li(class="page-item")
+      button(
+        class="page-link "
+          button-pagination=pagination.currentPage-1 
+     ) Previous
+    -for( var i=1; i<=pagination.totalPage;i++)
+     li(class=`page-item ${pagination.currentPage  ==  i ? "active" : " "}`)
+       button(class="page-link"
+        
+       button-pagination=i
+       
+       ) #{i}
+    if(pagination.currentPage<pagination.totalPage)
+     li(class="page-item ")
+      button(
+        class="page-link btn btn-outline-warning"
+          button-pagination=pagination.currentPage+1 
+     ) Next
+  form(
+    action=""
+    method="POST"
+    id="form-change-status"
+    data-path=`${prefixAdmin}/products/change-status`) 
+  
+  form(
+    action=""
+    method="POST"
+    id="form-delete-product"
+  
+    data-path=`${prefixAdmin}/products/delete`)
+
+
+  script(src="/admin/js/products.js")
+  script(src="/admin/js/script.js") 
+    //-     để có thể sử dụng được method-override thì trong form phải bắt buộc là 1 method POST

@@ -1,0 +1,237 @@
+/* General styles for the body */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header styles */
+.header {
+  padding: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #474a47 !important; /* Màu đỏ đậm như Airpaz */
+  padding: 0.5rem 1rem;
+}
+
+.navbar-brand img {
+  max-height: 50px;
+   /* Kích thước logo cố định */
+   border-radius: 50%;
+  width: auto;
+  transition: transform 0.3s ease;
+  margin-left: auto; /* Hiệu ứng zoom khi hover */
+}
+
+#btn{
+  color: black;
+}
+
+.navbar-brand img:hover {
+  transform: scale(1.05); /* Zoom nhẹ khi di chuột qua logo */
+}
+
+/* Menu navigation */
+.navbar-nav .nav-item {
+  margin-left: 1rem;
+}
+
+.navbar-nav .nav-link {
+  color: white !important; /* Màu chữ trắng trên nền đỏ */
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ffc107 !important; /* Màu vàng khi hover, tạo điểm nhấn */
+  transform: translateY(-2px); /* Nâng nhẹ khi hover */
+}
+
+/* Responsive navbar toggle button */
+.navbar-toggler {
+  border: none;
+  background-color: #fff;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(220, 53, 69, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Dropdown menu (nếu có) */
+.dropdown-menu {
+  background-color: #dc3545;
+  border: none;
+}
+
+.dropdown-item {
+  color: white !important;
+}
+
+.dropdown-item:hover {
+  background-color: #c82333 !important; /* Màu đỏ đậm hơn khi hover */
+  color: #ffc107 !important;
+}
+
+/* Logo and menu alignment */
+.inner-logo, .inner-menu {
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .navbar-brand img {
+    max-height: 80px; /* Giảm kích thước logo trên mobile */
+  }
+
+  .navbar-nav .nav-item {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+
+  .navbar-nav .nav-link {
+    font-size: 1rem;
+  }
+
+  .col-9 {
+    padding-top: 1rem; /* Đảm bảo menu không bị chồng lên khi thu gọn */
+  }
+}
+
+/* Hover effects for buttons */
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+  transform: translateY(-2px); /* Nâng nhẹ khi hover */
+}
+
+
+/* General styles for the container */
+.container {
+  max-width: 1200px;
+  padding: 1rem;
+}
+
+/* Product list heading */
+.box-head {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.inner-title {
+  color: #dc3545; /* Màu đỏ như Airpaz */
+  font-size: 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 1rem 0;
+  transition: color 0.3s ease;
+}
+
+.inner-title:hover {
+  color: #c82333; /* Màu đỏ đậm hơn khi hover */
+}
+
+/* Product item styles */
+.product-item {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-item:hover {
+  transform: translateY(-5px); /* Nâng nhẹ khi hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Product image */
+.inner-image img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.inner-image img:hover {
+  opacity: 0.9; /* Làm mờ nhẹ khi hover */
+}
+
+/* Product content */
+.inner-content {
+  padding: 1rem;
+  text-align: center;
+}
+
+.inner-content h3 {
+  color: #333;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.inner-content h3:hover {
+  color: #dc3545; /* Màu đỏ khi hover */
+}
+
+/* Price and discount */
+.inner-price-new {
+  color: #28a745; /* Màu xanh lá cho giá mới, nổi bật */
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.inner-price-old {
+  color: #6c757d; /* Màu xám cho giá cũ */
+  font-size: 0.9rem;
+  text-decoration: line-through; /* Gạch ngang giá cũ */
+  margin-bottom: 0.25rem;
+}
+
+.inner-discount {
+  color: #dc3545; /* Màu đỏ cho giảm giá, nổi bật */
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .col-4 {
+    width: 100%; /* Hiển thị từng sản phẩm trên một dòng trên mobile */
+    margin-bottom: 1.5rem;
+  }
+
+  .inner-title {
+    font-size: 1.5rem; /* Giảm kích thước tiêu đề trên mobile */
+  }
+
+  .inner-image img {
+    height: 200px; /* Giảm kích thước hình ảnh trên mobile */
+  }
+}
+
+/* Hover effects for buttons (nếu có nút, thêm sau) */
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+  transform: translateY(-2px); /* Nâng nhẹ khi hover */
+}
