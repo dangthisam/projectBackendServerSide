@@ -4,12 +4,25 @@ const { create } = require("../../models/products");
 const  validateCreateProduct  = require("../../validate/admin/products.validate");
 const path = require("path");
 const app =express();
+const multer  = require('multer')
+const cloudinary = require('cloudinary').v2
+const streamifier = require('streamifier')
 
-const fileUpload = require("express-fileupload");
+
+//const fileUpload = require("express-fileupload");
 
 const router = express.Router();
-const multer  = require('multer')
-const upload = multer({ dest: './public/uploads/' })
+
+const upload = multer()
+
+// connect to cloudinary to upload file online
+cloudinary.config({
+    cloud_name:"domztsqxo",
+    api_key :"698989336354439",
+    api_secret:"uF-fEN7ADPBH45EZOyxb7i3UtEc"
+})
+
+
 
 
 router.get("/products" , productAdmin);
@@ -20,7 +33,33 @@ router.delete("/products/delete/:id", deleteProduct);
 router.get("/products/create",createProduct)
 router.post(
     "/products/create",
-    //tao ra 1 middleware de kiem tra du lieu trc khi insert vao csdl
+    
+     upload.single("thumbnail"),
+     function (req, res, next) {
+    let streamUpload = (req) => {
+        return new Promise((resolve, reject) => {
+            let stream = cloudinary.uploader.upload_stream(
+              (error, result) => {
+                if (result) {
+                  resolve(result);
+                } else {
+                  reject(error);
+                }
+              }
+            );
+
+          streamifier.createReadStream(req.file.buffer).pipe(stream);
+        });
+    };
+
+    async function upload(req) {
+        let result = await streamUpload(req);
+        console.log( "result"  , result);
+    }
+
+    upload(req);
+},
+//tao ra 1 middleware de kiem tra du lieu trc khi insert vao csdl
     // validateCreateProduct.createProducts,
      validateCreateProduct.createProducts,
      createPost,

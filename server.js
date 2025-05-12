@@ -13,7 +13,7 @@ const clienRouter = require(path.join(__dirname, "node/src/routes/client/routerC
 //const productsRouter = require(path.join(__dirname, "node/src/routes/client/routerProducts"));
 const webRouter = require(path.join(__dirname, "node/src/routes/web"));
 const connection = require(path.join(__dirname, "node/src/config/db"));
-const fileUpload = require("express-fileupload");
+//const fileUpload = require("express-fileupload");
 const Kitten = require(path.join(__dirname, "node/src/models/user"));
 const prefixAdmin = require(path.join(__dirname, "node/src/config/system"));
 const routeradmin = require(path.join(__dirname, "node/src/routes/admin/index.router"));
@@ -33,7 +33,7 @@ const systemAdmin  =require("./node/src/config/system");
 // override method post, put, delete
 app.use(methodOverride('_method'))
 //config uploadFile
-app.use(fileUpload());
+//app.use(fileUpload());
 //configViewEngine(app);
 configPug(app); 
 app.use("", webRouter);
