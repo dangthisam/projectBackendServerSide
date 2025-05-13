@@ -44,7 +44,14 @@ router.post(
     );
 
     // edit product
-router.get("/products/edit/:id", editProduct);
+router.get("/products/edit/:id",
+       upload.single("thumbnail"),
+     uploadClould.upload,
+//tao ra 1 middleware de kiem tra du lieu trc khi insert vao csdl
+    // validateCreateProduct.createProducts,
+     validateCreateProduct.createProducts,
+     editProduct
+    );
 router.patch("/products/edit/:id",editPathProducts)
 router.get("/products/detail/:id", detailProduct);
 module.exports = router;
