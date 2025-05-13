@@ -43,8 +43,16 @@ app.use("", clienRouter);
 app.use(prefixAdmin.prefixAdmin, routeradmin);
 
 app.locals.prefixAdmin=systemAdmin.prefixAdmin;
-  
-
+  app.use(session({ 
+  secret: 'nguyenvansamthichdangthithuy', // Sử dụng lại secret từ cookieParser
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 60000 }
+}));
+// Thêm vào trước các app.use cho router
+app.get('/', (req, res) => {
+  res.redirect('/products/admin'); // hoặc bất kỳ trang nào phù hợp
+});
 
 connection();
 
@@ -52,4 +60,6 @@ connection();
   app.listen(port, () => {
     console.log(` app listening on port ${port}`);
   });
+  // Thêm vào cuối file
+module.exports = app;
 //})();
