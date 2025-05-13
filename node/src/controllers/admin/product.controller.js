@@ -11,9 +11,9 @@ const productAdmin= async (req,res)=>{
 
  //Đoạn Lọc
     filterStatus =filter(req.query.status);
-    console.log("filter", filterStatus);
+  
 
-    console.log(req.query.status);
+
     let find = {
       deleted: false
     };
@@ -27,7 +27,7 @@ const productAdmin= async (req,res)=>{
     
 
     const objectSearch =search(req.query);
-    console.log(objectSearch);
+
     if(objectSearch.regex){
       find.title=objectSearch.regex;
     }
@@ -47,8 +47,7 @@ const productAdmin= async (req,res)=>{
 
     //console.log(find);
     const pro =await Product.find(find);
-    console.log(pro);
-   console.log(pro.price);
+
    
     const products = await Product.find(find)
     // sort là sắp xếp theo thứ tự giảm dần
@@ -152,12 +151,12 @@ const productAdmin= async (req,res)=>{
     //  req.body.position=parseInt(req.body.position);
       if(req.body.position==-2){
         const count = await Product.countDocuments();
-        console.log(count);
+      
         req.body.position = count + 1; // Tự động gán vị trí nếu không có giá trị
       }
     // tạo chuyến bay mới từ dữ liệu trong req.body
       const product = new Product(req.body);
-      console.log(req.body);
+   
       //kết nối csdl mongodb và lưu sản phẩm vào csdl
       
       await product.save();
@@ -183,8 +182,7 @@ const productAdmin= async (req,res)=>{
           const product = await Product.findOne(find);
           
     
-          //console.log(product);
-          console.log(product);
+      
         res.render('admin/pages/products/edit', {
           pageTitle: "Edit Product",
           product: product
@@ -208,8 +206,7 @@ const productAdmin= async (req,res)=>{
       _id: id
     };
     const product = await Product.findOne(find);
-    console.log(product);
-    console.log("status"  ,product.status);
+   
     //console.log(product);
     res.render('admin/pages/products/detail', {
       pageTitle: "Detail Product",

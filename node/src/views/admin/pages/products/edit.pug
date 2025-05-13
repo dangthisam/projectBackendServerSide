@@ -4,7 +4,7 @@ block main
   +alertError(5000)
   .container.mt-5
    
-    h1.mb-4.text-emphasis Chỉnh sửa Chuyến bay
+    h1.mb-4.text-emphasis Thêm Chuyến Bay Mới
    
   
     // Hiển thị thông báo lỗi
@@ -19,35 +19,38 @@ block main
         span= messages.success
         button(type="button", class="btn-close", data-bs-dismiss="alert", aria-label="Close")
 
-    form(action=`${prefixAdmin}/products/edit/${product._id}?_method=PATCH`, method="POST", enctype="multipart/form-data")
+    form(action="/admin/products/create", id="form-create-product", method="post", enctype="multipart/form-data")
       .card.shadow-sm.rounded.p-4.mb-4
         .card-body
           .form-group.mb-3
             label(for="title") Tiêu đề
-            input(type="text", class="form-control", id="title", name="title",  minlength="5", placeholder="Nhập tiêu đề sản phẩm (ít nhất 5 ký tự)" , value=product.title)
+            input(type="text", class="form-control", id="title", name="title",  minlength="5", placeholder="Nhập tiêu đề sản phẩm (ít nhất 5 ký tự)")
 
           .form-group.mb-3
             label(for="desc") Mô tả
-            textarea.form-control(id="desc", name="description", rows="5", placeholder="Nhập mô tả sản phẩm", required , value=product.description) #{product.description}</textarea>
+            textarea.form-control(id="desc", name="description", rows="5", placeholder="Nhập mô tả sản phẩm", required)
+          .form-group.mb-3
+            label(for="desc") Sku
+            textarea.form-control(id="sku", name="sku", rows="5", placeholder="Nhập mô tả sản phẩm")
 
           .form-group.mb-3
             label(for="price") Giá
-            input(type="number", class="form-control", id="price", name="price", min="0", placeholder="Nhập giá sản phẩm", required, value=product.price)
+            input(type="number", class="form-control", id="price", name="price", value="0", min="0", placeholder="Nhập giá sản phẩm", required)
 
           .form-group.mb-3
             label(for="discount") % Giảm giá
-            input(type="number", class="form-control", id="discount", name="discountPercentage", min="0", max="100", placeholder="Nhập % giảm giá (0-100)", value=product.discountPercentage)
+            input(type="number", class="form-control", id="discount", name="discountPercentage", value="0", min="0", max="100", placeholder="Nhập % giảm giá (0-100)")
 
           .form-group.mb-3
             label(for="stock") Số lượng
-            input(type="number", class="form-control", id="stock", name="stock", min="0", placeholder="Nhập số lượng sản phẩm", required, value=product.stock)
+            input(type="number", class="form-control", id="stock", name="stock", value="0", min="0", placeholder="Nhập số lượng sản phẩm", required)
 
           div( 
             class="form-group mb-3"
             data-upload-image
             )
             label(for="thumbnail") Ảnh
-            input(type="text", class="form-control-file", id="thumbnail", name="thumbnail", accept="image/*", data-upload-image-input, value=product.thumbnail)
+            input(type="file", class="form-control-file", id="thumbnail", name="thumbnail", accept="image/*", data-upload-image-input)
             img(
               src=""
               class="image-preview"
@@ -62,12 +65,12 @@ block main
           .form-group.mb-3
             label.d-block Trạng thái
             .form-check.form-check-inline
-              input(type="radio", class="form-check-input", id="statusActive", name="status", value="active", checked=(product.status === 'active' ? true : false))
+              input(type="radio", class="form-check-input", id="statusActive", name="status", value="active", checked)
               label(for="statusActive", class="form-check-label") Hoạt động
             .form-check.form-check-inline
-              input(type="radio", class="form-check-input", id="statusInactive", name="status", value="inactive", checked=(product.status === 'inactive' ? true : false))
+              input(type="radio", class="form-check-input", id="statusInactive", name="status", value="inactive")
               label(for="statusInactive", class="form-check-label") Ngừng hoạt động
 
           .form-group.mt-4.d-flex.justify-content-between
-            button(type="submit", class="btn btn-primary btn-lg") CẬP NHẬT
+            button(type="submit", class="btn btn-primary btn-lg") Thêm mới
             a(href=`${prefixAdmin}/products`, class="btn btn-secondary btn-lg") Hủy

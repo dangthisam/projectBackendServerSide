@@ -2,12 +2,7 @@
 const slug = require('mongoose-slug-updater');
 const mongoose = require('mongoose');
 mongoose.plugin(slug);
-// Định nghĩa schema cho dimensions
-const dimensionSchema = new mongoose.Schema({
-  width: { type: Number, required: true, min: [0, 'Chiều rộng không được nhỏ hơn 0'] },
-  height: { type: Number, required: true, min: [0, 'Chiều cao không được nhỏ hơn 0'] },
-  depth: { type: Number, required: true, min: [0, 'Chiều sâu không được nhỏ hơn 0'] },
-});
+
 
 // Định nghĩa schema cho Product
 const productSchema = new mongoose.Schema(
@@ -15,12 +10,10 @@ const productSchema = new mongoose.Schema(
     title: { type: String},
     description: { type: String },
     price: { type: Number },
-    
-    
     slug: { type: String, slug: "title", unique: true, slug_padding_size: 4 },
     stock: { type: Number},
     discountPercentage: { type: Number },
-    images: { type: [String], default: [] },
+   
     thumbnail: { type: String },
     status: {type: String},
     deleted:{
@@ -29,7 +22,7 @@ const productSchema = new mongoose.Schema(
     },
     position: { type: Number },
     deletedAt: { type: Date },
-    sku: { type: String, unique: true, default: "ok" },
+    sku: { type: String, unique: false },
   },
   {
     timestamps: true,
