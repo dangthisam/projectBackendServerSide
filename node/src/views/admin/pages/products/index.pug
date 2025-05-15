@@ -2,162 +2,169 @@ extends ../../layouts/default.pug
 include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/alert.pug
+
 block main
-  +alert( 5000)
-      
-  h1 Danh Sach San Pham
-   .card.mb-6  
-   
-     .card-body
-    
-      .row 
-       .col-6
-        +filter-status(filterStatus)
-       .col-6 
-        +search(keyword)
-       form(
+  +alert(5000)
+
+  //- Nền cho tiêu đề
+  .bg-light.py-3.mb-4
+    h1.mb-0.text-primary.text-center(style="text-shadow: 2px 2px 8px #aaa;") Danh Sách Sản Phẩm
+
+  .card.mb-4.shadow
+    .card-body
+      .row.mb-3
+        .col-md-6.mb-2
+          +filter-status(filterStatus)
+        .col-md-6.mb-2
+          +search(keyword)
+
+      .card.mb-3.border-0.bg-light
+        .card-header.bg-white.font-weight-bold Sắp xếp
+        .card-body.py-2
+          .row
+            .col-md-4.mb-2
+              div(sort)
+                select.form-control(name="sort" sort-select)
+                  option(value="position-desc") 🡻 Vị trí giảm dần
+                  option(value="position-asc") 🡹 Vị trí tăng dần
+                  option(value="price-desc") 🡻 Giá giảm dần
+                  option(value="price-asc") 🡹 Giá tăng dần
+                  option(value="title-asc") A → Z
+                  option(value="title-desc") Z → A
+                button.btn.btn-outline-danger.mt-2(sort-clear) Xóa lọc
+
+      form(
         action=`${prefixAdmin}/products/change-multi?_method=PATCH`
         method="POST"
         form-change-multi
-      ) 
+        class="mb-3"
+      )
+        .row.align-items-center
+          .col-md-4.mb-2
+            .form-group.mb-0.mr-2
+              select.form-control(name='type')
+                option(value="", selected) Chọn hành động
+                option(value="active") Kích hoạt
+                option(value="inactive") Vô hiệu hóa
+                option(value="delete-all") Xóa nhiều
+                option(value="update-position") Cập nhật vị trí
+          .col-md-2.mb-2
+            button.btn.btn-danger.w-100(type="submit")
+              i.fas.fa-check.mr-1
+              | Áp dụng
+          .col-md-4.mb-2
+            .form-group.mb-0.mr-2
+              input.form-control.d-none(type="text", name="ids", value="")
+          .col-md-2.text-right.mb-2
+            a.btn.btn-info(href=`${prefixAdmin}/products/create`)
+              i.fas.fa-plus.mr-1
+              | Thêm sản phẩm
 
-        .d-flex.align-items-center 
-         .row
-          .col-4
-           .form-group.mb-0.mr-2
-          .col-3
-           
-            .d-flex.justify-content-between
-              a(
-              href=`${prefixAdmin}/products/create`,
-              class="btn btn-success mr-2"
-              ) Thêm chuyến bay mới
-             
-          .form-group.mb-0.mr-2
-            select(name='type' class="form-control")
-              option(value="" , selected) Chọn hành động
-              option(value="active") Active
-              option(value="inactive") Inactive
-              option(value="delete-all") Delete
-              option(value="update-position") Update Position
-          .form-group.mb-0.mr-2
-            input(
-              type="text",
-              class="form-control d-none",
-              name="ids",
-              value=""
-            )
-          
-          button(type="submit", class="btn btn-danger") Apply
-              
-  table(
-    class ="table table-success table-striped"
-    multiTable
-  )
-   thead 
-      tr 
-       th 
-        input(
-          type="checkbox"
-          name="check-all")
-       th STT 
-       th Hinh anh 
-       th Tieu de 
-       th Gia 
-       th Vi tri
-       th Trang Thai 
-       th Hang Dong 
-   tbody 
-    each item,index in products
-     tr
-      td 
-       input(
-        type="checkbox"
-        name="id"
-        value=item.id)
-      td #{index+1}
-      td 
-       img(src=item.thumbnail, alt="San pham 1 ", srcset="" , width="100px", height="auto")
-      td #{item.title}
-      td #{item.price}
-      td 
-        input(
-          type="number" 
-          value= item.position
-          style="width: 50px"
-          name="position"
-          min="1")
-      td 
-        if (item.status == 'active')
-           a(href="javascript:;"
-           data-id=item.id
-           data-status=item.status
-           button-change-status
-           class="btn btn-outline-danger") ON
-        else 
-          a(href="javascript:;"
-           data-id=item.id
-           data-status=item.status
-           button-change-status
-           class="btn btn-outline-info") OFF 
+      .table-responsive
+        table.table.table-hover.table-striped.table-bordered.align-middle(multiTable)
+          thead.thead-dark
+            tr
+              th.text-center
+                input(type="checkbox" name="check-all")
+              th.text-center STT
+              th.text-center Hình ảnh
+              th.text-center Tiêu đề
+              th.text-center Giá
+              th.text-center Vị trí
+              th.text-center Trạng Thái
+              th.text-center Hành Động
+          tbody
+            each item, index in products
+              tr
+                td.text-center
+                  input(type="checkbox" name="id" value=item.id)
+                td.text-center #{index + 1}
+                td.text-center
+                  img(src=item.thumbnail, alt="Sản phẩm", width="80px", height="auto", class="img-thumbnail")
+                td #{item.title}
+                td.text-right.text-success #{item.price}
+                td.text-center
+                  input(
+                    type="number"
+                    value=item.position
+                    style="width: 60px"
+                    name="position"
+                    min="1"
+                    class="form-control form-control-sm d-inline-block"
+                  )
+                td.text-center
+                  if item.status == 'active'
+                    a.btn.btn-outline-success.btn-sm(
+                      href="javascript:;"
+                      data-id=item.id
+                      data-status=item.status
+                      button-change-status
+                    )
+                      i.fas.fa-toggle-on.mr-1
+                      | ON
+                  else
+                    a.btn.btn-outline-secondary.btn-sm(
+                      href="javascript:;"
+                      data-id=item.id
+                      data-status=item.status
+                      button-change-status
+                    )
+                      i.fas.fa-toggle-off.mr-1
+                      | OFF
+                td.text-center
+                  a.btn.btn-primary.btn-sm.px-2.mr-2(
+                    type="button"
+                    href=`${prefixAdmin}/products/edit/${item.id}`
+                  )
+                    i.fas.fa-edit.mr-1
+                    | Sửa
+                  a.btn.btn-warning.btn-sm.px-2.mr-2(
+                    type="button"
+                    href=`${prefixAdmin}/products/detail/${item.id}`
+                  )
+                    i.fas.fa-info-circle.mr-1
+                    | Chi tiết
+                  button.btn.btn-danger.btn-sm.px-2(
+                    type="button"
+                    data-id=item.id
+                    data-toggle="modal"
+                    data-target="#exampleModal"
+                    button-delete
+                    button-delete-product
+                  )
+                    i.fas.fa-trash.mr-1
+                    | Xóa
 
-      td 
-       a(
-        type="button" 
-        class="btn btn-primary"
-        href=`${prefixAdmin}/products/edit/${item.id}`
-        ) Edit
-       a(
-        type="button" 
-        class="btn btn-warning"
-        href=`${prefixAdmin}/products/detail/${item.id}`
-        ) Detail
-       
-     
-       button(type="button" 
-        class="btn btn-danger"
-          data-id=item.id
-          data-toggle="modal"
-          data-target="#exampleModal"
-          button-delete
-          button-delete-product) DELETE
-       
-      //-  phan trang
-  nav(aria-label="...")
-   ul(class="pagination")
-    if(pagination.currentPage>1)
-     li(class="page-item")
-      button(
-        class="page-link "
-          button-pagination=pagination.currentPage-1 
-     ) Previous
-    -for( var i=1; i<=pagination.totalPage;i++)
-     li(class=`page-item ${pagination.currentPage  ==  i ? "active" : " "}`)
-       button(class="page-link"
-        
-       button-pagination=i
-       
-       ) #{i}
-    if(pagination.currentPage<pagination.totalPage)
-     li(class="page-item ")
-      button(
-        class="page-link btn btn-outline-warning"
-          button-pagination=pagination.currentPage+1 
-     ) Next
+      //- Pagination
+      if pagination && pagination.totalPage > 1
+        nav(aria-label="Page navigation")
+          ul.pagination.justify-content-center
+            if pagination.currentPage > 1
+              li.page-item
+                button.page-link(button-pagination=pagination.currentPage-1) «
+            - for (var i = 1; i <= pagination.totalPage; i++)
+              li(class=`page-item${pagination.currentPage == i ? " active" : ""}`)
+                button.page-link(button-pagination=i) #{i}
+            if pagination.currentPage < pagination.totalPage
+              li.page-item
+                button.page-link(button-pagination=pagination.currentPage+1) »
+
   form(
     action=""
     method="POST"
     id="form-change-status"
-    data-path=`${prefixAdmin}/products/change-status`) 
-  
+    data-path=`${prefixAdmin}/products/change-status`
+  )
+
   form(
     action=""
     method="POST"
     id="form-delete-product"
-  
-    data-path=`${prefixAdmin}/products/delete`)
+    data-path=`${prefixAdmin}/products/delete`
+  )
 
+  //- FontAwesome CDN (nếu chưa có trong layout)
+  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
 
   script(src="/admin/js/products.js")
-  script(src="/admin/js/script.js") 
-    //-     để có thể sử dụng được method-override thì trong form phải bắt buộc là 1 method POST
+  script(src="/admin/js/script.js")

@@ -1,5 +1,19 @@
 mixin search(keyword)
-  form
-    .input-group.mb-3
-      input.form-control(type="text" placeholder="Nhập từ khóa" aria-label="Search keyword" aria-describedby="button-addon2" name="keyword" value=keyword)
-      button.btn.btn-warning(type="submit" id="button-addon2") Tìm kiếm
+  form(class="search-form mb-3")
+    .input-group
+      input.form-control.rounded-pill(
+        type="text"
+        placeholder="Nhập từ khóa..."
+        aria-label="Search keyword"
+        aria-describedby="button-addon2"
+        name="keyword"
+        value=keyword
+        style="border-right:0;"
+      )
+      button.btn.btn-warning.rounded-pill(
+        type="submit"
+        id="button-addon2"
+        style="border-top-left-radius:0;border-bottom-left-radius:0;"
+      )
+        i.fas.fa-search.mr-1
+        | Tìm kiếm

@@ -3,56 +3,60 @@ include ../../mixins/alert.pug
 
 block main
     .container.mt-5
-        .card
-            .card-header.bg-danger.text-white
-                h1.mb-0.text-center #{product.title || "Chi tiết sản phẩm"}
-            .card-body
-                if (product.price)
-                    .mb-4
-                        span.font-weight-bold Giá: 
-                        b.text-success #{product.price}$
-                if product.discountPercentage
-                    .mb-4
-                        span.font-weight-bold Giảm giá: 
-                        b.text-danger #{product.discountPercentage}%
-                if product.stock
-                    .mb-4
-                        span.font-weight-bold Còn lại: 
-                        b.text-info #{product.stock}
-                if product.thumbnail
-                    .mb-4.text-center
-                        img(
-                            src=product.thumbnail
-                            class="img-thumbnail"
-                            style="width: 150px"
-                        )
-                if product.status
-                    .mb-4
-                        span.font-weight-bold Trạng thái: 
-                        if (product.status === "active")
-                            span(class="badge badge-success" style="background-color: green") Hoạt động
-                        else
-                            span(class="badge badge-warning" style="background-color: orange") Ngừng hoạt động
-                if product.position
-                    .mb-4
-                        span.font-weight-bold Vị trí: 
-                        b.text-primary #{product.position}
-                if product.description
-                    .mb-4
-                        span.font-weight-bold Mô tả: 
-                        p.mt-2 #{product.description}
-        .card-footer.text-center
-            a.btn.btn-warning.mr-3.mb-3(
-            href=`${prefixAdmin}/products/edit/${product.id}`
-            style="background-color: orange; margin-right: 10px;"
-            ) Chỉnh sửa
-            a.btn.btn-danger.mr-3.mb-3(
-            href="/admin/pages/products/#{product.id}/delete"
-            style="background-color: red; margin-right: 10px;"
-            ) Xóa
-            a.btn.btn-primary.mb-3(
-            href=`${prefixAdmin}/products`
-            style="background-color: blue;"
-            ) Quay lại
+        .row.justify-content-center
+            .col-lg-8.col-md-10
+                .card.shadow-lg.rounded-4
+                    .card-header.bg-primary.text-white.text-center.py-4
+                        h1.mb-0.fw-bold #{product.title || "Chi tiết sản phẩm"}
+                    .card-body.bg-light
+                        .row.g-4.align-items-center
+                            .col-md-4.text-center
+                                if product.thumbnail
+                                    img(
+                                        src=product.thumbnail
+                                        class="img-thumbnail shadow-sm mb-3"
+                                        style="width: 180px; height: 180px; object-fit: cover;"
+                                    )
+                                else
+                                    .bg-secondary.text-white.d-flex.align-items-center.justify-content-center.rounded-circle.mx-auto.mb-3(style="width: 180px; height: 180px; font-size: 2rem;")
+                                        i.fas.fa-image
+                            .col-md-8
+                                ul.list-group.list-group-flush.fs-5
+                                    li.list-group-item
+                                        span.fw-semibold Giá: 
+                                        b.text-success.ms-2 #{product.price || 0}₫
+                                    if product.discountPercentage
+                                        li.list-group-item
+                                            span.fw-semibold Giảm giá: 
+                                            b.text-danger.ms-2 #{product.discountPercentage}%
+                                    li.list-group-item
+                                        span.fw-semibold Còn lại: 
+                                        b.text-info.ms-2 #{product.stock || 0}
+                                    li.list-group-item
+                                        span.fw-semibold Trạng thái: 
+                                        if product.status === "active"
+                                            span.badge.bg-success.ms-2 Hoạt động
+                                        else
+                                            span.badge.bg-warning.text-dark.ms-2 Ngừng hoạt động
+                                    li.list-group-item
+                                        span.fw-semibold Vị trí: 
+                                        b.text-primary.ms-2 #{product.position || 0}
+                        if product.description
+                            .mt-4
+                                span.fw-semibold.fs-5 Mô tả:
+                                p.mt-2.fs-6.text-secondary #{product.description}
+                    .card-footer.bg-white.text-center.d-flex.justify-content-center.gap-3
+                        a.btn.btn-warning.px-4.py-2.fw-semibold(
+                            href=`${prefixAdmin}/products/edit/${product.id}`
+                            style="background-color: orange;"
+                        ) Chỉnh sửa
+                        a.btn.btn-danger.px-4.py-2.fw-semibold(
+                            href="/admin/pages/products/#{product.id}/delete"
+                            style="background-color: red;"
+                        ) Xóa
+                        a.btn.btn-primary.px-4.py-2.fw-semibold(
+                            href=`${prefixAdmin}/products`
+                            style="background-color: blue;"
+                        ) Quay lại
 
     script(src="/admin/js/product.js")

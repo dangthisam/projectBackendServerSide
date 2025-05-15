@@ -1,12 +1,11 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
+
 block main
   +alertError(5000)
   .container.mt-5
-   
-    h1.mb-4.text-emphasis Thêm Chuyến Bay Mới
-   
-  
+    h1.mb-4.text-primary.text-center.fw-bold Sửa chuyến bay 
+
     // Hiển thị thông báo lỗi
     if messages && messages.error
       .alert.alert-danger.alert-dismissible.fade.show(role="alert")
@@ -19,58 +18,62 @@ block main
         span= messages.success
         button(type="button", class="btn-close", data-bs-dismiss="alert", aria-label="Close")
 
-    form(action="/admin/products/create", id="form-create-product", method="post", enctype="multipart/form-data")
-      .card.shadow-sm.rounded.p-4.mb-4
-        .card-body
-          .form-group.mb-3
-            label(for="title") Tiêu đề
-            input(type="text", class="form-control", id="title", name="title",  minlength="5", placeholder="Nhập tiêu đề sản phẩm (ít nhất 5 ký tự)")
+    .row.justify-content-center
+      .col-md-8.col-lg-7
+        form(action="/admin/products/create", id="form-create-product", method="post", enctype="multipart/form-data")
+          .card.shadow-lg.rounded-4.p-4.mb-4.bg-light
+            .card-body
+              .row.g-3
+                .col-12
+                  .form-group
+                    label.fw-semibold(for="title") Tiêu đề
+                    input(type="text", class="form-control", id="title", name="title", minlength="5", placeholder="Nhập tiêu đề sản phẩm (ít nhất 5 ký tự)", required)
+                .col-12
+                  .form-group
+                    label.fw-semibold(for="desc") Mô tả
+                    textarea.form-control(id="desc", name="description", rows="4", placeholder="Nhập mô tả sản phẩm", required)
+                .col-md-6
+                  .form-group
+                    label.fw-semibold(for="sku") SKU
+                    input(type="text", class="form-control", id="sku", name="sku", placeholder="Nhập mã SKU sản phẩm")
+                .col-md-6
+                  .form-group
+                    label.fw-semibold(for="price") Giá
+                    input(type="number", class="form-control", id="price", name="price", value="0", min="0", placeholder="Nhập giá sản phẩm", required)
+                .col-md-6
+                  .form-group
+                    label.fw-semibold(for="discount") % Giảm giá
+                    input(type="number", class="form-control", id="discount", name="discountPercentage", value="0", min="0", max="100", placeholder="Nhập % giảm giá (0-100)")
+                .col-md-6
+                  .form-group
+                    label.fw-semibold(for="stock") Số lượng
+                    input(type="number", class="form-control", id="stock", name="stock", value="0", min="0", placeholder="Nhập số lượng sản phẩm", required)
+                .col-12
+                  .form-group.mb-3(data-upload-image)
+                    label.fw-semibold(for="thumbnail") Ảnh sản phẩm
+                    input(type="file", class="form-control", id="thumbnail", name="thumbnail", accept="image/*", data-upload-image-input)
+                    .mt-2
+                      img(
+                        src=""
+                        class="image-preview border rounded shadow-sm d-block mb-2"
+                        style="max-width: 180px; max-height: 180px; object-fit: cover;"
+                        data-upload-image-preview
+                      )
+                      button(type="button", class="btn btn-outline-danger btn-sm", data-upload-image-remove) Xóa ảnh
+                .col-md-6
+                  .form-group
+                    label.fw-semibold(for="position") Vị trí
+                    input(type="number", class="form-control", id="position", name="position", placeholder="Tự động tăng", min="-2")
+                .col-md-6
+                  .form-group
+                    label.fw-semibold.d-block Trạng thái
+                    .form-check.form-check-inline
+                      input(type="radio", class="form-check-input", id="statusActive", name="status", value="active", checked)
+                      label(for="statusActive", class="form-check-label") Hoạt động
+                    .form-check.form-check-inline
+                      input(type="radio", class="form-check-input", id="statusInactive", name="status", value="inactive")
+                      label(for="statusInactive", class="form-check-label") Ngừng hoạt động
 
-          .form-group.mb-3
-            label(for="desc") Mô tả
-            textarea.form-control(id="desc", name="description", rows="5", placeholder="Nhập mô tả sản phẩm", required)
-          .form-group.mb-3
-            label(for="desc") Sku
-            textarea.form-control(id="sku", name="sku", rows="5", placeholder="Nhập mô tả sản phẩm")
-
-          .form-group.mb-3
-            label(for="price") Giá
-            input(type="number", class="form-control", id="price", name="price", value="0", min="0", placeholder="Nhập giá sản phẩm", required)
-
-          .form-group.mb-3
-            label(for="discount") % Giảm giá
-            input(type="number", class="form-control", id="discount", name="discountPercentage", value="0", min="0", max="100", placeholder="Nhập % giảm giá (0-100)")
-
-          .form-group.mb-3
-            label(for="stock") Số lượng
-            input(type="number", class="form-control", id="stock", name="stock", value="0", min="0", placeholder="Nhập số lượng sản phẩm", required)
-
-          div( 
-            class="form-group mb-3"
-            data-upload-image
-            )
-            label(for="thumbnail") Ảnh
-            input(type="file", class="form-control-file", id="thumbnail", name="thumbnail", accept="image/*", data-upload-image-input)
-            img(
-              src=""
-              class="image-preview"
-              data-upload-image-preview
-            )
-            button(type="button", class="btn btn-danger btn-sm mt-2", data-upload-image-remove) X
-          .form-group.mb-3
-            label(for="position") Vị trí
-            input(type="number", class="form-control", id="position", name="position", placeholder="Tự động tăng", min="-2")
-
-
-          .form-group.mb-3
-            label.d-block Trạng thái
-            .form-check.form-check-inline
-              input(type="radio", class="form-check-input", id="statusActive", name="status", value="active", checked)
-              label(for="statusActive", class="form-check-label") Hoạt động
-            .form-check.form-check-inline
-              input(type="radio", class="form-check-input", id="statusInactive", name="status", value="inactive")
-              label(for="statusInactive", class="form-check-label") Ngừng hoạt động
-
-          .form-group.mt-4.d-flex.justify-content-between
-            button(type="submit", class="btn btn-primary btn-lg") Thêm mới
-            a(href=`${prefixAdmin}/products`, class="btn btn-secondary btn-lg") Hủy
+              .form-group.mt-4.d-flex.justify-content-between
+                button(type="submit", class="btn btn-primary btn-lg px-5") Thêm mới
+                a(href=`${prefixAdmin}/products`, class="btn btn-secondary btn-lg px-5") Hủy

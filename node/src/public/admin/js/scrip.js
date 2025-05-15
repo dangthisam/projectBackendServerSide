@@ -108,7 +108,7 @@ if( checkboxMulti){
 // xử lý form submit
 const formChangeMulite = document.querySelector("[form-change-multi]");
 if(formChangeMulite){
-    console.log("ok",formChangeMulite);
+    
     formChangeMulite.addEventListener("submit", (e)=>{
         e.preventDefault();
         const checkboxMulti = document.querySelector("[multiTable]");
@@ -226,5 +226,38 @@ if (buttonDeleteImage) {
     });
 }
 
-console.log("ok em nha")
-      
+
+//sort
+
+
+const sortElements = document.querySelectorAll("[sort]");
+if (sortElements.length > 0) {
+    sortElements.forEach(sort => {
+        const sortSelect = sort.querySelector("[sort-select]");
+        const sortClear = sort.querySelector("[sort-clear]");
+
+        if (sortSelect) {
+            sortSelect.addEventListener("change", (e) => {
+                const value = e.target.value;
+                if (value) {
+                    const [sortKey, sortValue] = value.split("-");
+                    const url = new URL(window.location.href);
+                    url.searchParams.set("sortKey", sortKey);
+                    url.searchParams.set("sortValue", sortValue);
+                    window.location.href = url.href;
+                }
+            });
+        }
+
+        if (sortClear) {
+            sortClear.addEventListener("click", () => {
+                const url = new URL(window.location.href);
+                url.searchParams.delete("sortKey");
+                url.searchParams.delete("sortValue");
+                window.location.href = url.href;
+            });
+        }
+    });
+}
+
+//end sort

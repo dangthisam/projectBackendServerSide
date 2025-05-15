@@ -48,11 +48,16 @@ const productAdmin= async (req,res)=>{
     //console.log(find);
     const pro =await Product.find(find);
 
-   
+    sort={};
+    if(req.query.sortKey && req.query.sortValue){
+      sort[req.query.sortKey] = req.query.sortValue
+    }else{
+      sort.position='desc'
+    }
     const products = await Product.find(find)
     // sort là sắp xếp theo thứ tự giảm dần
 
-    .sort({position:"desc"})
+    .sort(sort)
     .limit(objectPagination.limitPage)
     .skip(objectPagination.skip);
     
