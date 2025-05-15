@@ -258,6 +258,24 @@ if (sortElements.length > 0) {
             });
         }
     });
+    const url = new URL(window.location.href);
+    const sortKey = url.searchParams.get("sortKey");
+    const sortValue = url.searchParams.get("sortValue");
+    if (sortKey && sortValue) {
+        const stringSort = `${sortKey}-${sortValue}`;
+        sortElements.forEach(sort => {
+            const sortSelect = sort.querySelector("[sort-select]");
+            if (sortSelect) {
+                const optionSelect = sortSelect.querySelector(`option[value='${stringSort}']`);
+                if (optionSelect) {
+                    optionSelect.selected = true;
+                }
+            }
+        });
+    }
+
 }
 
 //end sort
+
+

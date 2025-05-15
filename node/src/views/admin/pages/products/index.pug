@@ -2,6 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/alert.pug
+include ../../mixins/sort.pug
 
 block main
   +alert(5000)
@@ -23,15 +24,7 @@ block main
         .card-body.py-2
           .row
             .col-md-4.mb-2
-              div(sort)
-                select.form-control(name="sort" sort-select)
-                  option(value="position-desc") 🡻 Vị trí giảm dần
-                  option(value="position-asc") 🡹 Vị trí tăng dần
-                  option(value="price-desc") 🡻 Giá giảm dần
-                  option(value="price-asc") 🡹 Giá tăng dần
-                  option(value="title-asc") A → Z
-                  option(value="title-desc") Z → A
-                button.btn.btn-outline-danger.mt-2(sort-clear) Xóa lọc
+             +sort()
 
       form(
         action=`${prefixAdmin}/products/change-multi?_method=PATCH`
