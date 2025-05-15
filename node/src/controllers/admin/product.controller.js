@@ -4,6 +4,7 @@ const filter =require("../../helps/filterStatus");
 const search =require("../../helps/search");
 const pagination=require("../../helps/pagination");
 const systemConfig = require("../../config/system");
+
 // const validate = require("../../validates/product.validate");
 const productAdmin= async (req,res)=>{
  // lọc theo trang thái hoạt động hay không hoạt động
@@ -206,6 +207,7 @@ const productAdmin= async (req,res)=>{
   // detail product
   const detailProduct = async (req, res) => {
     const id = req.params.id;
+    
     const find = {
       deleted: false,
       _id: id
@@ -215,7 +217,8 @@ const productAdmin= async (req,res)=>{
     //console.log(product);
     res.render('admin/pages/products/detail', {
       pageTitle: "Detail Product",
-      product: product
+      product: product,
+     
     });
   }
 

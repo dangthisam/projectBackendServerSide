@@ -27,7 +27,7 @@ block main
                 .col-md-6
                   .form-group
                     label(for="title") Tiêu đề
-                    input(type="text", class="form-control", id="title", name="title", minlength="5", placeholder="Nhập tiêu đề sản phẩm (ít nhất 5 ký tự)", required)
+                    input(type="text", class="form-control", id="title", name="title", placeholder="Nhập tiêu đề sản phẩm ", required)
                 .col-md-6
                   .form-group
                     label(for="sku") SKU
@@ -36,7 +36,9 @@ block main
                 .col-12
                   .form-group
                     label(for="desc") Mô tả
-                    textarea.form-control(id="desc", name="description", rows="3", placeholder="Nhập mô tả sản phẩm", required)
+                    
+                    textarea.form-control(id="desc", , class="desc" ,name="description", rows="3", placeholder="Nhập mô tả sản phẩm")
+                
 
                 .col-md-4
                   .form-group

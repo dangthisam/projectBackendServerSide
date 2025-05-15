@@ -44,7 +44,7 @@ block main
                         if product.description
                             .mt-4
                                 span.fw-semibold.fs-5 Mô tả:
-                                p.mt-2.fs-6.text-secondary #{product.description}
+                                p.mt-2.fs-6.text-secondary !{product.description}
                     .card-footer.bg-white.text-center.d-flex.justify-content-center.gap-3
                         a.btn.btn-warning.px-4.py-2.fw-semibold(
                             href=`${prefixAdmin}/products/edit/${product.id}`

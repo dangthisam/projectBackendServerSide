@@ -41,7 +41,10 @@ app.use(prefixAdmin.prefixAdmin, productAdmin);
 app.use("", clienRouter);
 // tao mot bien toan cuj de su dung trong cac file pug 
 app.use(prefixAdmin.prefixAdmin, routeradmin);
+//tinyEcm
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
+//end tinyEcm
 app.locals.prefixAdmin=systemAdmin.prefixAdmin;
 
 // Thêm vào trước các app.use cho router
