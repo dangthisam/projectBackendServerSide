@@ -2,31 +2,52 @@ header.header
   nav.navbar.navbar-expand-lg.navbar-dark.bg-danger.shadow-sm.py-2
     .container
       a.navbar-brand.d-flex.align-items-center(href="/")
-        img(src="/img/ST.png" alt="Logo" width="50" class="me-2")
+        img(src="/img/ST.png" alt="Logo" width="50" class="me-2 shadow-sm")
         span.fw-bold.fs-4.text-white ShopTech
       button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation")
         span.navbar-toggler-icon
       #navbarNav.collapse.navbar-collapse
-        ul.navbar-nav.ms-auto.mb-2.mb-lg-0
+        ul.navbar-nav.ms-auto.mb-2.mb-lg-0.gap-2
           li.nav-item
-            a.nav-link.active.text-white.fw-semibold(href="/home" aria-current="page") Trang chủ
+            a.nav-link.active.text-white.fw-semibold.px-3.rounded(href="/home" aria-current="page") Trang chủ
           li.nav-item
-            a.nav-link.text-white.fw-semibold(href="/products") Sản phẩm
+            a.nav-link.text-white.fw-semibold.px-3.rounded(href="/products") Sản phẩm
           li.nav-item.dropdown
-            a.nav-link.dropdown-toggle.text-white.fw-semibold(href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false")
+            a.nav-link.dropdown-toggle.text-white.fw-semibold.px-3.rounded(href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false")
               | Tùy chọn
-            ul.dropdown-menu.dropdown-menu-end(aria-labelledby="navbarDropdown")
+            ul.dropdown-menu.dropdown-menu-end.shadow-lg(aria-labelledby="navbarDropdown")
               li
                 a.dropdown-item(href="/admin/dashboard") Tổng quan
               li
-                a.dropdown-item(href="/admin/products") Sản phẩm
+                a.dropdown-item(href=`${prefixAdmin}/products`) Danh sách sản phẩm 
+              li
+                a.dropdown-item(href=`${prefixAdmin}/products-category`) Danh mục sản phẩm
   style.
+    .navbar-nav .nav-link {
+      transition: background 0.2s, color 0.2s;
+    }
     .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
       color: #ffc107 !important;
-      transition: color 0.2s;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
     }
     .navbar-brand img {
-      border-radius: 8px;
+      border-radius: 12px;
       background: #fff;
-      padding: 2px;
+      padding: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .dropdown-menu {
+      border-radius: 10px;
+      min-width: 200px;
+      font-size: 1rem;
+    }
+    .dropdown-item:hover {
+      background: #ffc107;
+      color: #fff;
+    }
+    @media (max-width: 991.98px) {
+      .navbar-nav .nav-link {
+        margin-bottom: 8px;
+      }
     }

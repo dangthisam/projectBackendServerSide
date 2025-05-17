@@ -1,0 +1,91 @@
+extends ../../layouts/default.pug
+include ../../mixins/filter-status.pug
+include ../../mixins/search.pug
+include ../../mixins/alert.pug
+include ../../mixins/sort.pug
+
+block main
+    h1 Danh mục sản phẩm
+
+    .card.mb-3
+        .card-header Danh sách
+        .card-body
+            .row
+                .col-8
+                    //- Thêm form hoặc nội dung phù hợp ở đây nếu cần
+                .col-4
+                    a.btn.btn-outline-success(href='/admin/products-category/create') + Thêm mới
+            .table-responsive
+        table.table.table-hover.table-striped.table-bordered.align-middle(multiTable)
+          thead.thead-dark
+            tr
+              th.text-center
+                input(type="checkbox" name="check-all")
+              th.text-center STT
+              th.text-center Hình ảnh
+              th.text-center Tiêu đề
+             
+              th.text-center Vị trí
+              th.text-center Trạng Thái
+              th.text-center Hành Động
+          tbody
+            each item, index in records
+              tr
+                td.text-center
+                  input(type="checkbox" name="id" value=item.id)
+                td.text-center #{index + 1}
+                td.text-center
+                  img(src=item.thumbnail, alt="Sản phẩm", width="80px", height="auto", class="img-thumbnail")
+                td #{item.title}
+               
+                td.text-center
+                  input(
+                    type="number"
+                    value=item.position
+                    style="width: 60px"
+                    name="position"
+                    min="1"
+                    class="form-control form-control-sm d-inline-block"
+                  )
+                td.text-center
+                  if item.status == 'active'
+                    a.btn.btn-outline-success.btn-sm(
+                      href="javascript:;"
+                      data-id=item.id
+                      data-status=item.status
+                      button-change-status
+                    )
+                      i.fas.fa-toggle-on.mr-1
+                      | ON
+                  else
+                    a.btn.btn-outline-secondary.btn-sm(
+                      href="javascript:;"
+                      data-id=item.id
+                      data-status=item.status
+                      button-change-status
+                    )
+                      i.fas.fa-toggle-off.mr-1
+                      | OFF
+                td.text-center
+                  a.btn.btn-primary.btn-sm.px-2.mr-2(
+                    type="button"
+                    href=`${prefixAdmin}/products/edit/${item.id}`
+                  )
+                    i.fas.fa-edit.mr-1
+                    | Sửa
+                  a.btn.btn-warning.btn-sm.px-2.mr-2(
+                    type="button"
+                    href=`${prefixAdmin}/products/detail/${item.id}`
+                  )
+                    i.fas.fa-info-circle.mr-1
+                    | Chi tiết
+                  button.btn.btn-danger.btn-sm.px-2(
+                    type="button"
+                    data-id=item.id
+                    data-toggle="modal"
+                    data-target="#exampleModal"
+                    button-delete
+                    button-delete-product
+                  )
+                    i.fas.fa-trash.mr-1
+                    | Xóa
