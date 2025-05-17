@@ -2,8 +2,13 @@
 
 
 mixin filter-status(filterStatus)
-  each item in filterStatus
-         button(
-           class=`btn btn-sm ml-3 btn-outline-success ${item.class}`
-           button-status=item.status
-             ) #{item.name}
+  .btn-group(role="group" aria-label="Filter Status")
+    each item in filterStatus
+      button(
+        type="button"
+        class=`btn btn-sm mx-1 mb-1 btn-outline-info   ${item.class}`
+        button-status=item.status
+        style="min-width: 90px; font-weight: 500; letter-spacing: 1px;"
+      )
+        i.fas.fa-filter.mr-1
+        | #{item.name}

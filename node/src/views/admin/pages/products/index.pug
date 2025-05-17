@@ -8,15 +8,17 @@ block main
   +alert(5000)
 
   //- Nền cho tiêu đề
-  .bg-light.py-3.mb-4
-    h1.mb-0.text-primary.text-center(style="text-shadow: 2px 2px 8px #aaa;") Danh Sách Sản Phẩm
+  .bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
+    h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;") 
+      i.fas.fa-list-alt.mr-2
+      | Danh Sách Sản Phẩm
 
-  .card.mb-4.shadow
-    .card-body
-      .row.mb-3
+  .card.mb-4.shadow.border-0.bg-white
+    .card-body.py-3
+      .row.align-items-center
         .col-md-6.mb-2
           +filter-status(filterStatus)
-        .col-md-6.mb-2
+        .col-md-6.mb-2.text-md-right
           +search(keyword)
 
       .card.mb-3.border-0.bg-light
@@ -71,13 +73,13 @@ block main
               tr
                 td.text-center
                   input(type="checkbox" name="id" value=item.id)
-                td.text-center #{index + 1}
+                td.text-center.align-middle.font-weight-bold #{index + 1}
                 td.text-center
-                  img(src=item.thumbnail, alt="Sản phẩm", width="80px", height="auto", class="img-thumbnail")
+                  img.img-thumbnail.shadow-sm.rounded-circle.border-primary(src=item.thumbnail, alt="Sản phẩm", width="80px", height="auto", class="img-thumbnail")
                 td #{item.title}
                 td.text-right.text-success #{item.price}
-                td.text-center
-                  input(
+                td.text-center.align-middle
+                  input.form-control.form-control-sm.d-inline-block.text-center.border-info.rounded-pil(
                     type="number"
                     value=item.position
                     style="width: 60px"
@@ -158,6 +160,9 @@ block main
 
   //- FontAwesome CDN (nếu chưa có trong layout)
   link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
-
+  style.
+    .bg-gradient-primary-to-secondary {
+      background: linear-gradient(90deg,rgb(204, 223, 78) 0%,rgb(28, 197, 200) 100%);
+    }
   script(src="/admin/js/products.js")
   script(src="/admin/js/script.js")

@@ -1,20 +1,129 @@
 
 const systemConfig = require("../../config/system");
-
 const ProductCategory = require("../../models/products-category-model");
-
+const filter =require("../../helps/filterStatus");
+const search =require("../../helps/search");
+const pagination=require("../../helps/pagination");
 // const validate = require("../../validates/product.validate");
 const productCategoryAdmin= async (req,res)=>{ 
 
+  // start filter status ON or OFF    
+ filterStatus =filter(req.query.status);
     const find={
       deleted:false
     }
-    const records= await ProductCategory.find(find);
+
+    if (req.query.status) {
+        find.status = req.query.status;  
+    }
+//end filter status ON or OFF
+
+
+     // start search products
+        const objectSearch =search(req.query);
+        
+            if(objectSearch.regex){
+              find.title=objectSearch.regex;
+            }
+    //end search products
+ 
+    //start pagination 
+ const countProducts = await ProductCategory.countDocuments(find);
+  let objectPagination = pagination(
+        {
+          currentPage:1,
+          limitPage:4
+        },
+        req.query,
+        countProducts
+      )
+    //end pagination
+  
+    
+//start sort 
+sort={};
+    if(req.query.sortKey && req.query.sortValue){
+      sort[req.query.sortKey] = req.query.sortValue
+    }else{
+      sort.position='desc'
+    }
+
+//end sort 
+        
+    const records= await ProductCategory.find(find)
+    .sort(sort)
+    .limit(objectPagination.limitPage)
+    .skip(objectPagination.skip)
+    
     res.render('admin/pages/products/index-category', { 
       pageTitle:"Danh mục sản phẩm",
-      records:records
+      records:records,
+      filterStatus :filterStatus,
+      keyword:objectSearch.keyword,
+      pagination : objectPagination
      });
   }
+ // start one products status
+   const  changeStatusCategory = async(req, res)=>{
+    
+      await ProductCategory.updateOne(
+        { _id: req.params.id },
+        { status: req.params.status }
+      );
+      req.flash('success', 'Cập nhật trạng thái thành công!');
+      // trở về trang trước đó
+      // redirect là chuyển hướng đến một trang khác
+      res.redirect("back" );
+    }
+  //end  start one products status
+
+
+  // start many products status 
+ const  changeManyStatusCategory = async(req, res)=>{
+   const ids = req.body.ids.split(","); // Lấy danh sách ID từ request body và loại bỏ khoảng trắng thừa
+   const type = req.body.type; // Lấy kiểu trạng thái từ request body
+    switch (type) {
+      case "active":
+        await ProductCategory.updateMany(
+          { _id: { $in: ids } },
+          { status: "active" }
+        );
+        req.flash('success', `cập nhật thành cong cho ${ids.length} sản phẩm!`);
+        break;
+      case "inactive":
+        await ProductCategory.updateMany(
+          { _id: { $in: ids } },
+          { status: "inactive" }
+        );
+        req.flash('success', `cập nhật thành cong cho ${ids.length} sản phẩm!`);
+        break;
+      case "delete-all":
+        await ProductCategory.updateMany(
+          { _id: { $in: ids } },
+          { deleted: true, deletedAt: new Date() } // Cập nhật thời gian xóa
+        );
+        req.flash('success', `dan xoa ${ids.length} sản phẩm!`);
+        break;
+      case "update-position":
+        for (const item of ids){
+          let [id, position] = item.split("-"); // Tách ID và vị trí từ chuỗi
+          position = parseInt(position); // Chuyển đổi vị trí thành số nguyên
+          await ProductCategory.updateOne(
+            { _id: id },
+            { position: position }
+          );
+        }
+        req.flash('success', `đã cập nhật vị trí cho ${ids.length} sản phẩm!`);
+        break
+      default:
+        break;
+    }
+  res.redirect("back");
+  }
+  //end many products status
+
+
+
 
 const createCategoryAdmin=async(req,res)=>{
    res.render('admin/pages/products/createCategory', { 
@@ -38,7 +147,7 @@ const postcreateCategoryAdmin=async(req,res)=>{
 
 }
 
-  module.exports={productCategoryAdmin , createCategoryAdmin , postcreateCategoryAdmin}
+  module.exports={productCategoryAdmin , createCategoryAdmin , postcreateCategoryAdmin  , changeStatusCategory , changeManyStatusCategory}
 
 
  

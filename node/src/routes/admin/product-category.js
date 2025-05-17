@@ -1,6 +1,6 @@
 
 const express = require('express');
-const {productCategoryAdmin , createCategoryAdmin , postcreateCategoryAdmin}=require("../../controllers/admin/product-category.controller")
+const {productCategoryAdmin , createCategoryAdmin , postcreateCategoryAdmin , changeStatusCategory , changeManyStatusCategory}=require("../../controllers/admin/product-category.controller")
 require("dotenv").config();
 const router = express.Router();
 const  validateCreateProduct  = require("../../validate/admin/products-validate");
@@ -17,6 +17,8 @@ cloudinary.config({
 
 router.get("/products-category" , productCategoryAdmin)
 router.get("/products-category/create",createCategoryAdmin )
+router.patch("/products-category/change-status/:status/:id" , changeStatusCategory);
+router.patch("/products-category/change-multi", changeManyStatusCategory);
 router.post(
     "/products-category/create",
     

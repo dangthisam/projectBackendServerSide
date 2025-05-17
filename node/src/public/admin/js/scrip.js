@@ -98,10 +98,6 @@ if( checkboxMulti){
            }
         });
     });
-
-    // xử lý form submit
-    
-
 }
 
 
@@ -112,9 +108,9 @@ if(formChangeMulite){
     formChangeMulite.addEventListener("submit", (e)=>{
         e.preventDefault();
         const checkboxMulti = document.querySelector("[multiTable]");
-        console.log("dang thuy")
+     
         const checkboxes = checkboxMulti.querySelectorAll("input[name='id']:checked");
-     console.log("dai la:",checkboxes.length);
+     
         const typeChange=e.target.elements.type.value;
 
         console.log(typeChange);

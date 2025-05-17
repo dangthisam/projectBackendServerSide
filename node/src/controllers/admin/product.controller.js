@@ -5,35 +5,25 @@ const search =require("../../helps/search");
 const pagination=require("../../helps/pagination");
 const systemConfig = require("../../config/system");
 
-// const validate = require("../../validates/product.validate");
+
 const productAdmin= async (req,res)=>{
  // lọc theo trang thái hoạt động hay không hoạt động
      
 
  //Đoạn Lọc
     filterStatus =filter(req.query.status);
-  
-
-
     let find = {
       deleted: false
     };
     if (req.query.status) {
         find.status = req.query.status;
     }
-    
-
-
     // tìm kiếm khi người dùng nhập vào ô input
-    
-
     const objectSearch =search(req.query);
 
     if(objectSearch.regex){
       find.title=objectSearch.regex;
     }
-
-    
       const countProducts = await Product.countDocuments(find);
     let objectPagination = pagination(
       {
@@ -46,8 +36,7 @@ const productAdmin= async (req,res)=>{
 
     //end pagination
 
-    //console.log(find);
-    const pro =await Product.find(find);
+    
 
     sort={};
     if(req.query.sortKey && req.query.sortValue){
