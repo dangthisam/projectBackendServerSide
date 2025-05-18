@@ -126,8 +126,34 @@ sort={};
 
 // create category 
 const createCategoryAdmin=async(req,res)=>{
+
+
+   let find={
+    deleted:false
+   }
+   function createTree(arr, parentId = "") {
+        const tree = [];
+        arr.forEach((item) => {
+        if (item.parent_id === parentId) {  
+        const newItem = item;
+        const children = createTree(arr, item.id);
+        if (children.length > 0) {
+        newItem.children = children;
+        }
+        tree.push(newItem);
+      }
+        });
+        return tree;
+          }
+
+const records = await ProductCategory. find(find);
+
+const newRecords = createTree(records);
+
+   
    res.render('admin/pages/products/createCategory', { 
-      pageTitle:"Tao danh muc moi"
+      pageTitle:"Tao danh muc moi",
+      records: newRecords
      });
 }
 

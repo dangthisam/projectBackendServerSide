@@ -1,6 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
-
+include ../../mixins/select-tree
 block main
   +alertError(5000)
   .container.mt-5
@@ -33,9 +33,15 @@ block main
                 .col-md-6
                   .form-group
                     label(for="title") Danh mục cha
-                    input(type="text", class="form-control", id="parent_id",name="parent_id" placeholder="Nhập danh mục  ")
-              
-
+                    select(
+                      class="form-control"
+                      id="parent_id"
+                      name="parent_id"
+                    )
+                      option(value="") -- chọn danh mục cha --
+                      if(records)
+                        +select-tree(records)
+                        
                 .col-12
                   .form-group
                     label(for="desc") Mô tả
