@@ -33,7 +33,6 @@ router.delete("/products/delete/:id", deleteProduct);
 router.get("/products/create",createProduct)
 router.post(
     "/products/create",
-    
      upload.single("thumbnail"),
      uploadClould.upload,
 //tao ra 1 middleware de kiem tra du lieu trc khi insert vao csdl
@@ -43,16 +42,23 @@ router.post(
     
     );
 
-    // edit product
+    //  start edit product
 router.get("/products/edit/:id",
        upload.single("thumbnail"),
      uploadClould.upload,
-//tao ra 1 middleware de kiem tra du lieu trc khi insert vao csdl
-    // validateCreateProduct.createProducts,
-    //validateCreateProduct.createProducts,
      editProduct
     );
-router.patch("/products/edit/:id",editPathProducts)
+router.patch("/products/edit/:id",
+      upload.single("thumbnail"),
+      uploadClould.upload,
+      validateCreateProduct.createProducts,
+    editPathProducts
+);
+
+//end edit products
+
+
+
 router.get("/products/detail/:id", detailProduct);
 module.exports = router;
 

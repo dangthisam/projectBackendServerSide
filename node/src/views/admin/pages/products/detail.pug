@@ -6,8 +6,10 @@ block main
         .row.justify-content-center
             .col-lg-8.col-md-10
                 .card.shadow-lg.rounded-4
-                    .card-header.bg-primary.text-white.text-center.py-4
-                        h1.mb-0.fw-bold #{product.title || "Chi tiết sản phẩm"}
+                    .card-header.bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
+                        h1.h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;")  
+                            i.fas.fa-list-alt.mr-2
+                            | #{product.title || "Chi tiết sản phẩm"}
                     .card-body.bg-light
                         .row.g-4.align-items-center
                             .col-md-4.text-center
@@ -58,5 +60,8 @@ block main
                             href=`${prefixAdmin}/products`
                             style="background-color: blue;"
                         ) Quay lại
-
+    style.
+        .bg-gradient-primary-to-secondary {
+            background: linear-gradient(90deg,rgb(204, 223, 78) 0%,rgb(28, 197, 200) 100%);
+        }
     script(src="/admin/js/product.js")

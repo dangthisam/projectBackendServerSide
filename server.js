@@ -33,9 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 const systemAdmin  =require("./node/src/config/system");
 // override method post, put, delete
 app.use(methodOverride('_method'))
-//config uploadFile
-//app.use(fileUpload());
-//configViewEngine(app);
+
 configPug(app); 
 app.use("", webRouter);
 app.use(prefixAdmin.prefixAdmin, productAdmin);
@@ -57,6 +55,4 @@ connection();
   app.listen(port, () => {
     console.log(` app listening on port ${port}`);
   });
-  // Thêm vào cuối file
-
-//})();
+ 

@@ -3,7 +3,8 @@ mixin alert(time)
     .message.info
       div(class= "alert alert-success"
           data-time="5000"
-          show-alert)
+          show-alert
+          style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; min-width: 300px; text-align: center;")
         | #{messages.success} <span close-alert>x</span>
 
 
@@ -12,5 +13,6 @@ mixin alertError(time)
     .message.info
       div(class= "alert alert-danger"
           data-time=time
-          show-alert)
+          show-alert
+          style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; min-width: 300px; text-align: center;")
         | #{messages.error} <span close-alert>x</span>

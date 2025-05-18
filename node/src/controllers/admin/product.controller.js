@@ -212,38 +212,30 @@ const productAdmin= async (req,res)=>{
   }
 
 
-
-
-
   // const editProduct = async (req, res) => {
   //   const id = req.params.id;
   const editPathProducts= async (req, res) => {
+    const id = req.params.id;
     req.body.title = req.body.title;
     req.body.description = req.body.description;
 
     req.body.price=parseInt(req.body.price);
     //req.body.stock=parseInt(req.body.stock);
     req.body.discountPercentage=parseInt(req.body.discountPercentage);
-  //  req.body.position=parseInt(req.body.position);
-    if(req.body.position==-2){
-      const count = await Product.countDocuments();
-      console.log(count);
-      req.body.position = count + 1; // Tự động gán vị trí nếu không có giá trị
-    }
-  // tạo chuyến bay mới từ dữ liệu trong req.body
-    const product = new Product(req.body);
-    console.log(req.body);
-    //kết nối csdl mongodb và lưu sản phẩm vào csdl
-    
-    await product.save();
+     req.body.position=parseInt(req.body.position);
+     if(req.file){
+      req.body.thumbnail=`/upload/${req.file.filename}`;
+     }
 
-    // hiẹn thị thông báo thành công
-    req.flash('success', `Sua sản phẩm thành công!`);
-   // res.locals.messages = req.flash(); // Lưu thông báo vào biến cục bộ
-    // setTimeout(() => {
-    //   res.redirect(`${systemConfig.prefixAdmin}/products`); // Chuyển hướng đến trang danh sách sản phẩm
-    // }, 2000); // Chờ 2 giây trước khi chuyển hướng
-    res.redirect(`${systemConfig.prefixAdmin}/products`); // Chuy
+     try{
+      await Product.updateOne({_id:id} , req.body);
+      req.flash('success', `Sua sản phẩm thành công!`);
+        res.redirect(`${systemConfig.prefixAdmin}/products`);
+     }catch(error){
+          console.error('Error updating product:', error);
+        req.flash('error', 'Sửa sản phẩm thất bại!');
+        return res.redirect(`${systemConfig.prefixAdmin}/products`);
+     }
   }
 
 module.exports={productAdmin , changestatusMulti , changestatus, deleteProduct , createProduct , createPost , editProduct , editPathProducts , detailProduct};

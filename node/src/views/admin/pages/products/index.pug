@@ -6,7 +6,7 @@ include ../../mixins/sort.pug
 
 block main
   +alert(5000)
-
+  
   //- Nền cho tiêu đề
   .bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
     h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;") 
@@ -107,19 +107,19 @@ block main
                       i.fas.fa-toggle-off.mr-1
                       | OFF
                 td.text-center
-                  a.btn.btn-primary.btn-sm.px-2.mr-2(
+                  a.btn.btn-outline-primary.btn-sm.px-2.mr-1.rounded-pill.shadow-sm(
                     type="button"
                     href=`${prefixAdmin}/products/edit/${item.id}`
                   )
                     i.fas.fa-edit.mr-1
                     | Sửa
-                  a.btn.btn-warning.btn-sm.px-2.mr-2(
+                  a.btn.btn-outline-info.btn-sm.px-2.mr-1.rounded-pill.shadow-sm(
                     type="button"
                     href=`${prefixAdmin}/products/detail/${item.id}`
                   )
                     i.fas.fa-info-circle.mr-1
                     | Chi tiết
-                  button.btn.btn-danger.btn-sm.px-2(
+                  button.btn.btn-outline-danger.btn-sm.px-2.rounded-pill.shadow-sm(
                     type="button"
                     data-id=item.id
                     data-toggle="modal"
@@ -162,7 +162,7 @@ block main
   link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
   style.
     .bg-gradient-primary-to-secondary {
-      background: linear-gradient(90deg,rgb(204, 223, 78) 0%,rgb(28, 197, 200) 100%);
+        background: linear-gradient(90deg,rgb(204, 223, 78) 0%,rgb(28, 197, 200) 100%);
     }
   script(src="/admin/js/products.js")
   script(src="/admin/js/script.js")
