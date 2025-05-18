@@ -3,6 +3,8 @@ include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/alert.pug
 include ../../mixins/sort.pug
+include ../../mixins/sortCategory.pug
+
 
 block main
   +alert(5000)
@@ -27,7 +29,7 @@ block main
         .card-body.py-2
           .row
             .col-md-4.mb-2
-             +sort()
+             +sortCategory()
       //- form change multi products
       form(
         action=`${prefixAdmin}/products-category/change-multi?_method=PATCH`

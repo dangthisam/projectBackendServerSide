@@ -1,6 +1,6 @@
 
 const express = require('express');
-const {productCategoryAdmin , createCategoryAdmin , postcreateCategoryAdmin , changeStatusCategory , changeManyStatusCategory ,detailProductCategory , deleteCategory}=require("../../controllers/admin/product-category.controller")
+const {productCategoryAdmin , createCategoryAdmin , postcreateCategoryAdmin , changeStatusCategory , changeManyStatusCategory ,detailProductCategory , deleteCategory , editCategory, editPathCategory}=require("../../controllers/admin/product-category.controller")
 require("dotenv").config();
 const router = express.Router();
 const  validateCreateProduct  = require("../../validate/admin/products-validate");
@@ -36,6 +36,16 @@ router.post(
 router.get("/products-category/detail/:id" , detailProductCategory);
 
 router.delete("/productS-category/delete/:id" , deleteCategory);
+    
+router.get("/products-category/edit/:id" ,
+     upload.single("thumbnail"),
+         uploadClould.upload,
+    editCategory );
+router.patch("/products-category/edit/:id" ,
+     upload.single("thumbnail"),
+         uploadClould.upload, 
+          validateCreateProduct.createProducts,
+    editPathCategory);
 
 module.exports = router;
 

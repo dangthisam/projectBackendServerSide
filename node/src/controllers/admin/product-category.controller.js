@@ -132,6 +132,7 @@ const createCategoryAdmin=async(req,res)=>{
 }
 
 const postcreateCategoryAdmin=async(req,res)=>{
+  console.log(req.body);
   if(req.body.position==""){
     const count=await ProductCategory.countDocuments();
     req.body.position=count+1;
@@ -188,10 +189,52 @@ const deleteCategory = async(req, res)=>{
 
 
 // start edit category
+  // Edit Product
+    const editCategory = async (req, res) => {
+          try{    
+          const id = req.params.id;
+          const find = {
+            deleted: false,
+            _id: id
+          };
+          const product = await ProductCategory.findOne(find);
+          
+    
+      
+        res.render('admin/pages/products/editCategory', {
+          pageTitle: "Edit Product",
+          product: product
+        });
+      }catch(err){
+        console.log(err);
 
+        res.status(500).send("Server Error");
+        res.send("Lỗi không tìm thấy sản phẩm");
+      }
+
+      
+  }
+
+  const editPathCategory= async (req, res) => {
+    const id = req.params.id;
+    req.body.title = req.body.title;
+    req.body.description = req.body.description;
+   
+     req.body.position=parseInt(req.body.position);
+  
+     try{
+      await ProductCategory.updateOne({_id:id} , req.body);
+      req.flash('success', `Data update success`);
+        res.redirect(`${systemConfig.prefixAdmin}/products-category`);
+     }catch(error){
+          console.error('Error updating product:', error);
+        req.flash('error', 'Data update fail !');
+        return res.redirect(`${systemConfig.prefixAdmin}/products-category`);
+     }
+  }
 // end edit category
   module.exports={productCategoryAdmin , createCategoryAdmin , postcreateCategoryAdmin  , changeStatusCategory , changeManyStatusCategory , detailProductCategory,
-    deleteCategory
+    deleteCategory , editCategory, editPathCategory
   }
 
  
