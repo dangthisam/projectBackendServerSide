@@ -116,6 +116,8 @@ const productAdmin= async (req,res)=>{
     }
   res.redirect("back");
   }
+   
+  //delete products
   const deleteProduct = async(req, res)=>{
     const id = req.params.id;
     // await Product.deleteOne({ _id: id });
@@ -137,11 +139,8 @@ const productAdmin= async (req,res)=>{
       //res.send("Create Product");
     }
     const createPost = async (req, res) => {
-      // validate.validateCreateProduct(req, res); // Gọi hàm validate để kiểm tra dữ liệu đầu vào
-      // nếu có lỗi thì trả về trang trước đó và hiển thị thông báo lỗi
-      // if (req.validationErrors()) {      
       req.body.price=parseInt(req.body.price);
-      //req.body.stock=parseInt(req.body.stock);
+    
       req.body.discountPercentage=parseInt(req.body.discountPercentage);
     //  req.body.position=parseInt(req.body.position);
       if(req.body.position==-2){
@@ -149,7 +148,7 @@ const productAdmin= async (req,res)=>{
       
         req.body.position = count + 1; // Tự động gán vị trí nếu không có giá trị
       }
-    // tạo chuyến bay mới từ dữ liệu trong req.body
+   
       const product = new Product(req.body);
    
       //kết nối csdl mongodb và lưu sản phẩm vào csdl
@@ -158,10 +157,6 @@ const productAdmin= async (req,res)=>{
 
       // hiẹn thị thông báo thành công
       req.flash('success', `Thêm sản phẩm thành công!`);
-     // res.locals.messages = req.flash(); // Lưu thông báo vào biến cục bộ
-      // setTimeout(() => {
-      //   res.redirect(`${systemConfig.prefixAdmin}/products`); // Chuyển hướng đến trang danh sách sản phẩm
-      // }, 2000); // Chờ 2 giây trước khi chuyển hướng
       res.redirect(`${systemConfig.prefixAdmin}/products`); // Chuyển hướng đến trang danh sách sản phẩm
     }
 
@@ -212,8 +207,6 @@ const productAdmin= async (req,res)=>{
   }
 
 
-  // const editProduct = async (req, res) => {
-  //   const id = req.params.id;
   const editPathProducts= async (req, res) => {
     const id = req.params.id;
     req.body.title = req.body.title;
@@ -223,17 +216,15 @@ const productAdmin= async (req,res)=>{
     //req.body.stock=parseInt(req.body.stock);
     req.body.discountPercentage=parseInt(req.body.discountPercentage);
      req.body.position=parseInt(req.body.position);
-     if(req.file){
-      req.body.thumbnail=`/upload/${req.file.filename}`;
-     }
+    
 
      try{
       await Product.updateOne({_id:id} , req.body);
-      req.flash('success', `Sua sản phẩm thành công!`);
+      req.flash('success', `Data update success`);
         res.redirect(`${systemConfig.prefixAdmin}/products`);
      }catch(error){
           console.error('Error updating product:', error);
-        req.flash('error', 'Sửa sản phẩm thất bại!');
+        req.flash('error', 'Data update fail !');
         return res.redirect(`${systemConfig.prefixAdmin}/products`);
      }
   }

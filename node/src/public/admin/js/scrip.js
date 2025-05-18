@@ -169,10 +169,7 @@ if(buttonDelete.length > 0){
                 const action = `${path}/${id}?_method=DELETE`;
                 formDelete.action = action;
                 formDelete.submit();
-            }
-            
-            
-           
+            } 
             
         });
     });

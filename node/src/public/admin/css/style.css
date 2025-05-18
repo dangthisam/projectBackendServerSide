@@ -547,3 +547,7 @@ footer .text-center.bg-danger a:hover {
       font-size: 0.85rem;
   }
 }
+
+.bg-gradient-primary-to-secondary {
+        background: linear-gradient(90deg,rgb(204, 223, 78) 0%,rgb(28, 197, 200) 100%);
+    }

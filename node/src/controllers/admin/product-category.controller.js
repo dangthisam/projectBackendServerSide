@@ -124,7 +124,7 @@ sort={};
 
 
 
-
+// create category 
 const createCategoryAdmin=async(req,res)=>{
    res.render('admin/pages/products/createCategory', { 
       pageTitle:"Tao danh muc moi"
@@ -146,8 +146,52 @@ const postcreateCategoryAdmin=async(req,res)=>{
    res.redirect(`${systemConfig.prefixAdmin}/products-category`);
 
 }
+//end create category 
 
-  module.exports={productCategoryAdmin , createCategoryAdmin , postcreateCategoryAdmin  , changeStatusCategory , changeManyStatusCategory}
 
+
+//start detail category
+const detailProductCategory = async (req, res) => {
+    const id = req.params.id;
+    
+    const find = {
+      deleted: false,
+      _id: id
+    };
+    const product = await ProductCategory.findOne(find);
+   
+    //console.log(product);
+    res.render('admin/pages/products/detailCategory', {
+      pageTitle: "Detail Product Category",
+      product: product,
+     
+    });
+  }
+
+//ens detail category
+
+
+//start delete category 
+const deleteCategory = async(req, res)=>{
+    const id = req.params.id;
+    
+    await ProductCategory.updateOne(
+      { _id:id },
+      { deleted: true },
+      { deletedAt: new Date() } // Cập nhật thời gian xóa
+    );
+    req.flash('success', `DELELTE SUCCESS`);
+  
+    res.redirect("back");
+  }
+//end delete category
+
+
+// start edit category
+
+// end edit category
+  module.exports={productCategoryAdmin , createCategoryAdmin , postcreateCategoryAdmin  , changeStatusCategory , changeManyStatusCategory , detailProductCategory,
+    deleteCategory
+  }
 
  

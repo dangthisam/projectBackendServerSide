@@ -11,7 +11,7 @@ block main
   .bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
     h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;") 
       i.fas.fa-list-alt.mr-2
-      | Danh Mục Sản Phẩm
+      | Danh Mục  Sản Phẩm
 
   .card.mb-4.shadow-lg.border-0.bg-white.rounded-lg
     .card-body.py-3
@@ -54,7 +54,7 @@ block main
           .col-md-2.text-right.mb-2
             a.btn.btn-info(href=`${prefixAdmin}/products-category/create`)
               i.fas.fa-plus.mr-1
-              | Thêm sản phẩm
+              | Thêm danh mục
 
     
      
@@ -161,12 +161,9 @@ block main
     action=""
     method="POST"
     id="form-delete-product"
-    data-path=`${prefixAdmin}/products/delete`
+    data-path=`${prefixAdmin}/products-category/delete`
   )
   link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
-  style.
-    .bg-gradient-primary-to-secondary {
-      background: linear-gradient(80deg,rgb(78, 223, 189) 0%,rgb(186, 200, 28) 100%);
-    }
+ 
   script(src="/admin/js/products.js")
   script(src="/admin/js/script.js")
