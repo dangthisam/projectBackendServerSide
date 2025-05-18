@@ -34,6 +34,11 @@ block main
                                     li.list-group-item
                                         span.fw-semibold Vị trí: 
                                         b.text-primary.ms-2 #{product.position || 0}
+                                    li.list-group-item
+                                        span.fw-semibold Danh mục cha: 
+                                        b.text-primary.ms-2 #{product.parent_id || 0}
+                                    
+                                    
                         if product.description
                             .mt-4
                                 span.fw-semibold.fs-5 Mô tả:
