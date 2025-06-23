@@ -73,7 +73,7 @@ block main
               tr
                 td.text-center
                   input(type="checkbox" name="id" value=item.id)
-                td.text-center.align-middle.font-weight-bold #{index + 1}
+                td.text-center.align-middle.font-weight-bold #{pagination.limitPage*(pagination.currentPage-1)+index+1}
                 td.text-center
                   img.img-thumbnail.shadow-sm.rounded-circle.border-primary(src=item.thumbnail, alt="Sản phẩm", width="80px", height="auto", class="img-thumbnail")
                 td #{item.title}

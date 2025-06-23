@@ -1,6 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
-
+include ../../mixins/select-tree.pug
 block main
   +alertError(5000)
   .container.mt-5
@@ -28,13 +28,20 @@ block main
               .row.g-3
                 .col-md-6
                   .form-group
+                    
                     label(for="title") Tiêu đề
                     input(type="text", class="form-control", id="title", name="title",  required , value=product.title)
                 .col-md-6
                   .form-group
                     label(for="title") Danh mục cha
-                    input(type="text", class="form-control", id="parent_id", name="parent_id",value=product.parent_id)
-              
+                    select(
+                      class="form-control"
+                      id="parent_id"
+                      name="parent_id"
+                    )
+                      option(value="") -- chọn danh mục cha --
+                      if(records)
+                        +select-tree(records ,1 ,product.parent_id)
 
                 .col-12
                   .form-group
@@ -60,10 +67,10 @@ block main
                   .form-group
                     label.d-block Trạng thái
                     .form-check.form-check-inline
-                      input(type="radio", class="form-check-input", id="statusActive", name="status", value="active", checked)
+                      input(type="radio", class="form-check-input", id="statusActive", name="status", value="active", checked=(product.status === 'active' ?true : false))
                       label(for="statusActive", class="form-check-label") Hoạt động
                     .form-check.form-check-inline
-                      input(type="radio", class="form-check-input", id="statusInactive", name="status", value="inactive")
+                      input(type="radio", class="form-check-input", id="statusInactive", name="status", value="inactive", checked=(product.status === 'inactive' ?true : false))
                       label(for="statusInactive", class="form-check-label") Ngừng hoạt động
 
                 .col-12.mt-4.d-flex.justify-content-between

@@ -37,7 +37,7 @@ block main
                 .col-12
                   .form-group
                     label.fw-semibold(for="desc") Mô tả
-                    textarea.form-control(id="desc", name="description", rows="4", required) #{product.description}
+                    textarea.form-control(id="desc" , class="desc" , name="description", rows="4", required) #{product.description}
                 .col-md-6
                   .form-group
                     label.fw-semibold(for="sku") SKU
@@ -74,10 +74,10 @@ block main
                   .form-group
                     label.fw-semibold.d-block Trạng thái
                     .form-check.form-check-inline
-                      input(type="radio", class="form-check-input", id="statusActive", name="status", value="active", checked)
+                      input(type="radio", class="form-check-input", id="statusActive", name="status", value="active", checked=(product.status === 'active' ?true : false))
                       label(for="statusActive", class="form-check-label") Hoạt động
                     .form-check.form-check-inline
-                      input(type="radio", class="form-check-input", id="statusInactive", name="status", value="inactive")
+                      input(type="radio", class="form-check-input", id="statusInactive", name="status", value="inactive" , checked=(product.status === 'inactive' ?true : false))
                       label(for="statusInactive", class="form-check-label") Ngừng hoạt động
 
               .form-group.mt-4.d-flex.justify-content-between
