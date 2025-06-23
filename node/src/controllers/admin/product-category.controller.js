@@ -5,10 +5,12 @@ const filter =require("../../helps/filterStatus");
 const search =require("../../helps/search");
 const pagination=require("../../helps/pagination");
 // const validate = require("../../validates/product.validate");
+let count=0;
 const productCategoryAdmin= async (req,res)=>{ 
 
   // start filter status ON or OFF    
  filterStatus =filter(req.query.status);
+
     const find={
       deleted:false
     }
@@ -17,7 +19,23 @@ const productCategoryAdmin= async (req,res)=>{
         find.status = req.query.status;  
     }
 //end filter status ON or OFF
-
+function createTree(arr, parentId = "") {
+        const tree = [];
+        arr.forEach((item) => {
+        if (item.parent_id === parentId) {  
+          count++;
+        const newItem = item;
+        newItem.index=count
+        const children = createTree(arr, item.id);
+        if (children.length > 0) {
+        newItem.children = children;
+        }
+        tree.push(newItem);
+      }
+        });
+        return tree;
+          }
+let count=0
 
      // start search products
         const objectSearch =search(req.query);
@@ -51,13 +69,15 @@ sort={};
 //end sort 
         
     const records= await ProductCategory.find(find)
-    .sort(sort)
-    .limit(objectPagination.limitPage)
-    .skip(objectPagination.skip)
+    // .sort(sort)
+    // .limit(objectPagination.limitPage)
+    // .skip(objectPagination.skip)
+    
+const newRecords = createTree(records);
     
     res.render('admin/pages/products/index-category', { 
-      pageTitle:"Danh mục sản phẩm",
-      records:records,
+      pageTitle: "Danh mục sản phẩm",
+      records: newRecords,
       filterStatus :filterStatus,
       keyword:objectSearch.keyword,
       pagination : objectPagination
@@ -126,8 +146,6 @@ sort={};
 
 // create category 
 const createCategoryAdmin=async(req,res)=>{
-
-
    let find={
     deleted:false
    }
