@@ -18,6 +18,7 @@ const Kitten = require(path.join(__dirname, "node/src/models/user"));
 const prefixAdmin = require(path.join(__dirname, "node/src/config/system"));
 const routeradmin = require(path.join(__dirname, "node/src/routes/admin/index.router"));
 const productAdmin = require(path.join(__dirname, "node/src/routes/admin/products.router"));
+const rolesAdmin = require(path.join(__dirname, "node/src/routes/admin/roles.router"));
 const productCateroryAdmin=require(path.join(__dirname,"node/src/routes/admin/product-category"))
 const { MongoClient } = require("mongodb");
 const { mongo, default: mongoose } = require("mongoose");
@@ -36,6 +37,7 @@ app.use(methodOverride('_method'))
 
 configPug(app); 
 app.use("", webRouter);
+app.use(prefixAdmin.prefixAdmin, rolesAdmin);
 app.use(prefixAdmin.prefixAdmin, productAdmin);
 app.use(prefixAdmin.prefixAdmin, productCateroryAdmin);
 app.use("", clienRouter);

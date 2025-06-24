@@ -1,0 +1,39 @@
+extends ../../layouts/default.pug
+
+block main
+    .bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
+     h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;") 
+        i.fas.fa-list-alt.mr-2
+        | Thêm mới nhóm quyền
+
+    form(
+        action=`${prefixAdmin}/roles/create`
+        method="POST"
+    )
+        div(class="form-group")
+            label(for="title") Tiêu đề
+            input(
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                required
+        )
+
+        div(class="form-group")
+            label(for="desc") Mô tả
+            input(
+                type="text"
+                class="form-control"
+                id="desc"
+                name="description"
+                required
+            )
+        div(class="form-group")
+            button(
+                type="submit"
+                class="btn btn-primary"
+            ) Thêm mới
+            
+        
+
