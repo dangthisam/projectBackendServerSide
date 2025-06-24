@@ -1,6 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
-
+include ../../mixins/select-tree.pug
 block main
   +alertError(5000)
   .container.mt-5
@@ -34,6 +34,17 @@ block main
                   .form-group
                     label.fw-semibold(for="title") Tiêu đề
                     input(type="text", class="form-control", id="title", name="title", minlength="5",required, value=product.title)
+                .col-md-6
+                  .form-group
+                    label(for="product_category_id") Danh mục
+                    select(
+                      class="form-control"
+                      id="product_category_id"
+                      name="product_category_id"
+                    )
+                      option(value="") -- chọn danh mục cha --
+                      if(category)
+                        +select-tree(category, 1, product.product_category_id)
                 .col-12
                   .form-group
                     label.fw-semibold(for="desc") Mô tả

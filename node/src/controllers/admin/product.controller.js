@@ -4,7 +4,7 @@ const filter =require("../../helps/filterStatus");
 const search =require("../../helps/search");
 const pagination=require("../../helps/pagination");
 const systemConfig = require("../../config/system");
-
+const ProductCategory = require("../../models/products-category-model");
 
 const productAdmin= async (req,res)=>{
  // lọc theo trang thái hoạt động hay không hoạt động
@@ -135,7 +135,31 @@ const productAdmin= async (req,res)=>{
 
   // const createProduct = async(req, res)=>{
     const createProduct = async (req, res) => {
-      res.render('admin/pages/products/create');
+      // Lấy danh sách danh mục sản phẩm từ cơ sở dữ liệu
+      const find={
+        deleted: false
+      }
+
+      function createTree(arr, parentId = "") {
+        const tree = [];
+        arr.forEach((item) => {
+        if (item.parent_id === parentId) {  
+        const newItem = item;
+        const children = createTree(arr, item.id);
+        if (children.length > 0) {
+        newItem.children = children;
+        }
+        tree.push(newItem);
+      }
+        });
+        return tree;
+      }
+      
+      const categories = await ProductCategory.find(find);
+      const categoryTree = createTree(categories);
+      res.render('admin/pages/products/create', {
+        category: categoryTree
+      });
       //res.send("Create Product");
     }
     const createPost = async (req, res) => {
@@ -169,13 +193,28 @@ const productAdmin= async (req,res)=>{
             deleted: false,
             _id: id
           };
+
+           function createTree(arr, parentId = "") {
+        const tree = [];
+        arr.forEach((item) => {
+        if (item.parent_id === parentId) {  
+        const newItem = item;
+        const children = createTree(arr, item.id);
+        if (children.length > 0) {
+        newItem.children = children;
+        }
+        tree.push(newItem);
+      }
+        });
+        return tree;
+          }
           const product = await Product.findOne(find);
-          
-    
-      
+          const categories = await ProductCategory.find({ deleted: false });
+          const categoryTree = createTree(categories);
         res.render('admin/pages/products/edit', {
           pageTitle: "Edit Product",
-          product: product
+          product: product,
+          category: categoryTree
         });
       }catch(err){
         console.log(err);

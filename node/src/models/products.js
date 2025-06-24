@@ -13,7 +13,10 @@ const productSchema = new mongoose.Schema(
     slug: { type: String, slug: "title", unique: true, slug_padding_size: 4 },
     stock: { type: Number},
     discountPercentage: { type: Number },
-   
+    product_category_id:{
+      type:String,
+      default:""
+    },
     thumbnail: { type: String },
     status: {type: String},
     deleted:{
