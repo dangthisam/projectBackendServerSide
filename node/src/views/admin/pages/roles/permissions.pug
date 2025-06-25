@@ -1,0 +1,86 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+  +alert(3000)
+
+  .container.mt-4
+    .card.shadow-lg.rounded-4.overflow-hidden
+      .bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
+        h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;") 
+          i.fas.fa-list-alt.mr-2
+          | Phân quyền
+        if(roles.length > 0)
+            div(data-records=roles)
+      .card-body.p-4
+        .text-right.mb-4
+          button(
+            type="submit"
+            class="btn btn-danger btn-lg px-4"
+            button-submit
+          )
+            i.fas.fa-save.mr-2
+            | Cập nhật quyền
+        
+        .table-responsive
+          table(
+            class="table table-bordered table-striped table-hover"
+            id="table-permissions"
+            table-permissions
+          )
+            thead
+              tr.bg-light
+                th Tính năng
+                each role in roles
+                  th.text-center #{role.title}
+                             
+            tbody
+              tr(data-name="id")
+                td
+                each item in roles
+                  td.text-center.d-none
+                    input(type="text", value=item.id)
+              
+              tr.bg-light
+                td(colspan="3")
+                  b Danh mục sản phẩm
+              
+              tr(data-name="products-category_view")
+                td Xem
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+                              
+              tr(data-name="products-category_create")
+                td Thêm mới
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+              
+              tr(data-name="products-category_edit")
+                td Sửa
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+              
+              tr(data-name="products-category_delete")
+                td Xóa
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+         
+
+  form(
+    id="form-change-permissions"
+    method="POST"
+    action=`${prefixAdmin}/roles/permissions?_method=PATCH`
+  )
+    div(class="form-group")
+      input(
+        type="text"
+        class="form-control d-none"
+        name="permissions"
+      )
+
+  script(src="/admin/js/roles.js")
+  script(src="/admin/js/script.js") 

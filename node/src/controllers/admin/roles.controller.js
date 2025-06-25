@@ -109,6 +109,37 @@ const deleteRoles = async(req, res)=>{
     res.redirect("back" );
   }
 
+
+
+  //start roles permissions
+const rolesPermissions = async (req, res) => {
+  const find = {
+    deleted: false
+  };
+  const roles = await Role.find(find);
+  res.render('admin/pages/roles/permissions', {
+    title: 'Quản lý quyền của vai trò',
+    roles: roles,
+    message: req.flash('message'),
+    error: req.flash('error')
+  });
+}
+  //end roles permissions
+
+const rolesPermissionsPath = async (req, res) => {
+  const permissions = JSON.parse(req.body.permissions);
+  for (const item of permissions) {
+    const id= item.id;
+    
+    await Role.updateOne(
+      { _id: id },
+      { permissions: item.permissions }
+    );
+  }
+
+  res.redirect('/admin/roles/permissions');
+  
+}
 module.exports = {
   indexRoles,
   createRole,
@@ -116,5 +147,7 @@ module.exports = {
   detailRoles,
   editRole,
   editPathRoles,
-  deleteRoles
+  deleteRoles,
+  rolesPermissions,
+  rolesPermissionsPath
 }

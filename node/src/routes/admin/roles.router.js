@@ -1,5 +1,5 @@
 const express = require('express');
-const { indexRoles , createRole , createPost , detailRoles , editRole , editPathRoles , deleteRoles } = require('../../controllers/admin/roles.controller');
+const { indexRoles , createRole , createPost , detailRoles , editRole , editPathRoles , deleteRoles , rolesPermissions  , rolesPermissionsPath } = require('../../controllers/admin/roles.controller');
 const { create } = require('../../models/role.model');
 const router = express.Router();
 
@@ -18,4 +18,9 @@ router.patch("/roles/edit/:id", editPathRoles);
 //end edit products
 
 router.delete('/roles/delete/:id', deleteRoles);
+
+
+router.get('/roles/permissions', rolesPermissions);
+
+router.patch('/roles/permissions', rolesPermissionsPath);
 module.exports = router;
