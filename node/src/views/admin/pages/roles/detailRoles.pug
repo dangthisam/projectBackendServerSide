@@ -1,0 +1,24 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    .container.mt-5
+        .row.justify-content-center
+            .col-xl-7.col-lg-8.col-md-10
+                .card.shadow-lg.rounded-4.border-0.overflow-hidden
+                    .card-header.bg-gradient-primary-to-secondary.py-4.mb-0.rounded-0.shadow-sm.position-relative
+                        h1.h2.mb-0.text-white.text-center.fw-bold(style="text-shadow:2px 2px 8px #333;letter-spacing:2px;")  
+                            i.fas.fa-box-open.me-2
+                            | #{record.title || "Chi tiết nhóm quyền"}
+                    .card-body.bg-white.p-4
+                        .row.g-4.align-items-center
+                            .col-md-7
+                                ul.list-group.list-group-flush.fs-5
+                                    li.list-group-item.bg-transparent.border-0.pb-1
+                                        span.fw-semibold.text-secondary Mô tả:
+                                        b.text-danger.ms-2.fs-5 #{record.description || "Không có mô tả"}
+                        //- Thêm nút quay lại hoặc các thông tin khác nếu cần
+                        .mt-4.text-center
+                            a(href=`${prefixAdmin}/roles` class="btn btn-outline-primary px-4")
+                                i.fas.fa-arrow-left.me-2
+                                | Quay lại danh sách

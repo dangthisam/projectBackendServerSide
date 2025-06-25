@@ -1,6 +1,9 @@
 
 const Role = require('../../models/role.model');
-
+const filter =require("../../helps/filterStatus");
+const search =require("../../helps/search");
+const pagination=require("../../helps/pagination");
+const systemConfig = require("../../config/system");
 
 const indexRoles = async (req, res) => {
   let find={
@@ -29,8 +32,89 @@ const  createPost= async (req, res) => {
   res.redirect('/admin/roles');
 }
 
+const detailRoles = async (req, res) => {
+  const id = req.params.id;
+  const find = {
+    deleted: false,
+    _id: id
+  };
+  const record = await Role.findOne(find);
+  if (!record) {
+    req.flash('error', 'Vai trò không tồn tại');
+    return res.redirect('/admin/roles');
+  }
+
+  res.render('admin/pages/roles/detailRoles', {
+    title: 'Chi tiết vai trò',
+    record: record,
+    message: req.flash('message'),
+    error: req.flash('error')
+  });
+}
+
+//start edit role
+const editRole = async (req, res) => {
+   try{    
+          const id = req.params.id;
+          const find = {
+            deleted: false,
+            _id: id
+          };
+  const record = await Role.findOne(find);
+  console.log(record);
+  res.render('admin/pages/roles/editRoles', {
+    title: 'Chỉnh sửa vai trò',
+    record: record,
+    message: req.flash('message'),
+    error: req.flash('error')
+  });
+} catch (err) {
+  console.log(err);
+
+  res.status(500).send("Server Error");
+  res.send("Lỗi không tìm thấy vai trò");
+}
+}
+
+const editPathRoles = async (req, res) => {
+  const id = req.params.id;
+
+ 
+
+  try {
+    await Role.updateOne({ _id: id }, req.body);
+    req.flash('success', `Cập nhật vai trò thành công`);
+    res.redirect(`${systemConfig.prefixAdmin}/roles`);
+  } catch (error) {
+    console.error('Error updating role:', error);
+    req.flash('error', 'Cập nhật vai trò thất bại');
+    return res.redirect(`${systemConfig.prefixAdmin}/roles`);
+  }
+}
+ 
+//end edit role
+
+const deleteRoles = async(req, res)=>{
+    const id = req.params.id;
+    // await Product.deleteOne({ _id: id });
+    // res.redirect("back");
+    await Role.updateOne(
+      { _id:id },
+      { deleted: true },
+      { deletedAt: new Date() } // Cập nhật thời gian xóa
+    );
+    req.flash('success', `da xoa thành cong vai tro`);
+    // trở về trang trước đó
+    // redirect là chuyển hướng đến một trang khác
+    res.redirect("back" );
+  }
+
 module.exports = {
   indexRoles,
   createRole,
-    createPost
+  createPost,
+  detailRoles,
+  editRole,
+  editPathRoles,
+  deleteRoles
 }

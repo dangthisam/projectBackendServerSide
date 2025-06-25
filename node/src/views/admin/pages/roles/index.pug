@@ -37,28 +37,40 @@ block main
                   td #{item.title}
                   td #{item.description}
                   td.text-center.align-middle
-                    a(
-                      href=`${prefixAdmin}/roles/detail/${item._id}`
-                      class="btn btn-info btn-sm mr-1"
+                    a.btn.btn-outline-primary.btn-sm.px-2.mr-1.rounded-pill.shadow-sm(
+                      href=`${prefixAdmin}/roles/detail/${item.id}`
                     )
                       i.fas.fa-info-circle.mr-1
                       | Chi tiết
-                    a(
-                      href=`${prefixAdmin}/roles/edit/${item._id}`
-                      class="btn btn-warning btn-sm mr-1"
+                    a.btn.btn-outline-warning.btn-sm.px-2.mr-1.rounded-pill.shadow-sm(
+                      href=`${prefixAdmin}/roles/edit/${item.id}`
                     )
                       i.fas.fa-edit.mr-1
                       | Sửa
-                    a(
-                      href=`${prefixAdmin}/roles/delete/${item._id}`
-                      class="btn btn-danger btn-sm"
-                    )
-                      i.fas.fa-trash-alt.mr-1
+                    button.btn.btn-outline-danger.btn-sm.px-2.rounded-pill.shadow-sm(
+                      type="button"
+                      data-id=item.id
+                      data-toggle="modal"
+                      data-target="#exampleModal"
+                      button-delete
+                      button-delete-product
+                  )
+                      i.fas.fa-trash.mr-1
                       | Xóa
+
             else
               tr
                 td(colspan="4" class="text-center text-muted") Không có dữ liệu
-
+  form(
+    action=""
+    method="POST"
+    id="form-delete-roles"
+    data-path=`${prefixAdmin}/roles/delete`
+   )
   //- Thêm font awesome cho icon (nếu chưa có)
   link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css")
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
+  script(src="/admin/js/products.js")
+  script(src="/admin/js/roles.js")
+
   
