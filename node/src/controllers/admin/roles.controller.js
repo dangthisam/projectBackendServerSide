@@ -135,10 +135,11 @@ const rolesPermissionsPath = async (req, res) => {
       { _id: id },
       { permissions: item.permissions }
     );
+    
   }
-
-  res.redirect('/admin/roles/permissions');
-  
+ 
+    res.redirect('/admin/roles/permissions');
+  // res.redirect(`${systemConfig.prefixAdmin}/roles/permissions`);  
 }
 module.exports = {
   indexRoles,

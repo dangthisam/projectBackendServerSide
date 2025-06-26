@@ -48,7 +48,7 @@ if(tablePermissions) {
             }
         });
         
-        console.log(permissions);
+     
         
         if (permissions.length > 0) {
             const form = document.querySelector("#form-change-permissions");
@@ -65,7 +65,7 @@ if(tablePermissions) {
 // Permissions Data Default
 const dataRecords = document.querySelector("[data-records]");
 if(dataRecords) {
-const records = JSON.parse(dataRecords.getAttribute("data-records"));
+const records = JSON.parse(dataRecords.getAttribute("data-records")); // chuyẻn đổi chuỗi JSON thành mảng đối tượng
 
 const tablePermissions = document.querySelector("[table-permissions]");
 

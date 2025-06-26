@@ -1,0 +1,88 @@
+extends ../../layouts/default.pug
+
+block main
+  .bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
+    h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;")
+      i.fas.fa-list-alt.mr-2
+      | Danh sách tài khoản
+
+  .card.mb-3
+  
+    .card-body
+      .row
+        .col-8
+          // Nội dung bên trái (nếu có)
+        .col-4.text-right
+          a(
+            href=`${prefixAdmin}/accounts/create`
+            class="btn btn-danger btn-sm px-3 rounded-pill shadow-sm mr-1"
+            type="button"
+          ) + Thêm mới
+      .table-responsive
+        table.table.table-hover.table-striped.table-bordered.align-middle(multiTable)
+          thead.thead-dark
+            tr
+              th.text-center
+                input(type="checkbox" name="check-all")
+              th.text-center STT
+              th.text-center Ảnh đại diện
+              th.text-center Tên đăng nhập
+              th.text-center Quyền hạn
+              th.text-center Email
+              th.text-center Số điện thoại
+              th.text-center Trạng thái
+              th.text-center Hành động
+          tbody
+            each item, index in records
+              tr
+                td.text-center
+                  input(type="checkbox" name="id" value=item.id)
+                td.text-center.align-middle.font-weight-bold #{index+1}
+                td.text-center
+                  img.img-thumbnail.shadow-sm.rounded-circle.border-primary(src=item.avatar || "/images/default-avatar.png", alt="Ảnh đại diện", width="80px", height="auto")
+                td.text-center.align-middle #{item.username}
+                td.text-center.align-middle #{item.role.title}
+                td.text-center.align-middle #{item.email}
+                td.text-center.align-middle #{item.phone || '---'}
+                td.text-center
+                  if item.status == 'active'
+                    a.btn.btn-outline-success.btn-sm(
+                      href="javascript:;"
+                      data-id=item.id
+                      data-status=item.status
+                      button-change-status
+                    )
+                      i.fas.fa-toggle-on.mr-1
+                      | ON
+                  else
+                    a.btn.btn-outline-secondary.btn-sm(
+                      href="javascript:;"
+                      data-id=item.id
+                      data-status=item.status
+                      button-change-status
+                    )
+                      i.fas.fa-toggle-off.mr-1
+                      | OFF
+                td.text-center
+                  a.btn.btn-outline-primary.btn-sm.px-2.mr-1.rounded-pill.shadow-sm(
+                    type="button"
+                    href=`${prefixAdmin}/accounts/edit/${item.id}`
+                  )
+                    i.fas.fa-edit.mr-1
+                    | Sửa
+                  a.btn.btn-outline-info.btn-sm.px-2.mr-1.rounded-pill.shadow-sm(
+                    type="button"
+                    href=`${prefixAdmin}/accounts/detail/${item.id}`
+                  )
+                    i.fas.fa-info-circle.mr-1
+                    | Chi tiết
+                  button.btn.btn-outline-danger.btn-sm.px-2.rounded-pill.shadow-sm(
+                    type="button"
+                    data-id=item.id
+                    data-toggle="modal"
+                    data-target="#exampleModal"
+                    button-delete
+                    button-delete-product
+                  )
+                    i.fas.fa-trash.mr-1
+                    | Xóa

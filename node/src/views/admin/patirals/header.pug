@@ -3,7 +3,7 @@ header.header
     .container
       a.navbar-brand.d-flex.align-items-center(href="/")
         img(src="/img/ST.png" alt="Logo" width="50" class="me-2 shadow-sm")
-        span.fw-bold.fs-4.text-white SamThuy
+        span.fw-bold.fs-4.text-white NGUYENVANSAM
       button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation")
         span.navbar-toggler-icon
       #navbarNav.collapse.navbar-collapse
@@ -26,6 +26,8 @@ header.header
                 a.dropdown-item(href=`${prefixAdmin}/roles`) Nhóm quyền
               li 
                 a.dropdown-item(href=`${prefixAdmin}/roles/permissions`) Phân quyền
+              li 
+                a.dropdown-item(href=`${prefixAdmin}/accounts`) Danh sách tài khoản
   style.
     .navbar-nav .nav-link {
       transition: background 0.2s, color 0.2s;

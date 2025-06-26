@@ -1,35 +1,45 @@
-footer.bg-light.text-center.text-lg-start.mt-5
-  .container.p-4
-    .row
-      .col-lg-4.col-md-12.mb-4.mb-md-0
-        h5.text-danger Liên hệ chúng tôi
-        p
-          | Email: samnvhn@gmail.com
-          br
-          | Số điện thoại: 0359200508
-          br
-          | Địa chỉ: Hà Nội 
-      .col-lg-4.col-md-12.mb-4.mb-md-0
-        h5.text-danger Chính sách
-        ul.list-unstyled
-          li
-            a.text-dark(href="/policy") Chính sách hoàn tiền
-          li
-            a.text-dark(href="/terms") Điều khoản sử dụng
-          li
-            a.text-dark(href="/privacy") Chính sách bảo mật
-      .col-lg-4.col-md-12.mb-4.mb-md-0
-        h5.text-danger Theo dõi chúng tôi
-        .d-flex.justify-content-center.gap-3
-          a(href="https://facebook.com/airline" target="_blank")
-            i.fab.fa-facebook-f.text-primary(style="font-size: 1.5rem;")
-          a(href="https://twitter.com/airline" target="_blank")
-            i.fab.fa-twitter.text-info(style="font-size: 1.5rem;")
-          a(href="https://instagram.com/airline" target="_blank")
-            i.fab.fa-instagram.text-danger(style="font-size: 1.5rem;")
-    .text-center.p-3.bg-danger.text-white
-      p © 2025 Hệ thống bán vé máy bay. All rights reserved.
-      a.text-white(href="/") Quay lại trang chủ
+footer.bg-light.text-center.text-lg-start.mt-5.shadow-lg.rounded-top
+  .container.px-4.py-5
+    .row.g-4
+      .col-lg-4.col-md-6.mb-4
+        h5.text-danger.mb-3.fw-bold Liên hệ chúng tôi
+        ul.list-unstyled.text-start.ms-lg-4
+          li.mb-2.d-flex.align-items-center
+            i.fas.fa-envelope.text-danger.me-2.fs-5
+            span.me-1 Email:
+            a.text-decoration-none.text-dark.fw-semibold(href="mailto:samnvhn@gmail.com") samnvhn@gmail.com
+          li.mb-2.d-flex.align-items-center
+            i.fas.fa-phone.text-danger.me-2.fs-5
+            span.me-1 Số điện thoại:
+            a.text-decoration-none.text-dark.fw-semibold(href="tel:0359200508") 0359200508
+          li.d-flex.align-items-center
+            i.fas.fa-map-marker-alt.text-danger.me-2.fs-5
+            span Địa chỉ: Hà Nội 
+      .col-lg-4.col-md-6.mb-4
+        h5.text-danger.mb-3.fw-bold Chính sách
+        ul.list-unstyled.text-start.ms-lg-4
+          li.mb-2.d-flex.align-items-center
+            i.fas.fa-undo-alt.text-danger.me-2.fs-5
+            a.text-dark.text-decoration-none.fw-semibold(href="/policy") Chính sách hoàn tiền
+          li.mb-2.d-flex.align-items-center
+            i.fas.fa-file-contract.text-danger.me-2.fs-5
+            a.text-dark.text-decoration-none.fw-semibold(href="/terms") Điều khoản sử dụng
+          li.d-flex.align-items-center
+            i.fas.fa-user-shield.text-danger.me-2.fs-5
+            a.text-dark.text-decoration-none.fw-semibold(href="/privacy") Chính sách bảo mật
+      .col-lg-4.col-md-12.mb-4
+        h5.text-danger.mb-3.fw-bold Theo dõi chúng tôi
+        .d-flex.justify-content-center.align-items-center.gap-3.mt-3
+          a(href="https://web.facebook.com/nguyen.van.sam.1555" target="_blank" aria-label="Facebook" title="Facebook")
+            i.fab.fa-facebook-f.text-white.bg-primary.rounded-circle.p-3.shadow-lg.social-icon
+          a(href="https://web.facebook.com/nguyen.van.sam.1555" target="_blank" aria-label="Twitter" title="Twitter")
+            i.fab.fa-twitter.text-white.bg-info.rounded-circle.p-3.shadow-lg.social-icon
+          a(href="https://www.instagram.com/nguyensam284/" target="_blank" aria-label="Instagram" title="Instagram")
+            i.fab.fa-instagram.text-white.bg-danger.rounded-circle.p-3.shadow-lg.social-icon
+  .text-center.p-3.bg-danger.text-white.rounded-bottom.mt-4.shadow-sm
+    p.mb-1.fw-semibold(style="letter-spacing:0.03em;") © 2025 Hệ thống bán vé máy bay. All rights reserved.
+    a.text-white.text-decoration-underline.fw-semibold(href="/admin/products") Quay lại trang chủ
 
-// Font Awesome cho các biểu tượng mạng xã hội
 link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3QIq4oWH/v8p2R4gQz5fFnNgQlL5mFQ2QhXu2AMoC8fk4wU4KKSdO0/f45eude1Szp2iELRXylnL9iK4w+8Q==" crossorigin="anonymous" referrerpolicy="no-referrer")
+
+

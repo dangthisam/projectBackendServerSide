@@ -10,6 +10,8 @@ block main
         h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;") 
           i.fas.fa-list-alt.mr-2
           | Phân quyền
+
+
         if(roles.length > 0)
             div(data-records=roles)
       .card-body.p-4
@@ -68,7 +70,70 @@ block main
                 each role in roles
                   td.text-center
                     input(type="checkbox", class="form-check-input")
-         
+
+                    //- san pham
+              tr.bg-light
+                td(colspan="3")
+                  b Sản phẩm
+              
+              tr(data-name="products_view")
+                td Xem
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+
+              tr(data-name="products_create")
+                td Thêm mới
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+
+              tr(data-name="products_edit")
+                td Sửa
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+
+              tr(data-name="products_delete")
+                td Xóa
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+                  
+
+                  //- Phân quyền
+              tr.bg-light
+                td(colspan="3")
+                  b Nhóm quyền
+
+              tr(data-name="roles_view")
+                td Xem
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+
+              tr(data-name="roles_create")
+                td Thêm mới
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+
+              tr(data-name="roles_edit")
+                td Sửa
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+
+              tr(data-name="roles_delete")
+                td Xóa
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+              tr(data-name="roles_permissions")
+                td Phân quyền
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
 
   form(
     id="form-change-permissions"
