@@ -30,3 +30,32 @@ module.exports.createProducts=(req,res , next) =>{
     // other exports
     
 };
+
+
+module.exports.createPassword=(req,res , next) =>{
+    if(!req.body.username){
+        req.flash('error', 'Vui lòng nhập tên đăng nhập!');
+        res.redirect("back");
+        return;
+    }
+
+    
+    if(!req.body.email){
+        req.flash('error', 'Vui lòng nhập email!');
+        res.redirect("back");
+        return;
+    }
+    if(!req.body.role_id){
+        req.flash('error', 'Vui lòng chọn quyền!');
+        res.redirect("back");
+        return;
+    }
+    if(!req.body.status){
+        req.flash('error', 'Vui lòng chọn trạng thái!');
+        res.redirect("back");
+        return;
+    }
+    next();
+    // other exports
+    
+};

@@ -1,6 +1,8 @@
 extends ../../layouts/default.pug
-
+include ../../mixins/alert.pug
 block main
+  +alert(2000)
+  .container.mt-5
   .bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
     h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;")
       i.fas.fa-list-alt.mr-2
@@ -86,3 +88,6 @@ block main
                   )
                     i.fas.fa-trash.mr-1
                     | Xóa
+  
+  
+  script(src="/admin/js/script.js")

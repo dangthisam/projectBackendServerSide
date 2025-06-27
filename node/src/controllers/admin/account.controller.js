@@ -58,4 +58,48 @@ const createAccountPost = async (req, res) => {
 
 //end create account
 
-module.exports = { indexRouter, createAccount, createAccountPost };
+//start edit account
+const editAccount = async (req, res) => {
+  const id = req.params.id;
+  const find = {
+    _id: id,
+    deleted: false
+  };
+  const record = await Account.findOne(find);
+  const roles = await Role.find({ deleted: false });
+
+  res.render('admin/pages/accounts/edit', {
+    title: 'Chỉnh sửa tài khoản',
+    record: record,
+    roles: roles
+  });
+};
+
+
+const editAccountPath = async (req, res) => {
+  const id = req.params.id;
+ 
+   const emailExist = await Account.findOne({
+    _id: { $ne: id }, // Đảm bảo không kiểm tra chính tài khoản đang chỉnh sửa
+      email: req.body.email,
+      deleted: false
+  });
+  if (emailExist) {
+    req.flash('error', 'Email đã tồn tại');
+    return res.redirect(`${systemConfig.prefixAdmin}/accounts/edit/${id}`);
+  }
+ else{
+  if(req.body.password){
+    req.body.password = md5(req.body.password);
+  }else{
+    delete req.body.password; // Xóa trường password nếu không có giá trị
+  }
+  // Cập nhật thông tin tài khoản
+  await Account.updateOne({ _id: id }, req.body);
+  req.flash('success', 'Cập nhật tài khoản thành công');
+  res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+ }
+
+};
+
+module.exports = { indexRouter, createAccount, createAccountPost, editAccount, editAccountPath };
