@@ -12,48 +12,53 @@ header.header
             a.nav-link.active.text-white.fw-semibold.px-3.rounded(href="/home" aria-current="page") Trang chủ
           li.nav-item
             a.nav-link.text-white.fw-semibold.px-3.rounded(href="/products") Sản phẩm
+          //- Đăng xuất - nên dùng nav-link thay vì btn btn-danger để đồng nhất style
+          li.nav-item
+            a( class ="btn btn-danger" 
+            href=`${prefixAdmin}/auth/logout`) Đăng xuất
+          //- Dropdown tùy chọn
           li.nav-item.dropdown
-            a.nav-link.dropdown-toggle.text-white.fw-semibold.px-3.rounded(href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false")
-              | Tùy chọn
+            a.nav-link.dropdown-toggle.text-white.fw-semibold.px-3.rounded(href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false") Tùy chọn
             ul.dropdown-menu.dropdown-menu-end.shadow-lg(aria-labelledby="navbarDropdown")
               li
                 a.dropdown-item(href="/admin/dashboard") Tổng quan
               li
-                a.dropdown-item(href=`${prefixAdmin}/products`) Danh sách sản phẩm 
+                a.dropdown-item(href=`${prefixAdmin}/products`) Danh sách sản phẩm
               li
                 a.dropdown-item(href=`${prefixAdmin}/products-category`) Danh mục sản phẩm
-              li 
+              li
                 a.dropdown-item(href=`${prefixAdmin}/roles`) Nhóm quyền
-              li 
+              li
                 a.dropdown-item(href=`${prefixAdmin}/roles/permissions`) Phân quyền
-              li 
+              li
                 a.dropdown-item(href=`${prefixAdmin}/accounts`) Danh sách tài khoản
-  style.
+
+style.
+  .navbar-nav .nav-link {
+    transition: background 0.2s, color 0.2s;
+  }
+  .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+    color: #ffc107 !important;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+  }
+  .navbar-brand img {
+    border-radius: 12px;
+    background: #fff;
+    padding: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .dropdown-menu {
+    border-radius: 10px;
+    min-width: 200px;
+    font-size: 1rem;
+  }
+  .dropdown-item:hover {
+    background: #ffc107;
+    color: #fff;
+  }
+  @media (max-width: 991.98px) {
     .navbar-nav .nav-link {
-      transition: background 0.2s, color 0.2s;
+      margin-bottom: 8px;
     }
-    .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
-      color: #ffc107 !important;
-      background: rgba(255,255,255,0.1);
-      border-radius: 8px;
-    }
-    .navbar-brand img {
-      border-radius: 12px;
-      background: #fff;
-      padding: 4px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    .dropdown-menu {
-      border-radius: 10px;
-      min-width: 200px;
-      font-size: 1rem;
-    }
-    .dropdown-item:hover {
-      background: #ffc107;
-      color: #fff;
-    }
-    @media (max-width: 991.98px) {
-      .navbar-nav .nav-link {
-        margin-bottom: 8px;
-      }
-    }
+  }

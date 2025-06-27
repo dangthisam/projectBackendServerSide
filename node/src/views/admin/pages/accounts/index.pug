@@ -88,6 +88,17 @@ block main
                   )
                     i.fas.fa-trash.mr-1
                     | Xóa
-  
-  
+  form(
+    action=""
+    method="POST"
+    id="form-change-status"
+    data-path=`${prefixAdmin}/accounts/change-status`
+  )
+  form(
+    action=""
+    method="POST"
+    id="form-delete-account"
+    data-path=`${prefixAdmin}/accounts/delete`
+  )
+  script(src="/admin/js/account.js")
   script(src="/admin/js/script.js")

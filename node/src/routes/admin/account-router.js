@@ -1,6 +1,6 @@
 const express = require('express');
 const uploadClould=require("../../middleware/admin/uploadCloud.middleware");
-const { indexRouter  , createAccount , createAccountPost  , editAccount , editAccountPath } = require('../../controllers/admin/account.controller');
+const { indexRouter  , createAccount , createAccountPost  , editAccount , editAccountPath , detailAccount , deleteAccount  , changestatusAccount} = require('../../controllers/admin/account.controller');
 const validateCreateProduct = require("../../validate/admin/create.validate");
 const router = express.Router();
 const cloudinary = require('cloudinary').v2
@@ -33,5 +33,12 @@ router.patch('/accounts/edit/:id',
      uploadClould.upload,
      validateCreateProduct.createPassword,
      editAccountPath)
+
+
+router.patch("/accounts/change-status/:status/:id", changestatusAccount);
+
+router.get("/accounts/detail/:id", detailAccount);
+
+router.delete("/accounts/delete/:id", deleteAccount);
 
 module.exports = router;

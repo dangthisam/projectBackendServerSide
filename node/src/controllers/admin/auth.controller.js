@@ -43,7 +43,21 @@ const loginPost = async (req, res) => {
   res.redirect('/admin/dashboard'); // Redirect to the dashboard or home page after successful login
 }
 
+// Logout function (if needed)
+const logoutAdmin = (req, res) => {
+    res.clearCookie('token'); // Clear the token cookie
+    req.flash('success', 'You have successfully logged out.');
+   
+    res.redirect('/admin/auth/login'); // Redirect to the login page after logout
+  }
+
+  //start detail account
+  
+  //end detail account
+
 module.exports = {
   authLogin,
-  loginPost
+  loginPost,
+  logoutAdmin,
+
 };

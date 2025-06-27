@@ -59,6 +59,33 @@ const createAccountPost = async (req, res) => {
 //end create account
 
 //start edit account
+
+const detailAccount = async (req, res) => {
+
+   const id = req.params.id;
+    
+    const find = {
+      deleted: false,
+      _id: id
+    };
+  
+    const account = await Account.findOne(find).select("-password -token");
+    //console.log(product);
+
+   const findRole = {
+     _id: account.role_id,
+     deleted: false
+   };
+   const role = await Role.findOne(findRole);
+   account.role=role
+
+
+    
+    res.render('admin/pages/accounts/detail', {
+        title: 'Quản lý tài khoản',
+        account:account
+    })
+  }
 const editAccount = async (req, res) => {
   const id = req.params.id;
   const find = {
@@ -74,6 +101,20 @@ const editAccount = async (req, res) => {
     roles: roles
   });
 };
+
+const changestatusAccount = async (req, res) => {
+  const { status, id } = req.params;
+    const find = {
+        _id: id,
+        deleted: false
+    };
+    await Account.updateOne(find, { status: status });
+    req.flash('success', 'Cập nhật trạng thái tài khoản thành công');
+    res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+}
+
+//end edit account
+
 
 
 const editAccountPath = async (req, res) => {
@@ -102,4 +143,16 @@ const editAccountPath = async (req, res) => {
 
 };
 
-module.exports = { indexRouter, createAccount, createAccountPost, editAccount, editAccountPath };
+const deleteAccount = async (req, res) => {
+  const id = req.params.id;
+  const find = {
+    _id: id,
+    deleted: false
+  };
+  // Cập nhật trường deleted thành true để đánh dấu là đã xóa
+  await Account.updateOne(find, { deleted: true });
+  req.flash('success', 'Xóa tài khoản thành công');
+  res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+};
+
+module.exports = { indexRouter, createAccount, createAccountPost, editAccount, editAccountPath , detailAccount, deleteAccount  , changestatusAccount };

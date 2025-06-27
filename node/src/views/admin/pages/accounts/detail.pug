@@ -1,0 +1,60 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    
+    .container.mt-5
+        .row.justify-content-center
+            .col-xl-7.col-lg-8.col-md-10
+                .card.shadow-lg.rounded-4.border-0.overflow-hidden
+                    .card-header.bg-gradient-primary-to-secondary.py-4.mb-0.rounded-0.shadow-sm.position-relative
+                        h1.h2.mb-0.text-white.text-center.fw-bold(style="text-shadow:2px 2px 8px #333;letter-spacing:2px;")  
+                            i.fas.fa-user.me-2
+                            | Chi tiết tài khoản
+                    .card-body.bg-white.p-4
+                        .row.g-4.align-items-center
+                            .col-md-5.text-center
+                                if account.avatar
+                                    img(
+                                        src=account.avatar
+                                        class="img-fluid rounded-3 shadow mb-3 border border-2"
+                                        style="width: 220px; height: 220px; object-fit: cover;"
+                                    )
+                                else
+                                    .bg-light.text-secondary.d-flex.align-items-center.justify-content-center.rounded-circle.mx-auto.mb-3.shadow(style="width: 220px; height: 220px; font-size: 2.5rem;")
+                                        i.fas.fa-user
+                            .col-md-7
+                                ul.list-group.list-group-flush.fs-5
+                                    li.list-group-item.bg-transparent.border-0.pb-1
+                                        span.fw-semibold.text Tên đăng nhập: 
+                                        b.text-danger.ms-2.fs-5 #{account.username }
+                                    li.list-group-item.bg-transparent.border-0.pb-1
+                                        span.fw-semibold.text Quyền hạn:
+                                        b.text-danger.ms-2.fs-5 #{account.role.title }
+                                    if account.email
+                                        li.list-group-item.bg-transparent.border-0.pb-1
+                                            span.fw-semibold.text Email: 
+                                            b.text-danger.ms-2.fs-5 #{account.email || "N/A"}
+                                    li.list-group-item.bg-transparent.border-0.pb-1
+                                        span.fw-semibold.text Số điện thoại: 
+                                        b.text-danger.ms-2.fs-5 #{account.phone || "N/A"}
+                                    li.list-group-item.bg-transparent.border-0.pb-1
+                                        span.fw-semibold.text Trạng thái: 
+                                        if account.status === "active"
+                                            span.badge.bg-success.ms-2.fw-normal Hoạt động
+                                        else
+                                            span.badge.bg-warning.text-dark.ms-2.fw-normal Chưa hoạt động
+                        
+                    .card-footer.bg-light.text-center.d-flex.justify-content-center.gap-3.border-0.pt-4.pb-4
+                        a.btn.btn-outline-warning.px-4.py-2.fw-semibold.rounded-pill(
+                            href=`${prefixAdmin}/accounts/edit/${account.id}`
+                        ) 
+                            i.fas.fa-edit.me-2
+                            | Chỉnh sửa
+                        
+                        a.btn.btn-outline-primary.px-4.py-2.fw-semibold.rounded-pill(
+                            href=`${prefixAdmin}/accounts`
+                        ) 
+                            i.fas.fa-arrow-left.me-2
+                            | Quay lại
+    script(src="/admin/js/script.js")
