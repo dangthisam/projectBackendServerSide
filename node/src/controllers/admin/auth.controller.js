@@ -3,6 +3,11 @@ const md5 = require('md5'); // Assuming you are using md5 for password hashing
 
 const systemConfig = require('../../config/system'); // Assuming you have a system config file
 const authLogin = async (req, res) => {
+  const token = req.cookies.token; // Get the token from cookies
+  if (token) {
+    // If token exists, redirect to the dashboard
+    return res.redirect('/admin/dashboard');
+  }
   // Render the login page
  res.render('admin/pages/auth/login', {
     title: 'Login Page',
@@ -12,6 +17,8 @@ const authLogin = async (req, res) => {
 
 
 const loginPost = async (req, res) => {
+
+
   const email = req.body.email;
   const password = req.body.password; // Get the plain text password
   const user = await Account.findOne({

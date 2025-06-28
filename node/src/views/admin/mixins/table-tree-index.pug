@@ -22,48 +22,52 @@ mixin table-tree(items, level = 1 )
                   name="position",
                   min="1"
                 )
-              td.text-center
-                  if item.status == 'active'
-                    a.btn.btn-outline-success.btn-sm(
-                      href="javascript:;"
-                      data-id=item.id
-                      data-status=item.status
-                      button-change-status
-                    )
-                      i.fas.fa-toggle-on.mr-1
-                      | ON
-                  else
-                    a.btn.btn-outline-secondary.btn-sm(
-                      href="javascript:;"
-                      data-id=item.id
-                      data-status=item.status
-                      button-change-status
-                    )
-                      i.fas.fa-toggle-off.mr-1
-                      | OFF
+              if (role.permissions.includes("products-category_edit"))
+                
+                td.text-center
+                    if item.status == 'active'
+                      a.btn.btn-outline-success.btn-sm(
+                        href="javascript:;"
+                        data-id=item.id
+                        data-status=item.status
+                        button-change-status
+                      )
+                        i.fas.fa-toggle-on.mr-1
+                        | ON
+                    else
+                      a.btn.btn-outline-secondary.btn-sm(
+                        href="javascript:;"
+                        data-id=item.id
+                        data-status=item.status
+                        button-change-status
+                      )
+                        i.fas.fa-toggle-off.mr-1
+                        | OFF
               td.text-center.align-middle
-                a.btn.btn-outline-primary.btn-sm.px-2.mr-1.rounded-pill.shadow-sm(
-                  href=`${prefixAdmin}/products-category/edit/${item.id}`,
-                  title="Sửa"
-                )
-                  i.fas.fa-edit.mr-1
-                  | Sửa
+                if (role.permissions.includes("products-category_edit"))
+                  a.btn.btn-outline-primary.btn-sm.px-2.mr-1.rounded-pill.shadow-sm(
+                    href=`${prefixAdmin}/products-category/edit/${item.id}`,
+                    title="Sửa"
+                  )
+                    i.fas.fa-edit.mr-1
+                    | Sửa
                 a.btn.btn-outline-info.btn-sm.px-2.mr-1.rounded-pill.shadow-sm(
                   href=`${prefixAdmin}/products-category/detail/${item.id}`,
                   title="Chi tiết"
                 )
                   i.fas.fa-info-circle.mr-1
                   | Chi tiết
-                button.btn.btn-outline-danger.btn-sm.px-2.rounded-pill.shadow-sm(
-                  type="button",
-                  data-id=item.id,
-                  data-toggle="modal",
-                  data-target="#exampleModal",
-                  button-delete,
-                  button-delete-product,
-                  title="Xóa"
-                )
-                  i.fas.fa-trash.mr-1
-                  | Xóa
+                if (role.permissions.includes("products-category_delete"))
+                  button.btn.btn-outline-danger.btn-sm.px-2.rounded-pill.shadow-sm(
+                    type="button",
+                    data-id=item.id,
+                    data-toggle="modal",
+                    data-target="#exampleModal",
+                    button-delete,
+                    button-delete-product,
+                    title="Xóa"
+                  )
+                    i.fas.fa-trash.mr-1
+                    | Xóa
       if item.children && item.children.length > 0
         +table-tree(item.children, level + 1)

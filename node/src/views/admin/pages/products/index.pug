@@ -5,160 +5,174 @@ include ../../mixins/alert.pug
 include ../../mixins/sort.pug
 
 block main
-  +alert(5000)
-  
-  //- Nền cho tiêu đề
-  .bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
-    h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;") 
-      i.fas.fa-list-alt.mr-2
-      | Danh Sách Sản Phẩm
+  if (role.permissions.includes("products_view") )
+    
+    +alert(5000)
+    
+    //- Nền cho tiêu đề
+    .bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
+      h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;") 
+        i.fas.fa-list-alt.mr-2
+        | Danh Sách Sản Phẩm
 
-  .card.mb-4.shadow.border-0.bg-white
-    .card-body.py-3
-      .row.align-items-center
-        .col-md-6.mb-2
-          +filter-status(filterStatus)
-        .col-md-6.mb-2.text-md-right
-          +search(keyword)
-
-      .card.mb-3.border-0.bg-light
-        .card-header.bg-white.font-weight-bold Sắp xếp
-        .card-body.py-2
-          .row
-            .col-md-4.mb-2
-             +sort()
-
-      form(
-        action=`${prefixAdmin}/products/change-multi?_method=PATCH`
-        method="POST"
-        form-change-multi
-        class="mb-3"
-      )
+    .card.mb-4.shadow.border-0.bg-white
+      .card-body.py-3
         .row.align-items-center
-          .col-md-4.mb-2
-            .form-group.mb-0.mr-2
-              select.form-control(name='type')
-                option(value="", selected) Chọn hành động
-                option(value="active") Kích hoạt
-                option(value="inactive") Vô hiệu hóa
-                option(value="delete-all") Xóa nhiều
-                option(value="update-position") Cập nhật vị trí
-          .col-md-2.mb-2
-            button.btn.btn-danger.w-100(type="submit")
-              i.fas.fa-check.mr-1
-              | Áp dụng
-          .col-md-4.mb-2
-            .form-group.mb-0.mr-2
-              input.form-control.d-none(type="text", name="ids", value="")
-          .col-md-2.text-right.mb-2
-            a.btn.btn-info(href=`${prefixAdmin}/products/create`)
-              i.fas.fa-plus.mr-1
-              | Thêm sản phẩm
+          .col-md-6.mb-2
+            +filter-status(filterStatus)
+          .col-md-6.mb-2.text-md-right
+            +search(keyword)
 
-      .table-responsive
-        table.table.table-hover.table-striped.table-bordered.align-middle(multiTable)
-          thead.thead-dark
-            tr
-              th.text-center
-                input(type="checkbox" name="check-all")
-              th.text-center STT
-              th.text-center Hình ảnh
-              th.text-center Tiêu đề
-              th.text-center Giá
-              th.text-center Vị trí
-              th.text-center Trạng Thái
-              th.text-center Hành Động
-          tbody
-            each item, index in products
+        .card.mb-3.border-0.bg-light
+          .card-header.bg-white.font-weight-bold Sắp xếp
+          .card-body.py-2
+            .row
+              .col-md-4.mb-2
+              +sort()
+        if (role.permissions.includes("products_edit"))
+          form(
+            action=`${prefixAdmin}/products/change-multi?_method=PATCH`
+            method="POST"
+            form-change-multi
+            class="mb-3"
+          )
+            .row.align-items-center
+              .col-md-4.mb-2
+                .form-group.mb-0.mr-2
+                  select.form-control(name='type')
+                    option(value="", selected) Chọn hành động
+                    option(value="active") Kích hoạt
+                    option(value="inactive") Vô hiệu hóa
+                    option(value="delete-all") Xóa nhiều
+                    option(value="update-position") Cập nhật vị trí
+              .col-md-2.mb-2
+                button.btn.btn-danger.w-100(type="submit")
+                  i.fas.fa-check.mr-1
+                  | Áp dụng
+            .col-md-4.mb-2
+              .form-group.mb-0.mr-2
+                input.form-control.d-none(type="text", name="ids", value="")
+            .col-md-2.text-right.mb-2
+              if (role.permissions.includes("products_create"))
+                //- Nút thêm sản phẩm
+                a.btn.btn-info(href=`${prefixAdmin}/products/create`)
+                  i.fas.fa-plus.mr-1
+                  | Thêm sản phẩm
+
+        .table-responsive
+          table.table.table-hover.table-striped.table-bordered.align-middle(multiTable)
+            thead.thead-dark
               tr
-                td.text-center
-                  input(type="checkbox" name="id" value=item.id)
-                td.text-center.align-middle.font-weight-bold #{pagination.limitPage*(pagination.currentPage-1)+index+1}
-                td.text-center
-                  img.img-thumbnail.shadow-sm.rounded-circle.border-primary(src=item.thumbnail, alt="Sản phẩm", width="80px", height="auto", class="img-thumbnail")
-                td #{item.title}
-                td.text-right.text-success #{item.price}
-                td.text-center.align-middle
-                  input.form-control.form-control-sm.d-inline-block.text-center.border-info.rounded-pil(
-                    type="number"
-                    value=item.position
-                    style="width: 60px"
-                    name="position"
-                    min="1"
-                    class="form-control form-control-sm d-inline-block"
-                  )
-                td.text-center
-                  if item.status == 'active'
-                    a.btn.btn-outline-success.btn-sm(
-                      href="javascript:;"
-                      data-id=item.id
-                      data-status=item.status
-                      button-change-status
+                th.text-center
+                  input(type="checkbox" name="check-all")
+                th.text-center STT
+                th.text-center Hình ảnh
+                th.text-center Tiêu đề
+                th.text-center Giá
+                th.text-center Vị trí
+                if (role.permissions.includes("products_edit"))
+                 th.text-center Trạng Thái
+                th.text-center Hành Động
+            tbody
+              each item, index in products
+                tr
+                  td.text-center
+                    input(type="checkbox" name="id" value=item.id)
+                  td.text-center.align-middle.font-weight-bold #{pagination.limitPage*(pagination.currentPage-1)+index+1}
+                  td.text-center
+                    img.img-thumbnail.shadow-sm.rounded-circle.border-primary(src=item.thumbnail, alt="Sản phẩm", width="80px", height="auto", class="img-thumbnail")
+                  td #{item.title}
+                  td.text-right.text-success #{item.price}
+                  td.text-center.align-middle
+                    input.form-control.form-control-sm.d-inline-block.text-center.border-info.rounded-pil(
+                      type="number"
+                      value=item.position
+                      style="width: 60px"
+                      name="position"
+                      min="1"
+                      class="form-control form-control-sm d-inline-block"
                     )
-                      i.fas.fa-toggle-on.mr-1
-                      | ON
-                  else
-                    a.btn.btn-outline-secondary.btn-sm(
-                      href="javascript:;"
-                      data-id=item.id
-                      data-status=item.status
-                      button-change-status
+                  td.text-center
+                    if (role.permissions.includes("products_edit"))
+                      
+                      span.text-muted #{item.status}
+                      if item.status == 'active'
+                        a.btn.btn-outline-success.btn-sm(
+                          href="javascript:;"
+                          data-id=item.id
+                          data-status=item.status
+                          button-change-status
+                        )
+                          i.fas.fa-toggle-on.mr-1
+                          | ON
+                      else
+                        a.btn.btn-outline-secondary.btn-sm(
+                          href="javascript:;"
+                          data-id=item.id
+                          data-status=item.status
+                          button-change-status
+                        )
+                          i.fas.fa-toggle-off.mr-1
+                          | OFF
+                  td.text-center
+                    if (role.permissions.includes("products_edit"))
+                      //- Nút sửa, chi tiết, xóa
+                      a.btn.btn-outline-primary.btn-sm.px-2.mr-1.rounded-pill.shadow-sm(
+                        type="button"
+                        href=`${prefixAdmin}/products/edit/${item.id}`
+                      )
+                        i.fas.fa-edit.mr-1
+                        | Sửa
+                    a.btn.btn-outline-info.btn-sm.px-2.mr-1.rounded-pill.shadow-sm(
+                      type="button"
+                      href=`${prefixAdmin}/products/detail/${item.id}`
                     )
-                      i.fas.fa-toggle-off.mr-1
-                      | OFF
-                td.text-center
-                  a.btn.btn-outline-primary.btn-sm.px-2.mr-1.rounded-pill.shadow-sm(
-                    type="button"
-                    href=`${prefixAdmin}/products/edit/${item.id}`
-                  )
-                    i.fas.fa-edit.mr-1
-                    | Sửa
-                  a.btn.btn-outline-info.btn-sm.px-2.mr-1.rounded-pill.shadow-sm(
-                    type="button"
-                    href=`${prefixAdmin}/products/detail/${item.id}`
-                  )
-                    i.fas.fa-info-circle.mr-1
-                    | Chi tiết
-                  button.btn.btn-outline-danger.btn-sm.px-2.rounded-pill.shadow-sm(
-                    type="button"
-                    data-id=item.id
-                    data-toggle="modal"
-                    data-target="#exampleModal"
-                    button-delete
-                    button-delete-product
-                  )
-                    i.fas.fa-trash.mr-1
-                    | Xóa
+                      i.fas.fa-info-circle.mr-1
+                      | Chi tiết
+                    if (role.permissions.includes("products_delete"))
+                      button.btn.btn-outline-danger.btn-sm.px-2.rounded-pill.shadow-sm(
+                        type="button"
+                        data-id=item.id
+                        data-toggle="modal"
+                        data-target="#exampleModal"
+                        button-delete
+                        button-delete-product
+                      )
+                        i.fas.fa-trash.mr-1
+                        | Xóa
 
-      //- Pagination
-      if pagination && pagination.totalPage > 1
-        nav(aria-label="Page navigation")
-          ul.pagination.justify-content-center
-            if pagination.currentPage > 1
-              li.page-item
-                button.page-link(button-pagination=pagination.currentPage-1) «
-            - for (var i = 1; i <= pagination.totalPage; i++)
-              li(class=`page-item${pagination.currentPage == i ? " active" : ""}`)
-                button.page-link(button-pagination=i) #{i}
-            if pagination.currentPage < pagination.totalPage
-              li.page-item
-                button.page-link(button-pagination=pagination.currentPage+1) »
+        //- Pagination
+        if pagination && pagination.totalPage > 1
+          nav(aria-label="Page navigation")
+            ul.pagination.justify-content-center
+              if pagination.currentPage > 1
+                li.page-item
+                  button.page-link(button-pagination=pagination.currentPage-1) «
+              - for (var i = 1; i <= pagination.totalPage; i++)
+                li(class=`page-item${pagination.currentPage == i ? " active" : ""}`)
+                  button.page-link(button-pagination=i) #{i}
+              if pagination.currentPage < pagination.totalPage
+                li.page-item
+                  button.page-link(button-pagination=pagination.currentPage+1) »
 
-  form(
-    action=""
-    method="POST"
-    id="form-change-status"
-    data-path=`${prefixAdmin}/products/change-status`
-  )
+    form(
+      action=""
+      method="POST"
+      id="form-change-status"
+      data-path=`${prefixAdmin}/products/change-status`
+    )
 
-  form(
-    action=""
-    method="POST"
-    id="form-delete-product"
-    data-path=`${prefixAdmin}/products/delete`
-  )
+    form(
+      action=""
+      method="POST"
+      id="form-delete-product"
+      data-path=`${prefixAdmin}/products/delete`
+    )
 
-  //- FontAwesome CDN (nếu chưa có trong layout)
-  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
-  script(src="/admin/js/products.js")
-  script(src="/admin/js/script.js")
+    //- FontAwesome CDN (nếu chưa có trong layout)
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
+    script(src="/admin/js/products.js")
+    script(src="/admin/js/script.js")
+  else
+    .container.mt-4
+      h1.text-center.text-danger | Bạn không có quyền truy cập trang này!

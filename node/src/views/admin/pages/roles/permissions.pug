@@ -2,7 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
 block main
-  +alert(3000)
+  +alertError(3000)
 
   .container.mt-4
     .card.shadow-lg.rounded-4.overflow-hidden
@@ -11,9 +11,9 @@ block main
           i.fas.fa-list-alt.mr-2
           | Phân quyền
 
-
         if(roles.length > 0)
-            div(data-records=roles)
+          div(data-records=roles)
+      
       .card-body.p-4
         .text-right.mb-4
           button(
@@ -71,7 +71,7 @@ block main
                   td.text-center
                     input(type="checkbox", class="form-check-input")
 
-                    //- san pham
+              //- san pham
               tr.bg-light
                 td(colspan="3")
                   b Sản phẩm
@@ -99,9 +99,8 @@ block main
                 each role in roles
                   td.text-center
                     input(type="checkbox", class="form-check-input")
-                  
 
-                  //- Phân quyền
+              //- nhom quyen
               tr.bg-light
                 td(colspan="3")
                   b Nhóm quyền
@@ -129,8 +128,39 @@ block main
                 each role in roles
                   td.text-center
                     input(type="checkbox", class="form-check-input")
+                   
               tr(data-name="roles_permissions")
                 td Phân quyền
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+                    //- phan quyen
+              
+                    //- danh sach tai khoan
+              tr.bg-light
+                td(colspan="3")
+                  b Danh sách tài khoản
+
+              tr(data-name="accounts_view")
+                td Xem
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+
+              tr(data-name="accounts_create")
+                td Thêm mới
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+
+              tr(data-name="accounts_edit")
+                td Sửa
+                each role in roles
+                  td.text-center
+                    input(type="checkbox", class="form-check-input")
+
+              tr(data-name="accounts_delete")
+                td Xóa
                 each role in roles
                   td.text-center
                     input(type="checkbox", class="form-check-input")
@@ -148,4 +178,4 @@ block main
       )
 
   script(src="/admin/js/roles.js")
-  script(src="/admin/js/script.js") 
+  script(src="/admin/js/script.js")

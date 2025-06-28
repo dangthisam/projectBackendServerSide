@@ -7,7 +7,7 @@ const indexRouter = async (req, res) => {
     const find ={
         deleted:false
     }
-    const records=await Account.find(find).select("-pasword -token")
+    const records=await Account.find(find).select("-password -token")
 
     for (const item of records) {
       const findRole = {

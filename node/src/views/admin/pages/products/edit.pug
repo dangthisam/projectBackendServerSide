@@ -2,90 +2,93 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/select-tree.pug
 block main
+  if (role.permissions.includes("products_edit"))
   
-  .container.mt-5
-    .row.justify-content-center
-      .col-lg-8
-        .card.shadow-lg.rounded
-          .card-header.bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
-            h2.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;") 
-              i.fas.fa-list-alt.mr-2
-              | Sửa sản phẩm
-
-  
-
-    .row.justify-content-center
-      .col-md-8.col-lg-7
-        form(action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`, id="form-edit-product", method="post", enctype="multipart/form-data")
-          .card.shadow-lg.rounded-4.p-4.mb-4.bg-light
-            .card-body
-              .row.g-3
-                .col-12
-                  .form-group
-                    label.fw-semibold(for="title") Tiêu đề
-                    input(type="text", class="form-control", id="title", name="title", minlength="5",required, value=product.title)
-                .col-md-6
-                  .form-group
-                    label(for="product_category_id") Danh mục
-                    select(
-                      class="form-control"
-                      id="product_category_id"
-                      name="product_category_id"
-                    )
-                      option(value="") -- chọn danh mục cha --
-                      if(category)
-                        +select-tree(category, 1, product.product_category_id)
-                .col-12
-                  .form-group
-                    label.fw-semibold(for="desc") Mô tả
-                    textarea.form-control(id="desc" , class="desc" , name="description", rows="4", required) #{product.description}
-                .col-md-6
-                  .form-group
-                    label.fw-semibold(for="sku") SKU
-                    input(type="text", class="form-control", id="sku", name="sku",value=product.sku)
-                .col-md-6
-                  .form-group
-                    label.fw-semibold(for="price") Giá
-                    input(type="number", class="form-control", id="price", name="price", value=product.price, required)
-                .col-md-6
-                  .form-group
-                    label.fw-semibold(for="discount") % Giảm giá
-                    input(type="number", class="form-control", id="discount", name="discountPercentage", value=product.discountPercentage)
-                .col-md-6
-                  .form-group
-                    label.fw-semibold(for="stock") Số lượng
-                    input(type="number", class="form-control", id="stock", name="stock", required , value=product.stock)
-                .col-12
-                  .form-group.mb-3(data-upload-image)
-                    label.fw-semibold(for="thumbnail") Ảnh sản phẩm
-                    input(type="file", class="form-control", id="thumbnail", name="thumbnail", accept="image/*", data-upload-image-input)
-                    .mt-2
-                      img(
-                        src=product.thumbnail
-                        class="image-preview border rounded shadow-sm d-block mb-2"
-                        style="max-width: 180px; max-height: 180px; object-fit: cover;"
-                        data-upload-image-preview
+    +alertError(5000)
+      //- Nền cho tiêu đề
+    .container.mt-5
+      .row.justify-content-center
+        .col-lg-8
+          .card.shadow-lg.rounded
+            .card-header.bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
+              h2.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;") 
+                i.fas.fa-list-alt.mr-2
+                | Sửa sản phẩm
+      .row.justify-content-center
+        .col-md-8.col-lg-7
+          form(action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`, id="form-edit-product", method="post", enctype="multipart/form-data")
+            .card.shadow-lg.rounded-4.p-4.mb-4.bg-light
+              .card-body
+                .row.g-3
+                  .col-12
+                    .form-group
+                      label.fw-semibold(for="title") Tiêu đề
+                      input(type="text", class="form-control", id="title", name="title", minlength="5",required, value=product.title)
+                  .col-md-6
+                    .form-group
+                      label(for="product_category_id") Danh mục
+                      select(
+                        class="form-control"
+                        id="product_category_id"
+                        name="product_category_id"
                       )
-                      button(type="button", class="btn btn-outline-danger btn-sm", data-upload-image-remove) Xóa ảnh
-                .col-md-6
-                  .form-group
-                    label.fw-semibold(for="position") Vị trí
-                    input(type="number", class="form-control", id="position", name="position", value=product.position)
-                .col-md-6
-                  .form-group
-                    label.fw-semibold.d-block Trạng thái
-                    .form-check.form-check-inline
-                      input(type="radio", class="form-check-input", id="statusActive", name="status", value="active", checked=(product.status === 'active' ?true : false))
-                      label(for="statusActive", class="form-check-label") Hoạt động
-                    .form-check.form-check-inline
-                      input(type="radio", class="form-check-input", id="statusInactive", name="status", value="inactive" , checked=(product.status === 'inactive' ?true : false))
-                      label(for="statusInactive", class="form-check-label") Ngừng hoạt động
+                        option(value="") -- chọn danh mục cha --
+                        if(category)
+                          +select-tree(category, 1, product.product_category_id)
+                  .col-12
+                    .form-group
+                      label.fw-semibold(for="desc") Mô tả
+                      textarea.form-control(id="desc" , class="desc" , name="description", rows="4", required) #{product.description}
+                  .col-md-6
+                    .form-group
+                      label.fw-semibold(for="sku") SKU
+                      input(type="text", class="form-control", id="sku", name="sku",value=product.sku)
+                  .col-md-6
+                    .form-group
+                      label.fw-semibold(for="price") Giá
+                      input(type="number", class="form-control", id="price", name="price", value=product.price, required)
+                  .col-md-6
+                    .form-group
+                      label.fw-semibold(for="discount") % Giảm giá
+                      input(type="number", class="form-control", id="discount", name="discountPercentage", value=product.discountPercentage)
+                  .col-md-6
+                    .form-group
+                      label.fw-semibold(for="stock") Số lượng
+                      input(type="number", class="form-control", id="stock", name="stock", required , value=product.stock)
+                  .col-12
+                    .form-group.mb-3(data-upload-image)
+                      label.fw-semibold(for="thumbnail") Ảnh sản phẩm
+                      input(type="file", class="form-control", id="thumbnail", name="thumbnail", accept="image/*", data-upload-image-input)
+                      .mt-2
+                        img(
+                          src=product.thumbnail
+                          class="image-preview border rounded shadow-sm d-block mb-2"
+                          style="max-width: 180px; max-height: 180px; object-fit: cover;"
+                          data-upload-image-preview
+                        )
+                        button(type="button", class="btn btn-outline-danger btn-sm", data-upload-image-remove) Xóa ảnh
+                  .col-md-6
+                    .form-group
+                      label.fw-semibold(for="position") Vị trí
+                      input(type="number", class="form-control", id="position", name="position", value=product.position)
+                  .col-md-6
+                    .form-group
+                      label.fw-semibold.d-block Trạng thái
+                      .form-check.form-check-inline
+                        input(type="radio", class="form-check-input", id="statusActive", name="status", value="active", checked=(product.status === 'active' ?true : false))
+                        label(for="statusActive", class="form-check-label") Hoạt động
+                      .form-check.form-check-inline
+                        input(type="radio", class="form-check-input", id="statusInactive", name="status", value="inactive" , checked=(product.status === 'inactive' ?true : false))
+                        label(for="statusInactive", class="form-check-label") Ngừng hoạt động
 
-              .form-group.mt-4.d-flex.justify-content-between
-                button(type="submit", class="btn btn-primary btn-lg px-5") Cập nhật
-                a(href=`${prefixAdmin}/products`, class="btn btn-secondary btn-lg px-5") Hủy
- 
-  style.
-    .bg-gradient-primary-to-secondary {
-        background: linear-gradient(90deg,rgb(204, 223, 78) 0%,rgb(28, 197, 200) 100%);
-    }
+                .form-group.mt-4.d-flex.justify-content-between
+                  button(type="submit", class="btn btn-primary btn-lg px-5") Cập nhật
+                  a(href=`${prefixAdmin}/products`, class="btn btn-secondary btn-lg px-5") Hủy
+  
+    style.
+      .bg-gradient-primary-to-secondary {
+          background: linear-gradient(90deg,rgb(204, 223, 78) 0%,rgb(28, 197, 200) 100%);
+      }
+  else 
+    .container.mt-4
+      h1.text-center.text-danger | Bạn không có quyền truy cập trang này!

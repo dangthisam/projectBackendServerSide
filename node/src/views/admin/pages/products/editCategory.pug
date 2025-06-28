@@ -2,77 +2,85 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/select-tree.pug
 block main
-  +alertError(5000)
-  .container.mt-5
-    .row.justify-content-center
-      .col-lg-8
-        .card.shadow-lg.rounded
-          .card-header.bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
-            h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;") 
-              i.fas.fa-list-alt.mr-2
-              | Sửa danh mục sản phẩm
-          .card-body
-            // Hiển thị thông báo lỗi
-            if messages && messages.error
-              .alert.alert-danger.alert-dismissible.fade.show(role="alert")
-                span= messages.error
-                button(type="button", class="btn-close", data-bs-dismiss="alert", aria-label="Close")
+  if (role.permissions.includes("products-category_edit"))
+    // Hiển thị thông báo lỗi
+    +alert(5000)
+      // Hiển thị thông báo thành công
 
-            // Hiển thị thông báo thành công
-            if messages && messages.success
-              .alert.alert-success.alert-dismissible.fade.show(role="alert")
-                span= messages.success
-                button(type="button", class="btn-close", data-bs-dismiss="alert", aria-label="Close")
+    .container.mt-5
+      .row.justify-content-center
+        .col-lg-8
+          .card.shadow-lg.rounded
+            .card-header.bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
+              h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;") 
+                i.fas.fa-list-alt.mr-2
+                | Sửa danh mục sản phẩm
+            .card-body
+              // Hiển thị thông báo lỗi
+              if messages && messages.error
+                .alert.alert-danger.alert-dismissible.fade.show(role="alert")
+                  span= messages.error
+                  button(type="button", class="btn-close", data-bs-dismiss="alert", aria-label="Close")
 
-            form(action=`/admin/products-category/edit/${product.id}?_method=PATCH`, id="form-edit-product", method="post", enctype="multipart/form-data")
-              .row.g-3
-                .col-md-6
-                  .form-group
-                    
-                    label(for="title") Tiêu đề
-                    input(type="text", class="form-control", id="title", name="title",  required , value=product.title)
-                .col-md-6
-                  .form-group
-                    label(for="title") Danh mục cha
-                    select(
-                      class="form-control"
-                      id="parent_id"
-                      name="parent_id"
-                    )
-                      option(value="") -- chọn danh mục cha --
-                      if(records)
-                        +select-tree(records ,1 ,product.parent_id)
+              // Hiển thị thông báo thành công
+              if messages && messages.success
+                .alert.alert-success.alert-dismissible.fade.show(role="alert")
+                  span= messages.success
+                  button(type="button", class="btn-close", data-bs-dismiss="alert", aria-label="Close")
 
-                .col-12
-                  .form-group
-                    label(for="desc") Mô tả
-                    
-                    textarea.form-control(id="desc", , class="desc" ,name="description", rows="3") #{product.description}
-                
+              form(action=`/admin/products-category/edit/${product.id}?_method=PATCH`, id="form-edit-product", method="post", enctype="multipart/form-data")
+                .row.g-3
+                  .col-md-6
+                    .form-group
+                      
+                      label(for="title") Tiêu đề
+                      input(type="text", class="form-control", id="title", name="title",  required , value=product.title)
+                  .col-md-6
+                    .form-group
+                      label(for="title") Danh mục cha
+                      select(
+                        class="form-control"
+                        id="parent_id"
+                        name="parent_id"
+                      )
+                        option(value="") -- chọn danh mục cha --
+                        if(records)
+                          +select-tree(records ,1 ,product.parent_id)
 
-                .col-12
-                  div(class="form-group", data-upload-image)
-                    label(for="thumbnail") Ảnh
-                    input(type="file", class="form-control", id="thumbnail", name="thumbnail", accept="image/*", data-upload-image-input )
-                    .mt-2
-                      img(src=product.thumbnail, class="image-preview rounded border", style="max-width:150px; max-height:150px;", data-upload-image-preview)
-                      button(type="button", class="btn btn-danger btn-sm ms-2", data-upload-image-remove) X
+                  .col-12
+                    .form-group
+                      label(for="desc") Mô tả
+                      
+                      textarea.form-control(id="desc", , class="desc" ,name="description", rows="3") #{product.description}
+                  
 
-                .col-md-6
-                  .form-group
-                    label(for="position") Vị trí
-                    input(type="number", class="form-control", id="position", name="position", value=product.position)
+                  .col-12
+                    div(class="form-group", data-upload-image)
+                      label(for="thumbnail") Ảnh
+                      input(type="file", class="form-control", id="thumbnail", name="thumbnail", accept="image/*", data-upload-image-input )
+                      .mt-2
+                        img(src=product.thumbnail, class="image-preview rounded border", style="max-width:150px; max-height:150px;", data-upload-image-preview)
+                        button(type="button", class="btn btn-danger btn-sm ms-2", data-upload-image-remove) X
 
-                .col-md-6
-                  .form-group
-                    label.d-block Trạng thái
-                    .form-check.form-check-inline
-                      input(type="radio", class="form-check-input", id="statusActive", name="status", value="active", checked=(product.status === 'active' ?true : false))
-                      label(for="statusActive", class="form-check-label") Hoạt động
-                    .form-check.form-check-inline
-                      input(type="radio", class="form-check-input", id="statusInactive", name="status", value="inactive", checked=(product.status === 'inactive' ?true : false))
-                      label(for="statusInactive", class="form-check-label") Ngừng hoạt động
+                  .col-md-6
+                    .form-group
+                      label(for="position") Vị trí
+                      input(type="number", class="form-control", id="position", name="position", value=product.position)
 
-                .col-12.mt-4.d-flex.justify-content-between
-                  button(type="submit", class="btn btn-primary btn-lg px-5") Cập nhật
-                  a(href=`${prefixAdmin}/products`, class="btn btn-secondary btn-lg px-5") Hủy
+                  .col-md-6
+                    .form-group
+                      label.d-block Trạng thái
+                      .form-check.form-check-inline
+                        input(type="radio", class="form-check-input", id="statusActive", name="status", value="active", checked=(product.status === 'active' ?true : false))
+                        label(for="statusActive", class="form-check-label") Hoạt động
+                      .form-check.form-check-inline
+                        input(type="radio", class="form-check-input", id="statusInactive", name="status", value="inactive", checked=(product.status === 'inactive' ?true : false))
+                        label(for="statusInactive", class="form-check-label") Ngừng hoạt động
+
+                  .col-12.mt-4.d-flex.justify-content-between
+                    button(type="submit", class="btn btn-primary btn-lg px-5") Cập nhật
+                    a(href=`${prefixAdmin}/products`, class="btn btn-secondary btn-lg px-5") Hủy
+    
+  else 
+    h1 Ban không có quyền truy cập trang này!
+      
