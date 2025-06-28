@@ -32,25 +32,26 @@ block main
               .col-md-4.mb-2
               +sortCategory()
         //- form change multi products
-        form(
-          action=`${prefixAdmin}/products-category/change-multi?_method=PATCH`
-          method="POST"
-          form-change-multi
-          class="mb-3"
-        )
-          .row.align-items-center
-            .col-md-4.mb-2
-              .form-group.mb-0.mr-2
-                select.form-control(name='type')
-                  option(value="", selected) Chọn hành động
-                  option(value="active") Kích hoạt
-                  option(value="inactive") Vô hiệu hóa
-                  option(value="delete-all") Xóa nhiều
-                  option(value="update-position") Cập nhật vị trí
-            .col-md-2.mb-2
-              button.btn.btn-danger.w-100(type="submit")
-                i.fas.fa-check.mr-1
-                | Áp dụng
+        if (role.permissions.includes("products-category_edit"))
+          form(
+            action=`${prefixAdmin}/products-category/change-multi?_method=PATCH`
+            method="POST"
+            form-change-multi
+            class="mb-3"
+          )
+            .row.align-items-center
+              .col-md-4.mb-2
+                .form-group.mb-0.mr-2
+                  select.form-control(name='type')
+                    option(value="", selected) Chọn hành động
+                    option(value="active") Kích hoạt
+                    option(value="inactive") Vô hiệu hóa
+                    option(value="delete-all") Xóa nhiều
+                    option(value="update-position") Cập nhật vị trí
+              .col-md-2.mb-2
+                button.btn.btn-danger.w-100(type="submit")
+                  i.fas.fa-check.mr-1
+                  | Áp dụng
             .col-md-4.mb-2
               .form-group.mb-0.mr-2
                 input.form-control.d-none(type="text", name="ids", value="")

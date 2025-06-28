@@ -1,0 +1,14 @@
+mixin formatDateTime(date)
+  - var dateFormat = "DD/MM/YYYY HH:mm:ss"
+  - var formattedDate = moment(date).format(dateFormat)
+  span #{formattedDate}
+
+mixin formatDate(date)
+  - var dateFormat = "DD/MM/YYYY"
+  - var formattedDate = moment(date).format(dateFormat)
+  span #{formattedDate}
+
+mixin formatTime(date)
+  - var timeFormat = "HH:mm:ss"
+  - var formattedTime = moment(date).format(timeFormat)
+  span #{formattedTime}

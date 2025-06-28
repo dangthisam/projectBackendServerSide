@@ -5,6 +5,7 @@ const search =require("../../helps/search");
 const pagination=require("../../helps/pagination");
 const systemConfig = require("../../config/system");
 const ProductCategory = require("../../models/products-category-model");
+const Account = require("../../models/account");
 
 const productAdmin= async (req,res)=>{
  // lọc theo trang thái hoạt động hay không hoạt động
@@ -44,12 +45,24 @@ const productAdmin= async (req,res)=>{
     }else{
       sort.position='desc'
     }
+
+    const accounts = await Account.find({ _id: res.locals.user.id,deleted: false });
     const products = await Product.find(find)
     // sort là sắp xếp theo thứ tự giảm dần
 
     .sort(sort)
     .limit(objectPagination.limitPage)
     .skip(objectPagination.skip);
+  
+
+  for (const product of products) {
+    const user = await Account.findOne({ _id: product.createdBy.accountID, deleted: false });
+    if (user) {
+      product.createdByName = user.username;
+    } else {
+      product.createdByName = 'N/A'; // Nếu không tìm thấy người dùng, gán giá trị mặc định
+    }
+  }
     
     res.render('admin/pages/products/index', { 
 
@@ -156,12 +169,17 @@ const productAdmin= async (req,res)=>{
       }
       
       const categories = await ProductCategory.find(find);
+
+      
+
       const categoryTree = createTree(categories);
       res.render('admin/pages/products/create', {
         category: categoryTree
       });
       //res.send("Create Product");
     }
+
+    // Xử lý khi người dùng gửi form tạo sản phẩm
     const createPost = async (req, res) => {
       req.body.price=parseInt(req.body.price);
     
@@ -173,9 +191,16 @@ const productAdmin= async (req,res)=>{
         req.body.position = count + 1; // Tự động gán vị trí nếu không có giá trị
       }
    
+
+       req.body.createdBy = {
+         accountID: res.locals.user.id, // Lấy ID người dùng từ session
+      
+       };
+
+
       const product = new Product(req.body);
    
-      //kết nối csdl mongodb và lưu sản phẩm vào csdl
+  
       
       await product.save();
 

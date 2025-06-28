@@ -1,4 +1,5 @@
 extends ../../layouts/default.pug
+include ../../mixins/moment.pug
 include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/alert.pug
@@ -70,6 +71,7 @@ block main
                 th.text-center Hình ảnh
                 th.text-center Tiêu đề
                 th.text-center Giá
+                th.text-center Tạo bởi
                 th.text-center Vị trí
                 if (role.permissions.includes("products_edit"))
                  th.text-center Trạng Thái
@@ -84,6 +86,11 @@ block main
                     img.img-thumbnail.shadow-sm.rounded-circle.border-primary(src=item.thumbnail, alt="Sản phẩm", width="80px", height="auto", class="img-thumbnail")
                   td #{item.title}
                   td.text-right.text-success #{item.price}
+                  td.text-center 
+                    p.mb-0.text-primary.font-weight-bold
+                      | #{item.createdByName || 'N/A'}
+                    p.mb-0.text-muted
+                     +formatDateTime(item.createdBy.createdAt)
                   td.text-center.align-middle
                     input.form-control.form-control-sm.d-inline-block.text-center.border-info.rounded-pil(
                       type="number"

@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const app = express();
 const methodOverride = require('method-override')
-
+const moment = require("moment");
 const port = process.env.PORT || 4000;
 //file dot nay có nhiệm vụ lưu các biến dùng nhiều để fix cho dễ
 const {configViewEngine , configPug }= require(path.join(__dirname, "node/src/config/viewEngine"));
@@ -59,7 +59,7 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 
 //end tinyEcm
 app.locals.prefixAdmin = systemAdmin.prefixAdmin;
-
+app.locals.moment = moment; // Để sử dụng moment trong các file Pug
 // Thêm vào trước các app.use cho router
 connection();
 
