@@ -52,12 +52,13 @@ block main
             .col-md-4.mb-2
               .form-group.mb-0.mr-2
                 input.form-control.d-none(type="text", name="ids", value="")
-            .col-md-2.text-right.mb-2
-              if (role.permissions.includes("products_create"))
-                //- Nút thêm sản phẩm
-                a.btn.btn-info(href=`${prefixAdmin}/products/create`)
-                  i.fas.fa-plus.mr-1
-                  | Thêm sản phẩm
+            
+            if (role.permissions.includes("products_create"))
+                .col-md-2.text-right.mb-2
+                  //- Nút thêm sản phẩm
+                  a.btn.btn-info.mr-0(href=`${prefixAdmin}/products/create`)
+                    i.fas.fa-plus.mr-1
+                    | Thêm sản phẩm
 
         .table-responsive
           table.table.table-hover.table-striped.table-bordered.align-middle(multiTable)
@@ -92,10 +93,9 @@ block main
                       min="1"
                       class="form-control form-control-sm d-inline-block"
                     )
-                  td.text-center
-                    if (role.permissions.includes("products_edit"))
-                      
-                      span.text-muted #{item.status}
+                  if (role.permissions.includes("products_edit"))
+                    td.text-center
+                    
                       if item.status == 'active'
                         a.btn.btn-outline-success.btn-sm(
                           href="javascript:;"

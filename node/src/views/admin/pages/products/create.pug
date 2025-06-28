@@ -99,5 +99,12 @@ block main
           background: linear-gradient(90deg,rgb(204, 223, 78) 0%,rgb(28, 197, 200) 100%);
       }
   else 
-    .container.mt-4
-      h1.text-center.text-danger | Bạn không có quyền truy cập trang này!
+    .container.mt-4(style="background-color: #f8f9fa; border-radius: 10px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);")
+      .text-center
+        svg(width="48" height="48" fill="currentColor" viewBox="0 0 16 16" style="color: #dc3545; margin-bottom: 20px;")
+          path(d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z")
+          path(d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z")
+        h1.text-danger Bạn không có quyền truy cập trang này!
+        p.text-muted Vui lòng liên hệ quản trị viên nếu bạn cần hỗ trợ.
+        a.btn.btn-primary.mt-3(href="/") Quay lại trang chủ
+       
