@@ -109,7 +109,12 @@ const productAdmin= async (req,res)=>{
       case "delete-all":
         await Product.updateMany(
           { _id: { $in: ids } },
-          { deleted: true, deletedAt: new Date() } // Cập nhật thời gian xóa
+          { deleted: true, 
+            deletedBy: {
+              accountID: res.locals.user.id, // Lấy ID người dùng từ session
+              deletedAt: new Date() // Cập nhật thời gian xóa
+            }
+          } // Cập nhật thời gian xóa
         );
         req.flash('success', `dan xoa ${ids.length} sản phẩm!`);
         break;
@@ -137,8 +142,13 @@ const productAdmin= async (req,res)=>{
     // res.redirect("back");
     await Product.updateOne(
       { _id:id },
-      { deleted: true },
-      { deletedAt: new Date() } // Cập nhật thời gian xóa
+      {
+        deleted: true,
+        deletedBy: {
+          accountID: res.locals.user.id, // Lấy ID người dùng từ session
+          deletedAt: new Date() // Cập nhật thời gian xóa
+       } },
+ 
     );
     req.flash('success', `da xoa thành cong san pham`);
     // trở về trang trước đó

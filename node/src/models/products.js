@@ -28,6 +28,11 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
+    deletedBy: {
+      accountID: String,
+      deletedAt: Date
+    },
     position: { type: Number },
     deletedAt: { type: Date },
     sku: { type: String, unique: false },

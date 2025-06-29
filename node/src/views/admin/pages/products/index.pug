@@ -54,7 +54,7 @@ block main
               .form-group.mb-0.mr-2
                 input.form-control.d-none(type="text", name="ids", value="")
             
-            if (role.permissions.includes("products_create"))
+        if (role.permissions.includes("products_create"))
                 .col-md-2.text-right.mb-2
                   //- Nút thêm sản phẩm
                   a.btn.btn-info.mr-0(href=`${prefixAdmin}/products/create`)
