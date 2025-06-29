@@ -235,3 +235,644 @@ body {
   border-color: #c82333;
   transform: translateY(-2px); /* Nâng nhẹ khi hover */
 }
+
+/* styles.css */
+
+
+/* header */
+
+
+
+/* styles.css */
+
+/* Header */
+
+@media (max-width: 991px) {
+  .navbar-nav {
+      padding: 10px 0;
+      background-color: #dc3545;
+      border-radius: 5px;
+      margin-top: 10px;
+  }
+
+  .nav-link {
+      font-size: 1rem;
+      padding: 10px 20px;
+  }
+
+  .dropdown-menu {
+      background-color: #f8f9fa;
+      border: none;
+      box-shadow: none;
+  }
+
+  .dropdown-item {
+      padding: 10px 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo-img {
+      width: 100px;
+  }
+
+  .nav-link {
+      font-size: 0.9rem;
+  }
+}
+/* Sidebar */
+.sider {
+  background-color: #2c3e50; /* Màu nền tối */
+  color: #fff;
+  width: 250px;
+  height: 100vh; /* Chiều cao toàn màn hình */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  padding-top: 20px;
+  transition: transform 0.3s ease;
+}
+
+/* Menu */
+.inner-menu {
+  padding: 0 10px;
+}
+
+.inner-menu .nav {
+  gap: 5px; /* Khoảng cách giữa các mục menu */
+}
+
+.inner-menu .nav-link {
+  color: #dfe6e9 !important; /* Màu chữ nhạt */
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 12px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.inner-menu .nav-link:hover,
+.inner-menu .nav-link.active {
+  background-color: #dc3545; /* Màu đỏ khi hover hoặc active */
+  color: #fff !important;
+}
+
+/* Nội dung chính */
+main {
+  margin-left: 250px; /* Đẩy nội dung chính sang phải để tránh bị che */
+  padding: 20px;
+  transition: margin-left 0.3s ease; /* Hiệu ứng mượt khi sidebar ẩn/hiện */
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .sider {
+    transform: translateX(-100%); /* Ẩn sidebar trên mobile */
+    width: 200px;
+  }
+
+  .sider.active {
+    transform: translateX(0); /* Hiện sidebar khi active */
+  }
+
+  main {
+    margin-left: 0; /* Không cần margin-left khi sidebar ẩn */
+  }
+
+  .inner-menu .nav-link {
+    font-size: 1rem;
+    padding: 10px 15px;
+  }
+}
+/* Footer */
+/* styles.css */
+
+/* Footer */
+.footer {
+  background-color: #2c3e50; /* Đồng bộ màu nền với sidebar */
+  color: #dfe6e9; /* Màu chữ nhạt giống sidebar */
+  padding: 40px 0 0;
+  border-top: 3px solid #dc3545; /* Viền trên màu đỏ giống sidebar */
+}
+
+/* Tiêu đề */
+.footer h5 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #dc3545; /* Màu đỏ giống sidebar */
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.footer h5::after {
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 3px;
+  background-color: #dc3545;
+  bottom: -5px;
+  left: 0;
+}
+
+/* Phần Liên hệ */
+.contact-info li {
+  font-size: 1rem;
+  color: #dfe6e9; /* Màu chữ nhạt giống sidebar */
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.contact-info i {
+  font-size: 1.2rem;
+  color: #dc3545; /* Màu đỏ giống sidebar */
+}
+
+.contact-info a {
+  color: #dfe6e9; /* Màu chữ nhạt */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-info a:hover {
+  color: #dc3545; /* Màu đỏ khi hover */
+}
+
+/* Phần Chính sách */
+.policy-links li {
+  margin-bottom: 10px;
+}
+
+.policy-links a {
+  color: #dfe6e9; /* Màu chữ nhạt giống sidebar */
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.policy-links a:hover {
+  color: #dc3545; /* Màu đỏ khi hover */
+  text-decoration: underline;
+}
+
+/* Phần Mạng xã hội */
+.social-icons a {
+  font-size: 1.5rem;
+  color: #dfe6e9; /* Màu chữ nhạt giống sidebar */
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+}
+
+.social-icons .fa-facebook-f:hover {
+  color: #3b5998; /* Màu Facebook */
+}
+
+.social-icons .fa-twitter:hover {
+  color: #1da1f2; /* Màu Twitter */
+}
+
+.social-icons .fa-instagram:hover {
+  color: #e4405f; /* Màu Instagram */
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  background-color: #dc3545; /* Màu đỏ giống sidebar */
+  padding: 15px 0;
+  margin-top: 30px;
+}
+
+.footer-bottom p {
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.footer-bottom a {
+  color: #dfe6e9; /* Màu chữ nhạt giống sidebar */
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer-bottom a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .footer .row > div {
+    text-align: center;
+  }
+
+  .footer h5::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .contact-info li {
+    justify-content: center;
+  }
+
+  .social-icons {
+    gap: 20px !important;
+  }
+}
+
+
+/* styles.css */
+
+/* Phân trang */
+.pagination {
+  margin-top: 20px;
+}
+
+.page-item {
+  margin: 0 2px;
+}
+
+.page-link {
+  font-size: 0.95rem;
+  color: #333;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 6px 12px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.page-link:hover {
+  background-color: #e9ecef;
+  color: #333;
+}
+
+.page-item.active .page-link {
+  background-color: #007bff; /* Màu xanh giống hình */
+  border-color: #007bff;
+  color: #fff;
+  font-weight: 500;
+}
+
+.page-item.disabled .page-link {
+  color: #6c757d;
+  background-color: #fff;
+  border-color: #dee2e6;
+  cursor: not-allowed;
+}
+/* styles.css */
+.pagination{
+  align-items:  center;
+  text-align: center;
+  justify-content: center;
+}
+/* Footer */
+footer.bg-light {
+  background-color: #f8f9fa; /* Nền sáng nhẹ */
+  border-top: 2px solid #72dc35; /* Viền trên màu đỏ để đồng bộ với header */
+  padding: 20px 0;
+  margin-top: 50px; /* Khoảng cách với nội dung phía trên */
+}
+
+/* Container trong footer */
+footer .container {
+  max-width: 1200px; /* Giới hạn chiều rộng tối đa */
+}
+
+/* Tiêu đề của các cột */
+footer h5.text-danger {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+footer h5.text-danger::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 2px;
+  background-color: #35dc83; /* Gạch chân màu đỏ */
+}
+
+.image-preview {
+  width: 100px; /* Kích thước hình ảnh */
+  height: 100px; /* Kích thước hình ảnh */
+  border-radius: 50%; /* Hình tròn */
+  margin-bottom: 10px;
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Hiệu ứng zoom khi hover */
+  border: 2px solid #35dc83; /* Viền màu đỏ */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+  object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+  
+   /* Khoảng cách dưới hình ảnh */
+}
+/* Nội dung trong cột "Liên hệ chúng tôi" */
+footer .col-lg-4 p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 5px;
+}
+
+/* Danh sách liên kết trong cột "Chính sách" */
+footer .list-unstyled li {
+  margin-bottom: 8px;
+}
+
+footer .list-unstyled a {
+  color: #333;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.3s ease, padding-left 0.3s ease;
+}
+
+footer .list-unstyled a:hover {
+  color: #35dc64;
+  padding-left: 5px; /* Hiệu ứng dịch chuyển khi hover */
+}
+
+/* Biểu tượng mạng xã hội trong cột "Theo dõi chúng tôi" */
+footer .d-flex.gap-3 {
+  gap: 15px; /* Khoảng cách giữa các biểu tượng */
+}
+
+footer .d-flex a {
+  text-decoration: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+footer .d-flex a:hover {
+  transform: scale(1.2); /* Phóng to nhẹ khi hover */
+  opacity: 0.8;
+}
+
+footer .fab {
+  font-size: 1.5rem; /* Kích thước biểu tượng */
+}
+
+/* Phần bản quyền */
+footer .text-center.bg-danger {
+  background: linear-gradient(90deg, #dc3545, #c82333); /* Gradient đỏ đồng bộ với header */
+  padding: 15px 0;
+  margin-top: 20px;
+}
+
+footer .text-center.bg-danger p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+footer .text-center.bg-danger a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer .text-center.bg-danger a:hover {
+  color: #f8f9fa;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  footer .col-lg-4 {
+      text-align: center; /* Căn giữa trên mobile */
+      margin-bottom: 30px;
+  }
+
+  footer h5.text-danger::after {
+      left: 50%;
+      transform: translateX(-50%); /* Căn giữa gạch chân trên mobile */
+  }
+
+  footer .d-flex {
+      justify-content: center !important; /* Căn giữa biểu tượng mạng xã hội */
+  }
+}
+
+@media (max-width: 576px) {
+  footer h5.text-danger {
+      font-size: 1.1rem;
+  }
+
+  footer .col-lg-4 p,
+  footer .list-unstyled a {
+      font-size: 0.9rem;
+  }
+
+  footer .fab {
+      font-size: 1.3rem;
+  }
+
+  footer .text-center.bg-danger p,
+  footer .text-center.bg-danger a {
+      font-size: 0.85rem;
+  }
+}
+
+.bg-gradient-primary-to-secondary {
+        background: linear-gradient(90deg,rgb(204, 223, 78) 0%,rgb(28, 197, 200) 100%);
+    }
+
+    ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        ul > li {
+            position: relative;
+        }
+
+        ul > li > a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            background: #fff;
+            border-radius: 6px;
+            margin: 3px 0;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        ul > li > a:hover {
+            background: #f8f9fa;
+            color: #d62828;
+            border-color: #d62828;
+            transform: translateX(-5px);
+            box-shadow: 0 4px 12px rgba(214, 40, 40, 0.15);
+        }
+
+        /* Menu con cấp 1 - hiện bên trái của menu cha */
+        ul > li > ul {
+            position: absolute;
+            right: 100%; /* Hiện bên trái thay vì left: 0 */
+            top: 0;
+            min-width: 220px;
+            background: #fff;
+            box-shadow: -4px 4px 16px rgba(0, 0, 0, 0.15); /* Shadow bên trái */
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            display: none;
+            z-index: 1000;
+            margin-right: 10px; /* Khoảng cách với menu cha */
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        ul > li:hover > ul {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Menu con cấp 2 - hiện bên trái của menu cấp 1 */
+        ul > li > ul > li > ul {
+            position: absolute;
+            right: 100%; /* Tiếp tục hiện bên trái */
+            top: 0;
+            min-width: 200px;
+            background: #fff;
+            box-shadow: -4px 4px 16px rgba(0, 0, 0, 0.18);
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            display: none;
+            z-index: 1001;
+            margin-right: 10px;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        ul > li > ul > li:hover > ul {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Menu con cấp 3 - tiếp tục hiện bên trái của menu cấp 2 */
+        ul > li > ul > li > ul > li > ul {
+            position: absolute;
+            right: 100%;
+            top: 0;
+            min-width: 180px;
+            background: #fff;
+            box-shadow: -4px 4px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            display: none;
+            z-index: 1002;
+            margin-right: 10px;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        ul > li > ul > li > ul > li:hover > ul {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Styling cho các cấp menu khác nhau */
+        /* Cấp 1 */
+        ul > li > ul > li > a {
+            background: #f8f9fa;
+            color: #495057;
+            border-left: 3px solid transparent;
+        }
+
+        ul > li > ul > li > a:hover {
+            background: #e9ecef;
+            color: #d62828;
+            border-left-color: #d62828;
+        }
+
+        /* Cấp 2 */
+        ul > li > ul > li > ul > li > a {
+            background: #e9ecef;
+            color: #6c757d;
+            font-size: 0.95em;
+            padding: 10px 18px;
+            border-left: 3px solid transparent;
+        }
+
+        ul > li > ul > li > ul > li > a:hover {
+            background: #dee2e6;
+            color: #d62828;
+            border-left-color: #d62828;
+        }
+
+        /* Cấp 3 */
+        ul > li > ul > li > ul > li > ul > li > a {
+            background: #dee2e6;
+            color: #868e96;
+            font-size: 0.9em;
+            padding: 8px 16px;
+            border-left: 3px solid transparent;
+        }
+
+        ul > li > ul > li > ul > li > ul > li > a:hover {
+            background: #ced4da;
+            color: #d62828;
+            border-left-color: #d62828;
+        }
+
+        /* Arrow indicators */
+        ul > li:has(ul) > a::before {
+            content: '◀';
+            float: left;
+            margin-right: 8px;
+            color: #6c757d;
+            transition: all 0.3s ease;
+        }
+
+        ul > li:hover:has(ul) > a::before {
+            color: #d62828;
+            transform: translateX(-3px);
+        }
+
+        /* Responsive cho mobile */
+        @media (max-width: 768px) {
+            ul > li > ul,
+            ul > li > ul > li > ul,
+            ul > li > ul > li > ul > li > ul {
+                position: static;
+                right: auto;
+                margin-right: 0;
+                margin-left: 20px;
+                box-shadow: none;
+                border: none;
+                border-left: 2px solid #d62828;
+                border-radius: 0;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 1;
+                transform: none;
+                transition: max-height 0.3s ease;
+            }
+
+            ul > li:hover > ul,
+            ul > li > ul > li:hover > ul,
+            ul > li > ul > li > ul > li:hover > ul {
+                max-height: 500px;
+            }
+
+            ul > li:has(ul) > a::before {
+                content: '▼';
+                float: right;
+                margin-right: 0;
+                margin-left: 8px;
+            }
+        }

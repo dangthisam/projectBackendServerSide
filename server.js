@@ -20,6 +20,7 @@ const connection = require(path.join(__dirname, "node/src/config/db"));
 
 //const fileUpload = require("express-fileupload");
 const Kitten = require(path.join(__dirname, "node/src/models/user"));
+const middlewareCaterory = require(path.join(__dirname, "node/src/middleware/client/category.middleware"));
 const prefixAdmin = require(path.join(__dirname, "node/src/config/system"));
 const routeradmin = require(path.join(__dirname, "node/src/routes/admin/index.router"));
 const productAdmin = require(path.join(__dirname, "node/src/routes/admin/products.router"));
@@ -46,6 +47,7 @@ app.use(methodOverride('_method'))
 
 configPug(app); 
 app.use("", webRouter);
+ app.use(middlewareCaterory.Category)
 app.use(prefixAdmin.prefixAdmin, authAdmin);
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, accountAdmin);
 app.use(prefixAdmin.prefixAdmin, detailProfile)
