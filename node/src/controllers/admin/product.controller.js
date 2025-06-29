@@ -56,12 +56,24 @@ const productAdmin= async (req,res)=>{
   
 
   for (const product of products) {
+    // lấy ra người tạo sản phẩm
     const user = await Account.findOne({ _id: product.createdBy.accountID, deleted: false });
     if (user) {
       product.createdByName = user.username;
     } else {
       product.createdByName = 'N/A'; // Nếu không tìm thấy người dùng, gán giá trị mặc định
     }
+
+    // lấy ra người cập nhật gần nhất 
+    const lastUpdate = product.updateBy.length > 0 ? product.updateBy[product.updateBy.length - 1] : null;
+    
+    // tìm ra người update cuối cùng
+    if (lastUpdate) {
+      const userUpdate = await Account.findOne({ _id: lastUpdate.accountID, deleted: false });
+      if (userUpdate) {
+        product.lastUpdateName = userUpdate.username;
+      }
+  }
   }
     
     res.render('admin/pages/products/index', { 
@@ -76,10 +88,19 @@ const productAdmin= async (req,res)=>{
      //thay dổi trạng thái sản phẩm
   // nhận id sản phẩm và kiểu trạng thái từ request params
   const  changestatus = async(req, res)=>{
-  
+    const updateBy ={
+         accountID: res.locals.user.id,
+         updatedAt: new Date()
+
+       }
     await Product.updateOne(
       { _id: req.params.id },
-      { status: req.params.status }
+      { status: req.params.status ,
+        $push:{
+          updateBy:updateBy
+        }
+
+      }
     );
     req.flash('success', 'Cập nhật trạng thái thành công!');
     // trở về trang trước đó
@@ -90,19 +111,35 @@ const productAdmin= async (req,res)=>{
    // nhận danh sách id từ request body và kiểu trạng thái
   const  changestatusMulti = async(req, res)=>{
    const ids = req.body.ids.split(","); // Lấy danh sách ID từ request body và loại bỏ khoảng trắng thừa
-   const type = req.body.type; // Lấy kiểu trạng thái từ request body
+   const type = req.body.type;
+    const updateBy ={
+         accountID: res.locals.user.id,
+         updatedAt: new Date()
+
+       } // Lấy kiểu trạng thái từ request body
     switch (type) {
+    
       case "active":
+         
         await Product.updateMany(
           { _id: { $in: ids } },
-          { status: "active" }
+          { status: "active",$push:{
+              updateBy:updateBy
+            } },
+          
         );
         req.flash('success', `cập nhật thành cong cho ${ids.length} sản phẩm!`);
         break;
       case "inactive":
+         
         await Product.updateMany(
           { _id: { $in: ids } },
-          { status: "inactive" }
+          { status: "inactive" ,
+            $push:{
+              updateBy:updateBy
+            },
+          
+          }
         );
         req.flash('success', `cập nhật thành cong cho ${ids.length} sản phẩm!`);
         break;
@@ -124,7 +161,12 @@ const productAdmin= async (req,res)=>{
           position = parseInt(position); // Chuyển đổi vị trí thành số nguyên
           await Product.updateOne(
             { _id: id },
-            { position: position }
+            { position: position ,
+              $push:{
+                updateBy:updateBy
+              }
+            },
+           
           );
         }
         req.flash('success', `đã cập nhật vị trí cho ${ids.length} sản phẩm!`);
@@ -293,7 +335,21 @@ const productAdmin= async (req,res)=>{
     
 
      try{
-      await Product.updateOne({_id:id} , req.body);
+
+       const updateBy ={
+         accountID: res.locals.user.id,
+         updatedAt: new Date()
+
+       }
+
+      
+      await Product.updateOne({_id:id} , {
+        // lưu nhiều log lịch sử update
+        ...req.body,
+        $push:{
+          updateBy:updateBy
+        }
+      });
       req.flash('success', `Data update success`);
         res.redirect(`${systemConfig.prefixAdmin}/products`);
      }catch(error){

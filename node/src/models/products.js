@@ -33,6 +33,13 @@ const productSchema = new mongoose.Schema(
       accountID: String,
       deletedAt: Date
     },
+
+    updateBy:[
+      {
+        accountID: String,
+        updatedAt:Date
+      }
+    ],
     position: { type: Number },
     deletedAt: { type: Date },
     sku: { type: String, unique: false },

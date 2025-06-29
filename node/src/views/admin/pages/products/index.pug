@@ -72,6 +72,7 @@ block main
                 th.text-center Tiêu đề
                 th.text-center Giá
                 th.text-center Tạo bởi
+                th.text-center Cập nhật bởi
                 th.text-center Vị trí
                 if (role.permissions.includes("products_edit"))
                  th.text-center Trạng Thái
@@ -91,6 +92,13 @@ block main
                       | #{item.createdByName || 'N/A'}
                     p.mb-0.text-muted
                      +formatDateTime(item.createdBy.createdAt)
+                  td.text-center
+                   if (item.lastUpdateName)
+                    p.mb-0.text-primary.font-weight-bold
+                      | #{item.lastUpdateName || 'N/A'}
+                    if (item.lastUpdateName)
+                      p.mb-0.text-muted
+                      +formatDateTime(item.updatedBy)
                   td.text-center.align-middle
                     input.form-control.form-control-sm.d-inline-block.text-center.border-info.rounded-pil(
                       type="number"
