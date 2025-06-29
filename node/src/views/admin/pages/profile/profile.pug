@@ -1,0 +1,196 @@
+extends ../../layouts/default.pug
+
+block main
+  .container-fluid
+    .row.justify-content-center
+      .col-lg-8.col-xl-6
+        .card.shadow-lg.border-0.rounded-4
+          .card-header.bg-gradient-primary.text-white.text-center.py-4
+            h1.mb-0.fw-bold
+              i.fas.fa-user-circle.me-2
+              | Thông tin cá nhân
+          
+          .card-body.p-5
+            .row
+              // Avatar Section
+              .col-md-4.text-center.mb-4
+                .position-relative.d-inline-block
+                  if user.avatar
+                    img.rounded-circle.shadow-lg.border.border-4.border-white(
+                      src=user.avatar 
+                      width="150" 
+                      height="150"
+                      style="object-fit: cover;"
+                      alt="Avatar"
+                    )
+                  else
+                    img.rounded-circle.shadow-lg.border.border-4.border-white(
+                      src="/admin/images/avatar.png" 
+                      width="150" 
+                      height="150"
+                      style="object-fit: cover;"
+                      alt="Default Avatar"
+                    )
+                  
+                  // Online status indicator
+                  .position-absolute.bottom-0.end-0
+                    if user.status === "active"
+                      .bg-success.rounded-circle.border.border-2.border-white(
+                        style="width: 30px; height: 30px;"
+                        title="Đang hoạt động"
+                      )
+                        i.fas.fa-check.text-white(style="font-size: 12px; margin-top: 6px;")
+                    else
+                      .bg-danger.rounded-circle.border.border-2.border-white(
+                        style="width: 30px; height: 30px;"
+                        title="Ngưng hoạt động"
+                      )
+                        i.fas.fa-times.text-white(style="font-size: 12px; margin-top: 6px;")
+
+              // Information Section
+              .col-md-8
+                .user-info
+                  // Full Name
+                  if user.username
+                    .info-item.mb-4
+                      .d-flex.align-items-center
+                        .icon-wrapper.me-3
+                          i.fas.fa-user.text-primary.fs-5
+                        .info-content
+                          .label.text-muted.small.fw-semibold.text-uppercase Họ và tên
+                          .value.h5.mb-0.fw-bold= user.username
+                  
+                  // Email
+                  if user.email
+                    .info-item.mb-4
+                      .d-flex.align-items-center
+                        .icon-wrapper.me-3
+                          i.fas.fa-envelope.text-primary.fs-5
+                        .info-content
+                          .label.text-muted.small.fw-semibold.text-uppercase Email
+                          .value.h6.mb-0
+                            a.text-decoration-none(href=`mailto:${user.email}`)= user.email
+                  
+                  // Phone
+                  if user.phone
+                    .info-item.mb-4
+                      .d-flex.align-items-center
+                        .icon-wrapper.me-3
+                          i.fas.fa-phone.text-primary.fs-5
+                        .info-content
+                          .label.text-muted.small.fw-semibold.text-uppercase Số điện thoại
+                          .value.h6.mb-0
+                            a.text-decoration-none(href=`tel:${user.phone}`)= user.phone
+                  
+                  // Status
+                  .info-item.mb-4
+                    .d-flex.align-items-center
+                      .icon-wrapper.me-3
+                        i.fas.fa-circle.text-primary.fs-5
+                      .info-content
+                        .label.text-muted.small.fw-semibold.text-uppercase Trạng thái
+                        .value.h6.mb-0
+                          if user.status === "active"
+                            span.badge.bg-success.fs-6.px-3.py-2
+                              i.fas.fa-check-circle.me-1
+                              | Hoạt động
+                          else
+                            span.badge.bg-danger.fs-6.px-3.py-2
+                              i.fas.fa-times-circle.me-1
+                              | Ngưng hoạt động
+                  
+                  // Role
+                  if role && role.title
+                    .info-item.mb-4
+                      .d-flex.align-items-center
+                        .icon-wrapper.me-3
+                          i.fas.fa-shield-alt.text-primary.fs-5
+                        .info-content
+                          .label.text-muted.small.fw-semibold.text-uppercase Quyền hạn 
+                          .value.h6.mb-0
+                            span.badge.bg-info.fs-6.px-3.py-2
+                              i.fas.fa-crown.me-1
+                              = role.title
+
+          // Action Buttons
+          .card-footer.bg-light.text-center.py-4
+            .d-grid.gap-2.d-md-flex.justify-content-md-center
+              a.btn.btn-primary.btn-lg.px-4.me-md-2(
+                href=`${prefixAdmin}/profile/edit`
+                class="shadow-sm"
+              )
+                i.fas.fa-edit.me-2
+                | Chỉnh sửa thông tin
+              
+             
+  // Custom CSS
+  style.
+    .bg-gradient-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .card {
+      border-radius: 20px !important;
+      overflow: hidden;
+    }
+    
+    .icon-wrapper {
+      width: 40px;
+      height: 40px;
+      background: rgba(102, 126, 234, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .info-item {
+      padding: 15px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .info-item:hover {
+      background: rgba(102, 126, 234, 0.05);
+      border-color: rgba(102, 126, 234, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .btn {
+      border-radius: 12px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .badge {
+      border-radius: 8px;
+      font-weight: 500;
+    }
+    
+    img {
+      transition: all 0.3s ease;
+    }
+    
+    img:hover {
+      transform: scale(1.05);
+    }
+    
+    @media (max-width: 768px) {
+      .card-body {
+        padding: 2rem !important;
+      }
+      
+      .col-md-4, .col-md-8 {
+        text-align: center;
+      }
+      
+      .d-flex.align-items-center {
+        justify-content: center;
+      }
+    }

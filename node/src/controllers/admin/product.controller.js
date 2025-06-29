@@ -6,7 +6,7 @@ const pagination=require("../../helps/pagination");
 const systemConfig = require("../../config/system");
 const ProductCategory = require("../../models/products-category-model");
 const Account = require("../../models/account");
-
+// in ra giao dien 
 const productAdmin= async (req,res)=>{
  // lọc theo trang thái hoạt động hay không hoạt động
      

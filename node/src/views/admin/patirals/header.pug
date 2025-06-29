@@ -3,25 +3,22 @@ header.header
     .container
       a.navbar-brand.d-flex.align-items-center(href="/")
         img(src="/img/ST.png" alt="Logo" width="50" class="me-2 shadow-sm")
-        span.fw-bold.fs-4.text-white NGUYENVANSAM
+        
       button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation")
         span.navbar-toggler-icon
       #navbarNav.collapse.navbar-collapse
         ul.navbar-nav.ms-auto.mb-2.mb-lg-0.gap-2
           li.nav-item
-            a.nav-link.active.text-white.fw-semibold.px-3.rounded(href="/home" aria-current="page") Trang chủ
+            a.nav-link.active.text-white.fw-semibold.px-3.rounded(href="/admin/dashboard" aria-current="page") Tổng quan
           li.nav-item
             a.nav-link.text-white.fw-semibold.px-3.rounded(href="/products") Sản phẩm
           //- Đăng xuất - nên dùng nav-link thay vì btn btn-danger để đồng nhất style
-          li.nav-item
-            a( class ="btn btn-danger" 
-            href=`${prefixAdmin}/auth/logout`) Đăng xuất
+         
           //- Dropdown tùy chọn
           li.nav-item.dropdown
-            a.nav-link.dropdown-toggle.text-white.fw-semibold.px-3.rounded(href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false") Tùy chọn
+            a.nav-link.dropdown-toggle.text-white.fw-semibold.px-3.rounded(href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false") Quản lý
             ul.dropdown-menu.dropdown-menu-end.shadow-lg(aria-labelledby="navbarDropdown")
-              li
-                a.dropdown-item(href="/admin/dashboard") Tổng quan
+             
               if (role.permissions.includes("products_view"))
                 li
                   a.dropdown-item(href=`${prefixAdmin}/products`) Danh sách sản phẩm
@@ -37,6 +34,13 @@ header.header
               if (role.permissions.includes("accounts_view"))
                 li
                   a.dropdown-item(href=`${prefixAdmin}/accounts`) Danh sách tài khoản
+          li.nav-item
+            a(class="btn btn-success"
+            href=`${prefixAdmin}/profile`) #{user.username}
+            
+          li.nav-item
+              a( class ="btn btn-danger" 
+              href=`${prefixAdmin}/auth/logout`) Đăng xuất
 
 style.
   .navbar-nav .nav-link {

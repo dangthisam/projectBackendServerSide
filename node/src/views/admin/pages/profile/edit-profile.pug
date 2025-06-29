@@ -1,0 +1,122 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    +alertError(5000)
+    
+   
+    .container.mt-5
+      .bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
+        h1.mb-0.text-light.text-center.font-weight-bold(style="text-shadow:2px 2px 8px rgba(0,0,0,0.2);letter-spacing:2px;")
+          i.fas.fa-user-plus.mr-2
+          | Sửa thông tin cá nhân 
+      
+      .card.mb-4.shadow-sm
+        .card-body
+          form(
+            action=`${prefixAdmin}/profile/edit?_method=PATCH`
+            method="POST"
+            enctype="multipart/form-data"
+          )
+            .form-group.mb-3
+              label(for="username").d-flex.align-items-center
+                i.fas.fa-user-tag.mr-2
+                | Tên đăng nhập *
+              input.form-control(
+                type="text"
+                id="username"
+                name="username"
+                value=user.username
+                required
+              )
+              
+            .form-group.mb-3
+              label(for="email").d-flex.align-items-center
+                i.fas.fa-envelope.mr-2
+                | Email *
+              input.form-control(
+                type="email"
+                id="email"
+                name="email"
+                value=user.email
+                required
+              )
+              
+            .form-group.mb-3
+              label(for="password").d-flex.align-items-center
+                i.fas.fa-lock.mr-2
+                | Mật khẩu
+              input.form-control(
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Để trống nếu không muốn thay đổi"
+              )
+              
+            .form-group.mb-3
+              label(for="phone").d-flex.align-items-center
+                i.fas.fa-phone.mr-2
+                | Số điện thoại *
+              input.form-control(
+                type="text"
+                id="phone"
+                value=user.phone
+                name="phone"
+                required
+              )
+              
+            .form-group.mb-3(data-upload-image)
+              label(for="avatar").d-flex.align-items-center
+                i.fas.fa-image.mr-2
+                | Ảnh đại diện
+              input.form-control(
+                type="file"
+                id="avatar"
+                name="avatar"
+                accept="image/*"
+                data-upload-image-input
+              )
+              if user.avatar
+                img(
+                  src=user.avatar 
+                  class="image-preview mt-2"
+                  data-upload-image-preview
+                  style="max-width:120px; display: block;"
+                )
+              
+            
+                  
+            .form-group.mb-3
+              label Trạng thái
+              .form-check.form-check-inline
+                input(
+                  type="radio"
+                  class="form-check-input"
+                  id="statusActive"
+                  name="status"
+                  value="active"
+                  checked=(user.status === 'active')
+                )
+                label(for="statusActive" class="form-check-label") Hoạt động
+                
+              .form-check.form-check-inline
+                input(
+                  type="radio"
+                  class="form-check-input"
+                  id="statusInactive"
+                  name="status"
+                  value="inactive"
+                  checked=(user.status === 'inactive')
+                )
+                label(for="statusInactive" class="form-check-label") Không hoạt động
+                
+            .form-group.mt-4
+              button.btn.btn-primary.btn-lg.w-100(type="submit")
+                i.fas.fa-save.mr-2
+                | Cập nhật tài khoản
+
+    style.
+      .bg-gradient-primary-to-secondary {
+          background: linear-gradient(90deg,rgb(204, 223, 78) 0%,rgb(28, 197, 200) 100%);
+      }
+  

@@ -23,6 +23,7 @@ const Kitten = require(path.join(__dirname, "node/src/models/user"));
 const prefixAdmin = require(path.join(__dirname, "node/src/config/system"));
 const routeradmin = require(path.join(__dirname, "node/src/routes/admin/index.router"));
 const productAdmin = require(path.join(__dirname, "node/src/routes/admin/products.router"));
+const detailProfile = require(path.join(__dirname, "node/src/routes/admin/profile.router"));
 const authAdmin = require(path.join(__dirname, "node/src/routes/admin/auth.router"));
 const rolesAdmin = require(path.join(__dirname, "node/src/routes/admin/roles.router"));
 const accountAdmin = require(path.join(__dirname, "node/src/routes/admin/account-router"));
@@ -47,7 +48,7 @@ configPug(app);
 app.use("", webRouter);
 app.use(prefixAdmin.prefixAdmin, authAdmin);
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, accountAdmin);
-
+app.use(prefixAdmin.prefixAdmin, detailProfile)
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, rolesAdmin);
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, productAdmin);
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, productCateroryAdmin);
