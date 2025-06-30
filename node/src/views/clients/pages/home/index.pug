@@ -1,8 +1,11 @@
 extends ../../layout/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/products-layout.pug
 
-
-block main 
+block main
+  .container.my-3
+    .row
+      .col-12
+        +box-head("Sản phẩm nổi bật ")
+    +products-layout(productsFeatured)
   
-    div(style="text-align: center; margin-top: 20px;")
-      a(href="/admin/products" style="margin: 10px; padding: 10px 20px; font-size: 30px; display: inline-block; text-decoration: none; background-color: #007bff; color: white; border-radius: 5px;") Quản lý chuyến bay
-      a(href="/view-reports" style="margin: 10px; padding: 10px 20px; font-size: 30px; display: inline-block; text-decoration: none; background-color: #28a745; color: white; border-radius: 5px;") Xem báo cáo

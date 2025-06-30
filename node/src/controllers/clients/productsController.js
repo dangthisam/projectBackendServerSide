@@ -1,5 +1,7 @@
 
   const Product =require("../../models/products");
+  const productsHelper=require("../../helps/products")
+  
 const productEdit=(req, res)=>{
     res.render('clients/pages/products/edit',{
         
@@ -14,10 +16,16 @@ const homeProducts= async (req,res)=>{
    deleted:false,
 
 }).sort({position:"desc"});
+
+const newProducts =productsHelper.priceNewProducts(products)
     res.render('clients/pages/products/index', {
-        products: products
+        products: newProducts,
+        title:"Products"
     });
+
+
 }
+
 
 
 
