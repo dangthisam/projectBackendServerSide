@@ -85,8 +85,9 @@ const newRecords = createTree(records);
   }
  // start one products status
    const  changeStatusCategory = async(req, res)=>{
-    
-      await ProductCategory.updateOne(
+     const permissions =res.locals.role.permissions;
+     if (permissions.includes("products-category_edit")){
+await ProductCategory.updateOne(
         { _id: req.params.id },
         { status: req.params.status }
       );
@@ -94,13 +95,19 @@ const newRecords = createTree(records);
       // trở về trang trước đó
       // redirect là chuyển hướng đến một trang khác
       res.redirect("back" );
+    }else{
+      return
     }
+     }
+      
   //end  start one products status
 
 
   // start many products status 
  const  changeManyStatusCategory = async(req, res)=>{
-   const ids = req.body.ids.split(","); // Lấy danh sách ID từ request body và loại bỏ khoảng trắng thừa
+  const permissions=res.locals.role.permissions;
+  if (permissions.includes("products-category_edit")){
+     const ids = req.body.ids.split(","); // Lấy danh sách ID từ request body và loại bỏ khoảng trắng thừa
    const type = req.body.type; // Lấy kiểu trạng thái từ request body
     switch (type) {
       case "active":
@@ -139,6 +146,12 @@ const newRecords = createTree(records);
         break;
     }
   res.redirect("back");
+  }else{
+    return
+
+  }
+
+  
   }
   //end many products status
 
@@ -176,6 +189,8 @@ const newRecords = createTree(records);
 }
 
 const postcreateCategoryAdmin=async(req,res)=>{
+  const permissions=res.locals.role.permissions;
+  if (permissions.includes("products-category_create")){
   console.log(req.body);
   if(req.body.position==""){
     const count=await ProductCategory.countDocuments();
@@ -187,9 +202,12 @@ const postcreateCategoryAdmin=async(req,res)=>{
   const record = new ProductCategory(req.body);
    await record.save();
 
-   req.flash('success', `Thêm sản phẩm thành công!`);
+   req.flash('success', `Thêm danh mục mới thành công!`);
    res.redirect(`${systemConfig.prefixAdmin}/products-category`);
 
+}else{
+  return;
+}
 }
 //end create category 
 
@@ -218,6 +236,8 @@ const detailProductCategory = async (req, res) => {
 
 //start delete category 
 const deleteCategory = async(req, res)=>{
+  const permissions=res.locals.role.permissions;
+  if (permissions.includes("products-category_delete")){
     const id = req.params.id;
     
     await ProductCategory.updateOne(
@@ -228,7 +248,10 @@ const deleteCategory = async(req, res)=>{
     req.flash('success', `DELELTE SUCCESS`);
   
     res.redirect("back");
+  }else{
+    return;
   }
+}
 //end delete category
 
 
@@ -277,6 +300,8 @@ const deleteCategory = async(req, res)=>{
   }
 
   const editPathCategory= async (req, res) => {
+    const permissions =res.locals.role.permissions
+    if (permissions.includes("products-category_edit")){
     const id = req.params.id;
     req.body.title = req.body.title;
     req.body.description = req.body.description;
@@ -292,7 +317,10 @@ const deleteCategory = async(req, res)=>{
         req.flash('error', 'Data update fail !');
         return res.redirect(`${systemConfig.prefixAdmin}/products-category`);
      }
+  }else{
+    return;
   }
+}
 // end edit category
   module.exports={productCategoryAdmin , createCategoryAdmin , postcreateCategoryAdmin  , changeStatusCategory , changeManyStatusCategory , detailProductCategory,
     deleteCategory , editCategory, editPathCategory
