@@ -1,6 +1,8 @@
 
   const Product =require("../../models/products");
+  const ProductCategory=require("../../models/products-category-model")
   const productsHelper=require("../../helps/products")
+  const categoryHelper=require("../../helps/products-category")
   
 const productEdit=(req, res)=>{
     res.render('clients/pages/products/edit',{
@@ -27,6 +29,44 @@ const newProducts =productsHelper.priceNewProducts(products)
 }
 
 
+
+const category = async (req, res) => { 
+  const slug = req.params.slugCategory;
+const category =await ProductCategory.findOne({
+  slug:slug,
+  status:"active",
+  deleted:false
+})
+
+
+ const listCategory= await categoryHelper.getSubCategory(category.id)
+
+        // Kiểm tra và xử lý listCategory
+        let listCategoryId = [];
+        if (listCategory && Array.isArray(listCategory)) {
+            listCategoryId = listCategory
+                .filter(item => item && item.id) // Lọc ra những item có id
+                .map(item => item.id);
+        }
+        
+ 
+
+const products = await Product.find({
+  deleted:false,
+  product_category_id: {$in :[category.id,...listCategoryId]},
+  status:"active"
+}).sort({position:"desc"});
+
+
+const newProducts =productsHelper.priceNewProducts(products)
+res.render('clients/pages/products/index', {
+  title:category.title,
+        products: newProducts
+        
+    });
+
+
+}
 
 
 
@@ -72,4 +112,4 @@ const getProductBySlug = async (req, res) => {
         res.redirect("/products");
       }
   }
-module.exports={productEdit,homeProducts , getAllProducts , getProductBySlug};
+module.exports={productEdit,homeProducts , getAllProducts , getProductBySlug , category};

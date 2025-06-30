@@ -133,12 +133,6 @@ body {
 /* styles.css */
 
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
         .page-title {
             text-align: center;
             color: white;
