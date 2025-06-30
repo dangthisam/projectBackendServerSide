@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { homeProducts , category}=require("../../controllers/clients/productsController");
+const { homeProducts , category, getProductBySlug}=require("../../controllers/clients/productsController");
 const {middlewareCaterory} = require("../../middleware/client/category.middleware");
 // Route con cho /products
 // router.get('/', (req, res) => {
@@ -9,6 +9,8 @@ const {middlewareCaterory} = require("../../middleware/client/category.middlewar
 router.get('/',  homeProducts);
 
 router.get("/:slugCategory" , category)
+
+router.get("/detail/:slugProduct" , getProductBySlug)
 
 
 
