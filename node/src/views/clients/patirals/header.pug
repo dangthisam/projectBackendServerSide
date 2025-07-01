@@ -1,29 +1,101 @@
 include ../mixins/sub-menu.pug
 
-
 header.header
   nav.navbar.navbar-expand-lg.navbar-dark.bg-danger.shadow-sm.py-2
     .container
       a.navbar-brand.d-flex.align-items-center(href="/")
-        img(src="/img/ST.png" alt="Logo" width="50" class="me-2 shadow-sm")
+        img(src="/img/ST.png" alt="Logo" width="50" class="me-2 shadow-sm rounded-circle")
         span.fw-bold.fs-4.text-white NGUYENVANSAM
+      
       button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation")
         span.navbar-toggler-icon
+      
       #navbarNav.collapse.navbar-collapse
+        // Search Form - Desktop & Mobile
+        .search-container.mx-auto.my-3.my-lg-0.position-relative
+          form.search-form.d-flex.align-items-center(action="/search" method="GET" role="search")
+            .input-group.search-input-group
+              input#searchInput.form-control.border-0.bg-white.bg-opacity-90.text-dark.fw-medium.rounded-pill.pe-5(
+                type="search" 
+                name="keyword"
+                value=keyword
+                placeholder="Tìm kiếm sản phẩm..." 
+                aria-label="Search"
+                autocomplete="off"
+                style="padding: 12px 20px; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+              )
+              button.btn.search-btn.position-absolute.end-0.top-50.translate-middle-y.me-2.border-0.bg-transparent.text-danger(
+                type="submit"
+                aria-label="Search"
+                style="z-index: 10;"
+              )
+                i.fas.fa-search.fs-5
+          
+          // Search Suggestions Dropdown
+          .search-suggestions.position-absolute.w-100.bg-white.rounded-3.shadow-lg.mt-1.d-none(
+            style="top: 100%; z-index: 1000; max-height: 300px; overflow-y: auto;"
+          )
+            .p-3
+              .search-suggestion-item.p-2.rounded-2.cursor-pointer(data-value="iphone")
+                i.fas.fa-mobile-alt.text-primary.me-2
+                | iPhone 15 Pro
+              .search-suggestion-item.p-2.rounded-2.cursor-pointer(data-value="laptop")
+                i.fas.fa-laptop.text-primary.me-2
+                | Laptop Gaming
+              .search-suggestion-item.p-2.rounded-2.cursor-pointer(data-value="headphone")
+                i.fas.fa-headphones.text-primary.me-2
+                | Tai nghe Bluetooth
+              .search-suggestion-item.p-2.rounded-2.cursor-pointer(data-value="watch")
+                i.fas.fa-clock.text-primary.me-2
+                | Đồng hồ thông minh
+        
+        // Navigation Menu
         ul.navbar-nav.ms-auto.mb-2.mb-lg-0.gap-2
           li.nav-item
-            a.nav-link.active.text-white.fw-semibold.px-3.rounded(href="/home" aria-current="page") Trang chủ
+            a.nav-link.active.text-white.fw-semibold.px-3.rounded-pill.nav-hover(href="/home" aria-current="page") 
+              i.fas.fa-home.me-2
+              | Trang chủ
+          
           li.nav-item.sub-menu
             -const pathProducts = "/products";
-            a.nav-link.text-white.fw-semibold.px-3.rounded(href="/products") Sản phẩm
+            a.nav-link.text-white.fw-semibold.px-3.rounded-pill.nav-hover(href="/products") 
+              i.fas.fa-box.me-2
+              | Sản phẩm
             +sub-menu(records , pathProducts)
           
-
-
-
-
-
-
-
-
-  
+          // Additional menu items
+          li.nav-item
+            a.nav-link.text-white.fw-semibold.px-3.rounded-pill.nav-hover(href="/about") 
+              i.fas.fa-info-circle.me-2
+              | Giới thiệu
+          
+          li.nav-item
+            a.nav-link.text-white.fw-semibold.px-3.rounded-pill.nav-hover(href="/contact") 
+              i.fas.fa-phone.me-2
+              | Liên hệ
+          
+          // User Account Dropdown
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle.text-white.fw-semibold.px-3.rounded-pill.nav-hover(
+              href="#" 
+              role="button" 
+              data-bs-toggle="dropdown" 
+              aria-expanded="false"
+            )
+              i.fas.fa-user-circle.me-2
+              | Tài khoản
+            ul.dropdown-menu.dropdown-menu-end.shadow-lg.border-0.rounded-3.mt-2
+              li
+                a.dropdown-item.py-2.px-3(href="/profile")
+                  i.fas.fa-user.me-2.text-primary
+                  | Thông tin cá nhân
+              li
+                a.dropdown-item.py-2.px-3(href="/orders")
+                  i.fas.fa-shopping-bag.me-2.text-success
+                  | Đơn hàng của tôi
+              li
+                hr.dropdown-divider
+              li
+                a.dropdown-item.py-2.px-3.text-danger(href="/logout")
+                  i.fas.fa-sign-out-alt.me-2
+                  | Đăng xuất

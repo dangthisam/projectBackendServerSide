@@ -1,63 +1,325 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
-
 block main
-    .container.mt-5
+    .container.mt-5.mb-5
         .row.justify-content-center
-            .col-lg-8.col-md-10
-                .card.shadow-lg.rounded-4
-                    .card-header.bg-gradient-primary-to-secondary.py-4.mb-4.rounded.shadow
-                        h1.h1.mb-0.text-primary.text-center.font-weight-bold(style="text-shadow:2px 2px 8px #aaa;letter-spacing:2px;")  
-                            i.fas.fa-list-alt.mr-2
-                            | #{product.title || "Chi tiết sản phẩm"}
-                    .card-body.bg-light
-                        .row.g-4.align-items-center
-                            .col-md-4.text-center
+            .col-lg-10.col-md-12
+                // Breadcrumb
+                nav(aria-label="breadcrumb")
+                    ol.breadcrumb.bg-transparent.mb-4
+                        li.breadcrumb-item
+                            a.text-decoration-none(href=`${prefixAdmin}/products-category`) 
+                                i.fas.fa-home.me-2
+                                | Danh mục sản phẩm
+                        li.breadcrumb-item.active(aria-current="page") Chi tiết sản phẩm
+
+                // Main Card
+                .card.border-0.shadow-lg.rounded-4.overflow-hidden
+                    // Header with gradient
+                    .card-header.bg-gradient-primary.text-white.py-4.border-0
+                        .d-flex.align-items-center.justify-content-between
+                            .d-flex.align-items-center
+                                .bg-white.bg-opacity-20.rounded-circle.p-3.me-3
+                                    i.fas.fa-box-open.fs-4
+                                div
+                                    h1.h3.mb-1.fw-bold #{product.title || "Chi tiết sản phẩm"}
+                                    p.opacity-75.mb-0.small Thương hiệu: #{product.parent_id || "N/A"}
+                            // Status badge
+                            if product.status === "active"
+                                .badge.bg-success.bg-opacity-20.text-success.border.border-success.px-3.py-2.rounded-pill
+                                    i.fas.fa-check-circle.me-2
+                                    | Hoạt động
+                            else
+                                .badge.bg-warning.bg-opacity-20.text-warning.border.border-warning.px-3.py-2.rounded-pill
+                                    i.fas.fa-pause-circle.me-2
+                                    | Tạm dừng
+
+                    // Body
+                    .card-body.p-0
+                        .row.g-0
+                            // Image Section
+                            .col-lg-4.bg-light.d-flex.align-items-center.justify-content-center.p-5
                                 if product.thumbnail
-                                    img(
-                                        src=product.thumbnail
-                                        class="img-thumbnail shadow-sm mb-3"
-                                        style="width: 180px; height: 180px; object-fit: cover;"
-                                    )
+                                    .position-relative
+                                        img.rounded-3.shadow-sm(
+                                            src=product.thumbnail
+                                            alt="Product Image"
+                                            style="width: 220px; height: 220px; object-fit: cover; transition: transform 0.3s ease;"
+                                            onmouseover="this.style.transform='scale(1.05)'"
+                                            onmouseout="this.style.transform='scale(1)'"
+                                        )
+                                        .position-absolute.top-0.end-0.mt-2.me-2
+                                            .badge.bg-primary.rounded-pill
+                                                i.fas.fa-image
                                 else
-                                    .bg-secondary.text-white.d-flex.align-items-center.justify-content-center.rounded-circle.mx-auto.mb-3(style="width: 180px; height: 180px; font-size: 2rem;")
-                                        i.fas.fa-image
-                            .col-md-8
-                                ul.list-group.list-group-flush.fs-5
-                                    
-                                    li.list-group-item
-                                        span.fw-semibold Trạng thái: 
-                                        if product.status === "active"
-                                            span.badge.bg-success.ms-2 Hoạt động
-                                        else
-                                            span.badge.bg-warning.text-dark.ms-2 Ngừng hoạt động
-                                    li.list-group-item
-                                        span.fw-semibold Vị trí: 
-                                        b.text-primary.ms-2 #{product.position || 0}
-                                    li.list-group-item
-                                        span.fw-semibold Danh mục cha: 
-                                        b.text-primary.ms-2 #{product.parent_id || 0}
-                                    
-                                    
+                                    .d-flex.flex-column.align-items-center.text-muted
+                                        .bg-secondary.bg-opacity-10.rounded-3.d-flex.align-items-center.justify-content-center.mb-3(
+                                            style="width: 220px; height: 220px; border: 2px dashed #dee2e6;"
+                                        )
+                                            i.fas.fa-image.fs-1.text-muted
+                                        p.mb-0.small Chưa có hình ảnh
+
+                            // Details Section
+                            .col-lg-8.p-5
+                                .h5.text-primary.mb-4.fw-bold
+                                    i.fas.fa-info-circle.me-2
+                                    | Thông tin chi tiết
+
+                                .row.g-4
+                                    .col-md-6
+                                        .info-item.p-3.bg-light.rounded-3.h-100
+                                            .d-flex.align-items-center.mb-2
+                                                .icon-circle.bg-primary.text-white.rounded-circle.d-flex.align-items-center.justify-content-center.me-3(
+                                                    style="width: 40px; height: 40px;"
+                                                )
+                                                    i.fas.fa-sort-numeric-up
+                                                div
+                                                    .small.text-muted.mb-1 Vị trí
+                                                    .fw-semibold.text-dark #{product.position || 0}
+
+                                    .col-md-6
+                                        .info-item.p-3.bg-light.rounded-3.h-100
+                                            .d-flex.align-items-center.mb-2
+                                                .icon-circle.bg-info.text-white.rounded-circle.d-flex.align-items-center.justify-content-center.me-3(
+                                                    style="width: 40px; height: 40px;"
+                                                )
+                                                    i.fas.fa-sitemap
+                                                div
+                                                    .small.text-muted.mb-1 Danh mục cha
+                                                    .fw-semibold.text-dark #{product.parent_id || "Không có"}
+
+                                    .col-md-6
+                                        .info-item.p-3.bg-light.rounded-3.h-100
+                                            .d-flex.align-items-center.mb-2
+                                                .icon-circle.bg-success.text-white.rounded-circle.d-flex.align-items-center.justify-content-center.me-3(
+                                                    style="width: 40px; height: 40px;"
+                                                )
+                                                    i.fas.fa-calendar-alt
+                                                div
+                                                    .small.text-muted.mb-1 Ngày tạo
+                                                    .fw-semibold.text-dark #{product.createdAt ? new Date(product.createdAt).toLocaleDateString('vi-VN') : "N/A"}
+
+                                    .col-md-6
+                                        .info-item.p-3.bg-light.rounded-3.h-100
+                                            .d-flex.align-items-center.mb-2
+                                                .icon-circle.bg-warning.text-white.rounded-circle.d-flex.align-items-center.justify-content-center.me-3(
+                                                    style="width: 40px; height: 40px;"
+                                                )
+                                                    i.fas.fa-edit
+                                                div
+                                                    .small.text-muted.mb-1 Cập nhật
+                                                    .fw-semibold.text-dark #{product.updatedAt ? new Date(product.updatedAt).toLocaleDateString('vi-VN') : "N/A"}
+
+                        // Description Section
                         if product.description
-                            .mt-4
-                                span.fw-semibold.fs-5 Mô tả:
-                                p.mt-2.fs-6.text-secondary !{product.description}
-                    .card-footer.bg-white.text-center.d-flex.justify-content-center.gap-3
-                        a.btn.btn-warning.px-4.py-2.fw-semibold(
-                            href=`${prefixAdmin}/products-category/edit/${product.id}`
-                            style="background-color: orange;"
-                        ) Chỉnh sửa
-                        a.btn.btn-danger.px-4.py-2.fw-semibold(
-                            href="/admin/pages/products/#{product.id}/delete"
-                            style="background-color: red;"
-                        ) Xóa
-                        a.btn.btn-primary.px-4.py-2.fw-semibold(
-                            href=`${prefixAdmin}/products-category`
-                            style="background-color: blue;"
-                        ) Quay lại
-    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
- 
+                            .border-top.p-5.bg-white
+                                .h5.text-primary.mb-3.fw-bold
+                                    i.fas.fa-align-left.me-2
+                                    | Mô tả chi tiết
+                                .description-content.text-muted.lh-lg
+                                    | !{product.description}
+
+
+                    // Footer with Actions
+                    .card-footer.bg-white.border-0.p-4
+                        .d-flex.flex-wrap.gap-3.justify-content-center.justify-content-md-end
+                            a.btn.btn-outline-secondary.px-4.py-2.rounded-pill(
+                                href=`${prefixAdmin}/products-category`
+                                style="transition: all 0.3s ease;"
+                            )
+                                i.fas.fa-arrow-left.me-2
+                                | Quay lại
+
+                            a.btn.btn-warning.px-4.py-2.rounded-pill.text-white(
+                                href=`${prefixAdmin}/products-category/edit/${product.id}`
+                                style="transition: all 0.3s ease;"
+                            )
+                                i.fas.fa-edit.me-2
+                                | Chỉnh sửa
+
+                            button.btn.btn-danger.px-4.py-2.rounded-pill(
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal"
+                                style="transition: all 0.3s ease;"
+                            )
+                                i.fas.fa-trash-alt.me-2
+                                | Xóa
+
+        // Delete Confirmation Modal
+        .modal.fade(id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true")
+            .modal-dialog.modal-dialog-centered
+                .modal-content.border-0.shadow-lg
+                    .modal-header.bg-danger.text-white.border-0
+                        h5.modal-title(id="deleteModalLabel")
+                            i.fas.fa-exclamation-triangle.me-2
+                            | Xác nhận xóa
+                        button.btn-close.btn-close-white(type="button" data-bs-dismiss="modal" aria-label="Close")
+                    .modal-body.p-4
+                        .text-center
+                            .mb-3
+                                i.fas.fa-trash-alt.fs-1.text-danger.opacity-50
+                            p.mb-0 Bạn có chắc chắn muốn xóa sản phẩm 
+                                strong "#{product.title}"
+                                |  không?
+                            p.small.text-muted.mt-2 Hành động này không thể hoàn tác.
+                    .modal-footer.border-0.justify-content-center
+                        button.btn.btn-secondary.px-4.rounded-pill(type="button" data-bs-dismiss="modal") Hủy
+                        a.btn.btn-danger.px-4.rounded-pill(href=`/admin/pages/products/${product.id}/delete`)
+                            i.fas.fa-trash-alt.me-2
+                            | Xóa
+
+    // Custom Styles
+    style.
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+        }
+        
+        .btn {
+            transition: all 0.3s ease;
+            border: none;
+            font-weight: 500;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        }
+        
+        .btn-outline-secondary {
+            border: 2px solid #6c757d;
+            color: #6c757d;
+        }
+        
+        .btn-outline-secondary:hover {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .info-item {
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .info-item:hover {
+            background: white !important;
+            border-color: #dee2e6;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .icon-circle {
+            transition: all 0.3s ease;
+        }
+        
+        .info-item:hover .icon-circle {
+            transform: scale(1.1);
+        }
+        
+        .breadcrumb-item a {
+            color: #6c757d;
+            transition: color 0.3s ease;
+        }
+        
+        .breadcrumb-item a:hover {
+            color: #495057;
+        }
+        
+        .description-content {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .modal-content {
+            border-radius: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .card-body .row {
+                flex-direction: column;
+            }
+            
+            .d-flex.gap-3 {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+    // External Resources
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
+    
+    // Custom Scripts
+    script.
+        // Add smooth scrolling and enhanced interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe info items
+            document.querySelectorAll('.info-item').forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'all 0.6s ease';
+                observer.observe(item);
+            });
+            
+            // Add ripple effect to buttons
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+    
     script(src="/admin/js/products.js")
     script(src="/admin/js/script.js")

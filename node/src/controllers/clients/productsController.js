@@ -24,11 +24,7 @@ const newProducts =productsHelper.priceNewProducts(products)
         products: newProducts,
         title:"Products"
     });
-
-
 }
-
-
 
 const category = async (req, res) => { 
   try {
@@ -64,7 +60,7 @@ const category = async (req, res) => {
     // Find products in this category and its subcategories
     const products = await Product.find({
       deleted: false,
-      product_category_id: { $in: [category.id, ...listCategoryId] },
+      product_category_id: { $in: [category.id, ...listCategoryId] }, 
       status: "active"
     }).sort({ position: "desc" });
 
@@ -123,4 +119,7 @@ const getProductBySlug = async (req, res) => {
         res.redirect("/products");
       }
   }
-module.exports={productEdit,homeProducts , getProductBySlug , category};
+
+
+
+module.exports={productEdit,homeProducts , getProductBySlug , category };

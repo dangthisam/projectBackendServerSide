@@ -222,7 +222,16 @@ const detailProductCategory = async (req, res) => {
       _id: id
     };
     const product = await ProductCategory.findOne(find);
-   
+   if(product.parent_id){
+    const id=product.parent_id;
+    const find = {
+      deleted: false,
+      _id: id
+    };
+    const products= await ProductCategory.findOne(find);
+    product.parent_id=products.title;
+    
+   }
     //console.log(product);
     res.render('admin/pages/products/detailCategory', {
       pageTitle: "Detail Product Category",

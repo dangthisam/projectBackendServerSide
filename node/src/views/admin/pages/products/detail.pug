@@ -2,66 +2,444 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
 block main
-    .container.mt-5
-        .row.justify-content-center
-            .col-xl-7.col-lg-8.col-md-10
-                .card.shadow-lg.rounded-4.border-0.overflow-hidden
-                    .card-header.bg-gradient-primary-to-secondary.py-4.mb-0.rounded-0.shadow-sm.position-relative
-                        h1.h2.mb-0.text-white.text-center.fw-bold(style="text-shadow:2px 2px 8px #333;letter-spacing:2px;")  
-                            i.fas.fa-box-open.me-2
-                            | #{product.title || "Chi tiết sản phẩm"}
-                    .card-body.bg-white.p-4
-                        .row.g-4.align-items-center
-                            .col-md-5.text-center
-                                if product.thumbnail
-                                    img(
-                                        src=product.thumbnail
-                                        class="img-fluid rounded-3 shadow mb-3 border border-2"
-                                        style="width: 220px; height: 220px; object-fit: cover;"
-                                    )
-                                else
-                                    .bg-light.text-secondary.d-flex.align-items-center.justify-content-center.rounded-circle.mx-auto.mb-3.shadow(style="width: 220px; height: 220px; font-size: 2.5rem;")
-                                        i.fas.fa-image
-                            .col-md-7
-                                ul.list-group.list-group-flush.fs-5
-                                    li.list-group-item.bg-transparent.border-0.pb-1
-                                        span.fw-semibold.text-secondary Giá: 
-                                        b.text-success.ms-2.fs-5 #{product.price || 0}₫
-                                    if product.discountPercentage
-                                        li.list-group-item.bg-transparent.border-0.pb-1
-                                            span.fw-semibold.text-secondary Giảm giá: 
-                                            b.text-danger.ms-2.fs-5 #{product.discountPercentage}%
-                                    li.list-group-item.bg-transparent.border-0.pb-1
-                                        span.fw-semibold.text-secondary Còn lại: 
-                                        b.text-info.ms-2.fs-5 #{product.stock || 0}
-                                    li.list-group-item.bg-transparent.border-0.pb-1
-                                        span.fw-semibold.text-secondary Trạng thái: 
-                                        if product.status === "active"
-                                            span.badge.bg-success.ms-2.fw-normal Hoạt động
+    // Custom CSS for this page
+    style.
+        .product-detail-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-detail-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="%23ffffff08" points="0,0 1000,300 1000,1000 0,700"/></svg>');
+            pointer-events: none;
+        }
+        
+        .product-card {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52, #ff8e53);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .product-image-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .product-image-container:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+        
+        .product-image {
+            transition: all 0.4s ease;
+            border-radius: 20px;
+        }
+        
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .info-item {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .info-item:hover::before {
+            left: 100%;
+        }
+        
+        .info-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .price-tag {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); }
+            50% { box-shadow: 0 4px 25px rgba(40, 167, 69, 0.5); }
+            100% { box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); }
+        }
+        
+        .discount-badge {
+            background: linear-gradient(135deg, #dc3545, #e74c3c);
+            color: white !important;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+            animation: bounce 1.5s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-5px); }
+            60% { transform: translateY(-3px); }
+        }
+        
+        .status-active {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white !important;
+            padding: 6px 14px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+        
+        .status-inactive {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            color: white !important;
+            padding: 6px 14px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+        
+        .description-box {
+            background: linear-gradient(135deg, rgba(103, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(103, 126, 234, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .description-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+            border-radius: 20px;
+            z-index: -1;
+            animation: gradient-border 3s ease infinite;
+        }
+        
+        @keyframes gradient-border {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .action-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .action-btn:hover::before {
+            left: 100%;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .action-btn.btn-edit {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+        }
+        
+        .action-btn.btn-edit:hover {
+            box-shadow: 0 12px 35px rgba(255, 193, 7, 0.4);
+        }
+        
+        .action-btn.btn-delete {
+            background: linear-gradient(135deg, #dc3545, #e74c3c);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
+        }
+        
+        .action-btn.btn-delete:hover {
+            box-shadow: 0 12px 35px rgba(220, 53, 69, 0.4);
+        }
+        
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-element:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 70%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .floating-element:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 40%;
+            left: 80%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(120deg); }
+            66% { transform: translateY(20px) rotate(240deg); }
+        }
+        
+        .icon-glow {
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+            to { text-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.8); }
+        }
+
+    .product-detail-container
+        .floating-elements
+            .floating-element
+            .floating-element  
+            .floating-element
+            
+        .container.mt-5.position-relative(style="z-index: 10;")
+            .row.justify-content-center
+                .col-xl-8.col-lg-9.col-md-11
+                    .product-card.rounded-4.border-0.overflow-hidden
+                        .product-header.py-5.mb-0.rounded-0.position-relative
+                            h1.h2.mb-0.text-white.text-center.fw-bold.position-relative(style="z-index: 2; text-shadow: 2px 2px 20px rgba(0,0,0,0.3); letter-spacing: 2px;")  
+                                i.fas.fa-gem.me-3.icon-glow(style="font-size: 2rem;")
+                                | #{product.title || "Chi tiết sản phẩm"}
+                                
+                        .card-body.bg-white.p-5
+                            .row.g-5.align-items-start
+                                .col-lg-5.text-center
+                                    .product-image-container.mb-4
+                                        if product.thumbnail
+                                            img.product-image(
+                                                src=product.thumbnail
+                                                class="img-fluid w-100"
+                                                style="height: 300px; object-fit: cover;"
+                                                alt="Product Image"
+                                            )
                                         else
-                                            span.badge.bg-warning.text-dark.ms-2.fw-normal Ngừng hoạt động
-                                    li.list-group-item.bg-transparent.border-0.pb-1
-                                        span.fw-semibold.text-secondary Vị trí: 
-                                        b.text-primary.ms-2.fs-5 #{product.position || 0}
-                        if product.description
-                            .mt-4
-                                span.fw-semibold.fs-5.text-dark Mô tả:
-                                p.mt-2.fs-6.text-secondary !{product.description}
-                    .card-footer.bg-light.text-center.d-flex.justify-content-center.gap-3.border-0.pt-4.pb-4
-                        a.btn.btn-outline-warning.px-4.py-2.fw-semibold.rounded-pill(
-                            href=`${prefixAdmin}/products/edit/${product.id}`
-                        ) 
-                            i.fas.fa-edit.me-2
-                            | Chỉnh sửa
-                        a.btn.btn-outline-danger.px-4.py-2.fw-semibold.rounded-pill(
-                            href="/admin/pages/products/#{product.id}/delete"
-                        ) 
-                            i.fas.fa-trash.me-2
-                            | Xóa
-                        a.btn.btn-outline-primary.px-4.py-2.fw-semibold.rounded-pill(
-                            href=`${prefixAdmin}/products`
-                        ) 
-                            i.fas.fa-arrow-left.me-2
-                            | Quay lại
+                                            .bg-light.text-secondary.d-flex.align-items-center.justify-content-center.mx-auto(style="height: 300px; font-size: 3rem;")
+                                                i.fas.fa-image.opacity-50
+                                                
+                                .col-lg-7
+                                    .product-info
+                                        .info-item.d-flex.justify-content-between.align-items-center
+                                            span.fw-semibold.text-secondary.d-flex.align-items-center
+                                                i.fas.fa-tag.me-2.text-success
+                                                | Giá bán:
+                                            .price-tag #{product.price || 0}₫
+                                            
+                                        if product.discountPercentage
+                                            .info-item.d-flex.justify-content-between.align-items-center
+                                                span.fw-semibold.text-secondary.d-flex.align-items-center
+                                                    i.fas.fa-percent.me-2.text-danger
+                                                    | Giảm giá:
+                                                .discount-badge #{product.discountPercentage}%
+                                                
+                                        .info-item.d-flex.justify-content-between.align-items-center
+                                            span.fw-semibold.text-secondary.d-flex.align-items-center
+                                                i.fas.fa-boxes.me-2.text-info
+                                                | Số lượng:
+                                            span.badge.bg-info.text-white.px-3.py-2.rounded-pill.fs-6 #{product.stock || 0} sản phẩm
+                                            
+                                        .info-item.d-flex.justify-content-between.align-items-center
+                                            span.fw-semibold.text-secondary.d-flex.align-items-center
+                                                i.fas.fa-toggle-on.me-2.text-primary
+                                                | Trạng thái:
+                                            if product.status === "active"
+                                                span.status-active
+                                                    i.fas.fa-check-circle.me-1
+                                                    | Đang hoạt động
+                                            else
+                                                span.status-inactive
+                                                    i.fas.fa-pause-circle.me-1
+                                                    | Tạm ngừng
+                                                    
+                                        .info-item.d-flex.justify-content-between.align-items-center
+                                            span.fw-semibold.text-secondary.d-flex.align-items-center
+                                                i.fas.fa-sort-numeric-up.me-2.text-warning
+                                                | Vị trí hiển thị:
+                                            span.badge.bg-warning.text-dark.px-3.py-2.rounded-pill.fs-6 
+                                                | Thứ tự: #{product.position || 0}
+                                                
+                            if product.description
+                                .mt-5
+                                    .description-box
+                                        h5.fw-bold.text-dark.mb-3.d-flex.align-items-center
+                                            i.fas.fa-file-alt.me-2.text-primary
+                                            | Mô tả sản phẩm
+                                        .text-secondary.lh-lg(style="font-size: 1.05rem;") !{product.description}
+                                        
+                        .card-footer.bg-light.text-center.py-4.border-0
+                            .d-flex.flex-wrap.justify-content-center.gap-3
+                                if (role.permissions.includes("products_edit"))
+                                    a.action-btn.btn-edit(
+                                        href=`${prefixAdmin}/products/edit/${product.id}`
+                                    ) 
+                                        i.fas.fa-edit.me-2
+                                        | Chỉnh sửa
+                                if (role.permissions.includes("products_delete"))
+                                    a.action-btn.btn-delete(
+                                        href="/admin/pages/products/#{product.id}/delete"
+                                        onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')"
+                                    ) 
+                                        i.fas.fa-trash.me-2
+                                        | Xóa sản phẩm
+                                        
+                                a.action-btn(
+                                    href=`${prefixAdmin}/products`
+                                ) 
+                                    i.fas.fa-arrow-left.me-2
+                                    | Quay lại danh sách
 
     script(src="/admin/js/product.js")
+    
+    // Add some interactive JavaScript
+    script.
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effect to info items
+            const infoItems = document.querySelectorAll('.info-item');
+            infoItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(10px) scale(1.02)';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0) scale(1)';
+                });
+            });
+            
+            // Add click effect to action buttons
+            const actionBtns = document.querySelectorAll('.action-btn');
+            actionBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+            
+            // Animate elements on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.info-item').forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'all 0.6s ease';
+                observer.observe(item);
+            });
+        });

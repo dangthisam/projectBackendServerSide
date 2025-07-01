@@ -10,8 +10,9 @@ block main
                 .col-md-10
                     .text-center.text-white.hero-content
                         .hero-badge.mb-3
-                            i.fas.fa-star.me-2
-                            span Sản phẩm nổi bật
+                            if(product.featured=='1')
+                                i.fas.fa-star.me-2
+                                span Sản phẩm nổi bật
                         h1.hero-title.mb-4 #{product.title || "Chi tiết sản phẩm"}
                         p.hero-subtitle.mb-4 Khám phá sản phẩm chất lượng cao với giá tốt nhất
                         .hero-scroll-indicator
@@ -97,12 +98,7 @@ block main
                                         .stat-value(class=product.stock > 0 ? "text-success" : "text-danger")
                                             | #{product.stock} sản phẩm
                                 
-                                .stat-item
-                                    .stat-icon
-                                        i.fas.fa-sort-numeric-up
-                                    .stat-content
-                                        .stat-label Vị trí
-                                        .stat-value #{product.position}
+                                
 
                         // Action Buttons
                         form(

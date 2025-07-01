@@ -55,6 +55,7 @@ app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, rolesAdmin);
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, productAdmin);
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, productCateroryAdmin);
 app.use("", middlewareAuth.authMiddleware, clienRouter);
+
 // tao mot bien toan cuj de su dung trong cac file pug 
 app.use(prefixAdmin.prefixAdmin, routeradmin);
 //tinyEcm
