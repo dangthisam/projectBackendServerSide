@@ -1,16 +1,26 @@
-
-
 mixin products-grid(item)
-    .col-4.mb-3
-        .product-item
-          .inner-image
-            img(src=item.thumbnail, alt=item.title)
-            if(item.featured=='1')
-                .inner-featured Nổi bật
-          .inner-content
-            h3.inner-title
-              a(href=`/products/detail/${item.slug}`)= item.title
-          .inner-price
-            .inner-price-new= item.priceNew + '$'
-            .inner-price-old= item.price + '$'
-            .inner-discount= '-' + item.discountPercentage + '%'
+  .col-12.col-sm-6.col-md-4.col-lg-3.mb-4
+    .card.product-item.shadow-sm.border-0.h-100.position-relative
+      //- Hình ảnh sản phẩm
+      .inner-image.position-relative
+        img.card-img-top.rounded-3(
+          src=item.thumbnail, 
+          alt=item.title, 
+          style="object-fit:cover; height:220px; background:#f8f9fa;"
+        )
+        if item.featured=='1'
+          .badge.bg-warning.text-dark.position-absolute.top-0.start-0.m-2.fw-bold(style="font-size:0.9rem;") Nổi bật
+        if item.discountPercentage && item.discountPercentage > 0
+          .badge.bg-danger.position-absolute.top-0.end-0.m-2(style="font-size:0.9rem;") -#{item.discountPercentage}%
+      //- Nội dung sản phẩm
+      .card-body.d-flex.flex-column
+        h5.card-title.mb-2.text-truncate(style="font-size:1.1rem;")
+          a.text-decoration-none.text-dark.fw-semibold(href=`/products/detail/${item.slug}`)= item.title
+        .mt-auto
+          .d-flex.align-items-center.justify-content-between.gap-2
+            .text-danger.fw-bold(style="font-size:1.1rem;") #{item.priceNew}$ 
+            if item.price && item.price > item.priceNew
+              .text-muted.text-decoration-line-through(style="font-size:0.95rem;") #{item.price}$ 
+      //- Nút xem chi tiết hoặc mua ngay
+      .card-footer.bg-transparent.border-0.pt-0
+        a.btn.btn-outline-danger.w-100.fw-semibold(href=`/products/detail/${item.slug}`) Xem chi tiết

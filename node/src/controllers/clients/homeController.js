@@ -16,7 +16,7 @@ const newProducts =productsHelper.priceNewProducts(productsFeatured)
    
     console.log(productsFeatured)
     res.render('clients/pages/home/index.pug', {
-        title:"trang chu nha",
+        title:"Sản phẩm nổi bật",
        productsFeatured:newProducts
     });
 }
