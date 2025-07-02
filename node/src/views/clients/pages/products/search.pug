@@ -7,8 +7,5 @@ block main
     .row
       .col-12
         +box-head(pageTitle)
-      .col-12
-        if(products)   
-            +products-layout(products.length>0)
-        else 
-             h1 Không có sản phẩm nào 
+        
+    +products-layout(products)

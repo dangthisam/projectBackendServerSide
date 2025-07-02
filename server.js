@@ -26,6 +26,7 @@ const routeradmin = require(path.join(__dirname, "node/src/routes/admin/index.ro
 const productAdmin = require(path.join(__dirname, "node/src/routes/admin/products.router"));
 const detailProfile = require(path.join(__dirname, "node/src/routes/admin/profile.router"));
 const authAdmin = require(path.join(__dirname, "node/src/routes/admin/auth.router"));
+const cardMiddleware=require(path.join(__dirname, "node/src/middleware/client/card.middleware"));
 const rolesAdmin = require(path.join(__dirname, "node/src/routes/admin/roles.router"));
 const accountAdmin = require(path.join(__dirname, "node/src/routes/admin/account-router"));
 const productCateroryAdmin=require(path.join(__dirname,"node/src/routes/admin/product-category"))
@@ -48,6 +49,7 @@ app.use(methodOverride('_method'))
 configPug(app); 
 app.use("", webRouter);
  app.use(middlewareCaterory.Category)
+ app.use(cardMiddleware.cardId)
 app.use(prefixAdmin.prefixAdmin, authAdmin);
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, accountAdmin);
 app.use(prefixAdmin.prefixAdmin, detailProfile)

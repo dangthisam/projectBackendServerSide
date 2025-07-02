@@ -15,7 +15,7 @@ body {
 /* Navbar styles */
 .navbar {
   background-color: #474a47 !important; /* Màu đỏ đậm như Airpaz */
-  padding: 0.5rem 1rem;
+  
 }
 
 .navbar-brand img {
@@ -58,9 +58,7 @@ body {
   background-color: #fff;
 }
 
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(220, 53, 69, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-}
+
 
 /* Dropdown menu (nếu có) */
 .dropdown-menu {
@@ -125,7 +123,7 @@ body {
 
 /* Product list heading */
 .box-head {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   text-align: center;
 }
 
@@ -645,48 +643,6 @@ main {
 }
 
 /* Footer Bottom */
-.footer-bottom {
-  background-color: #dc3545; /* Màu đỏ giống sidebar */
-  padding: 15px 0;
-  margin-top: 30px;
-}
-
-.footer-bottom p {
-  font-size: 0.9rem;
-  color: #fff;
-}
-
-.footer-bottom a {
-  color: #dfe6e9; /* Màu chữ nhạt giống sidebar */
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: color 0.3s ease;
-}
-
-.footer-bottom a:hover {
-  color: #fff;
-  text-decoration: underline;
-}
-
-/* Responsive */
-@media (max-width: 991px) {
-  .footer .row > div {
-    text-align: center;
-  }
-
-  .footer h5::after {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .contact-info li {
-    justify-content: center;
-  }
-
-  .social-icons {
-    gap: 20px !important;
-  }
-}
 
 
 /* styles.css */

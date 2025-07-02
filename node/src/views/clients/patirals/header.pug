@@ -63,6 +63,15 @@ header.header
               | Sản phẩm
             +sub-menu(records , pathProducts)
           
+               
+                  
+                  
+
+
+
+
+
+              
           // Additional menu items
           li.nav-item
             a.nav-link.text-white.fw-semibold.px-3.rounded-pill.nav-hover(href="/about") 
@@ -75,6 +84,20 @@ header.header
               | Liên hệ
           
           // User Account Dropdown
+          li.nav-item.position-relative
+            a.nav-link.text-white.fw-semibold.px-3.rounded-pill.nav-hover(
+              href="/cart"
+              style="position:relative;"
+              aria-label="Giỏ hàng"
+            )
+              i.fas.fa-shopping-cart.fs-5
+              //- Badge số lượng sản phẩm, chỉ hiển thị khi > 0
+              if totalQuantity && totalQuantity > 0
+                span.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-danger(
+                  style="font-size:0.75rem; min-width:1.2em; height:1.2em; display:flex; align-items:center; justify-content:center; border:2px solid #fff; z-index:1;"
+                )
+                  | #{totalQuantity > 99 ? '99+' : totalQuantity}
+
           li.nav-item.dropdown
             a.nav-link.dropdown-toggle.text-white.fw-semibold.px-3.rounded-pill.nav-hover(
               href="#" 

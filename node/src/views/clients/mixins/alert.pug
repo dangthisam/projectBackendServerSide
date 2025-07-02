@@ -1,0 +1,34 @@
+//- mixins/alert.pug
+mixin alert(time)
+  - if (messages.success)
+    .message.info
+      div.alert.alert-success(
+        data-time=(time || 3000)
+        show-alert
+        style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; min-width: 350px; max-width: 90vw; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.2); border-radius: 12px; padding: 24px 32px; font-size: 1.1rem; font-weight: 500; color: #155724; background: linear-gradient(135deg, #e6ffe6 0%, #d4f5dd 100%); border: 1px solid #b2e2b2; opacity: 1; transition: opacity 0.5s ease-out;"
+      )
+        | #{messages.success}
+        span(
+          close-alert 
+          style="margin-left: 18px; cursor: pointer; font-weight: bold; color: #0c5460; font-size: 1.3em; transition: color 0.2s;" 
+          onmouseover="this.style.color='#721c24'" 
+          onmouseout="this.style.color='#0c5460'"
+        ) ×
+
+mixin alertError(time)
+  - if (messages.error)
+    .message.info
+      div.alert.alert-danger(
+        data-time=(time || 3000)
+        show-alert
+        style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; min-width: 350px; max-width: 90vw; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.2); border-radius: 12px; padding: 24px 32px; font-size: 1.1rem; font-weight: 500; color: #721c24; background: linear-gradient(135deg, #ffe6e6 0%, #f5d4d4 100%); border: 1px solid #e2b2b2; opacity: 1; transition: opacity 0.5s ease-out;"
+      )
+        | #{messages.error}
+        span(
+          close-alert 
+          style="margin-left: 18px; cursor: pointer; font-weight: bold; color: #721c24; font-size: 1.3em; transition: color 0.2s;" 
+          onmouseover="this.style.color='#0c5460'" 
+          onmouseout="this.style.color='#721c24'"
+        ) ×
+
+//- JavaScript xử lý alert
