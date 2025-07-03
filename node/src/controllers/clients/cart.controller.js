@@ -96,5 +96,24 @@ cart.totalPrice=cart.products.reduce((sum, item) =>  sum+item.productInfo.priceN
 }
  
 
+const updateQuantityProduct=async(req,res)=>{
+    const cardId=req.cookies.cardId;
+    const productId=req.params.id;
+    const quantity=req.params.quantity
 
-module.exports={cardProducts, cartProducts , deleteProductInCart};
+
+    await Cart.updateOne({
+        _id:cardId,
+        "products.product_id":productId
+    },{
+        $set:{
+            "products.$.quantity":quantity
+        }
+    }
+)
+req.flash("success","Cập nhật số lượng sản phẩm thành công")
+res.redirect("back")
+}
+
+
+module.exports={cardProducts, cartProducts , deleteProductInCart , updateQuantityProduct};

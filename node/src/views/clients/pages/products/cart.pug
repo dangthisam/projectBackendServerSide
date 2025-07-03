@@ -50,16 +50,15 @@ block main
                         del #{item.productInfo.price.toLocaleString('vi-VN')}₫
                       td.text-success.fw-bold #{item.productInfo.priceNew.toLocaleString('vi-VN')}₫
                       td
-                        form.d-inline(action=`/cart/update/${item.productInfo.slug}`, method="POST")
                           input.form-control.form-control-sm.text-center.mx-auto(
                             type="number",
                             name="quantity",
                             value=item.quantity,
                             min="1",
                             style="width:70px; display:inline;"
+                            product-id=item.product_id
                           )
-                          button.btn.btn-outline-primary.btn-sm.ms-2(type="submit" title="Cập nhật số lượng")
-                            i.fas.fa-sync-alt
+                          
                       td.text-danger.fw-bold.fs-5 #{item.totalPrice.toLocaleString('vi-VN')}₫
                       td
                         a.btn.btn-danger.btn-sm.rounded-pill.shadow-sm(
@@ -86,6 +85,7 @@ block main
               a.btn.btn-gradient-success.btn-lg.fw-semibold.shadow-lg.px-5.py-2.rounded-pill(href="/checkout")
                 i.fas.fa-credit-card.me-2
                 | THANH TOÁN
+    script(src="/js/cart.js") 
 
 //- CSS bổ sung cho hiệu ứng lộng lẫy (có thể đặt vào style block/layout)
 
