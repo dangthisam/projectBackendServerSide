@@ -1,0 +1,110 @@
+extends ../../layout/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/alert.pug
+
+block main
+  +alert(5000)
+  +alertError(5000)
+  
+  .container.my-5
+    .row
+      .col-12
+        +box-head(title)
+    .row
+      .col-12
+        .alert.alert-success.py-4.fs-5.shadow-sm.rounded-3
+          i.fas.fa-check-circle.text-success.fs-3.me-2
+          | 🎉 Chúc mừng bạn đã đặt hàng thành công! 
+          br
+          | Chúng tôi sẽ xử lý đơn hàng trong thời gian sớm nhất.
+
+    if order
+      .row.mt-4
+        .col-lg-6.mb-4
+          .card.shadow-lg.rounded-4.border-0
+            .card-header.bg-gradient-primary.text-white.rounded-top-4
+              h4.mb-0.fw-bold
+                i.fas.fa-user-check.me-2
+                | Thông tin cá nhân
+            .card-body
+              table.table.table-borderless.mb-0
+                tbody
+                  tr
+                    td.w-30.fw-bold Họ tên
+                    td= order.userInfo.fullName
+                  tr
+                    td.w-30.fw-bold Số điện thoại
+                    td= order.userInfo.phone
+                  tr
+                    td.w-30.fw-bold Địa chỉ
+                    td= order.userInfo.address
+        .col-lg-6.mb-4
+          .card.shadow-lg.rounded-4.border-0
+            .card-header.bg-gradient-info.text-white.rounded-top-4
+              h4.mb-0.fw-bold
+                i.fas.fa-file-invoice.me-2
+                | Thông tin đơn hàng
+            .card-body
+              table.table.table-borderless.mb-0
+                tbody
+                  tr
+                    td.w-40.fw-bold Mã đơn hàng
+                    td= order._id
+                  tr
+                    td.w-40.fw-bold Ngày đặt
+                    td= new Date(order.createdAt).toLocaleString('vi-VN')
+                  tr
+                    td.w-40.fw-bold Trạng thái
+                    td
+                      span.badge.bg-success.fs-6 Đã đặt hàng
+
+      .row
+        .col-12
+          .card.shadow-lg.rounded-4.border-0
+            .card-header.bg-gradient-warning.text-dark.rounded-top-4
+              h4.mb-0.fw-bold
+                i.fas.fa-list-ul.me-2
+                | Danh sách sản phẩm
+            .card-body.p-0
+              table.table.table-bordered.table-hover.align-middle.bg-white.mb-0
+                thead.table-danger
+                  tr.text-center.align-middle
+                    th STT
+                    th Ảnh
+                    th Tên
+                    th Giá sau khuyến mãi
+                    th Số lượng
+                    th Tổng tiền
+                tbody
+                  if order.products && order.products.length > 0
+                    each item, index in order.products
+                      tr.text-center.align-middle.cart-item-row
+                        td.fw-bold #{index + 1}
+                        td
+                          img(
+                            src=item.productInfo.thumbnail, 
+                            alt=item.productInfo.title, 
+                            width="70", 
+                            height="70", 
+                            class="rounded shadow border bg-light",
+                            style="object-fit:cover;"
+                          )
+                        td.text-start.fw-semibold
+                          a.text-decoration-none.text-dark(
+                            title=item.productInfo.title
+                          ) 
+                            | #{item.productInfo.title}
+                        td.text-success.fw-bold #{item.productInfo.priceNew.toLocaleString('vi-VN')}₫
+                        td.text-center.mx-auto #{item.quantity}
+                        td.text-danger.fw-bold.fs-5 #{item.totalPrice.toLocaleString('vi-VN')}₫
+                  else
+                    tr
+                      td(colspan="6").text-center.text-muted Chưa có sản phẩm nào trong đơn hàng
+
+            .card-footer.bg-white.py-4
+              .d-flex.flex-column.flex-md-row.justify-content-between.align-items-center.gap-3
+                .d-flex.align-items-center.gap-3
+                  h4.mb-0.fw-bold.text-danger Tổng đơn hàng:
+                  span.fs-3.fw-bold.text-success
+                    i.fas.fa-coins.me-2
+                    | #{order.totalPrice ? order.totalPrice.toLocaleString('vi-VN') : 0}₫
