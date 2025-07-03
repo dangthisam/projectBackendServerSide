@@ -3,9 +3,24 @@ include ../../mixins/box-head.pug
 include ../../mixins/products-layout.pug
 
 block main
-  .container.my-3
-    .row
-      .col-12
+  .container.my-4
+    //- Sản phẩm nổi bật
+    .row.align-items-center.mb-2
+      .col
         +box-head(title)
-    +products-layout(productsFeatured)
-  
+      .col-auto
+        a.btn.btn-outline-danger.btn-sm.fw-semibold(href="/products?featured=1") Xem tất cả
+    .row
+      +products-layout(productsFeatured)
+
+    //- Divider
+    hr.my-5
+
+    //- Sản phẩm mới
+    .row.align-items-center.mb-2
+      .col
+        +box-head("Sản phẩm mới")
+      .col-auto
+        a.btn.btn-outline-primary.btn-sm.fw-semibold(href="/products?sort=new") Xem tất cả
+    .row
+      +products-layout(newProductCreate)

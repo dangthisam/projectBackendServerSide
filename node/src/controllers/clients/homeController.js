@@ -13,12 +13,23 @@ const index= async (req, res)=>{
     }
      const productsFeatured=await Product.find(find);
 const newProducts =productsHelper.priceNewProducts(productsFeatured)
+const finds={
+    deleted:false,
+    status:"active",
+    
+}
+const newProductCreate=await Product.find(finds).sort({position:"desc"}).limit(7)
+
+const newProductCreates=productsHelper.priceNewProducts(newProductCreate)
    
     console.log(productsFeatured)
     res.render('clients/pages/home/index.pug', {
         title:"Sản phẩm nổi bật",
-       productsFeatured:newProducts
+        titles:"Sản phẩm mới",
+       productsFeatured:newProducts,
+       newProductCreate:newProductCreates
     });
 }
+
 
 module.exports={index}

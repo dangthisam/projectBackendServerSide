@@ -1,0 +1,92 @@
+extends ../../layout/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/alert.pug
+
+block main
+  +alert(5000)
+  +alertError(5000)
+  
+  .container.my-5
+    .row
+      .col-12
+        +box-head("🛒 Giỏ hàng của bạn")
+    
+    .row
+      .col-12
+        .card.shadow-lg.rounded-4.border-0
+          .card-body.p-0
+            table.table.table-bordered.table-hover.align-middle.bg-white.mb-0
+              thead.table-danger
+                tr.text-center.align-middle
+                  th STT
+                  th Ảnh
+                  th Tên
+                  th Đơn giá
+                  th Giá sau khuyến mãi
+                  th Số lượng
+                  th Tổng tiền
+                  th Hành động
+              tbody
+                if cartDetail.products && cartDetail.products.length > 0
+                  each item, index in cartDetail.products
+                    tr.text-center.align-middle.cart-item-row
+                      td.fw-bold #{index + 1}
+                      td
+                        img(
+                          src=item.productInfo.thumbnail, 
+                          alt=item.productInfo.title, 
+                          width="70", 
+                          height="70", 
+                          class="rounded shadow border bg-light",
+                          style="object-fit:cover;"
+                        )
+                      td.text-start.fw-semibold
+                        a.text-decoration-none.text-dark(
+                          href=`/products/detail/${item.productInfo.slug}`
+                          title=item.productInfo.title
+                        ) 
+                          | #{item.productInfo.title}
+                      td.text-muted.text-center.fw-semibold
+                        del #{item.productInfo.price.toLocaleString('vi-VN')}₫
+                      td.text-success.fw-bold #{item.productInfo.priceNew.toLocaleString('vi-VN')}₫
+                      td
+                        form.d-inline(action=`/cart/update/${item.productInfo.slug}`, method="POST")
+                          input.form-control.form-control-sm.text-center.mx-auto(
+                            type="number",
+                            name="quantity",
+                            value=item.quantity,
+                            min="1",
+                            style="width:70px; display:inline;"
+                          )
+                          button.btn.btn-outline-primary.btn-sm.ms-2(type="submit" title="Cập nhật số lượng")
+                            i.fas.fa-sync-alt
+                      td.text-danger.fw-bold.fs-5 #{item.totalPrice.toLocaleString('vi-VN')}₫
+                      td
+                        a.btn.btn-danger.btn-sm.rounded-pill.shadow-sm(
+                          href=`/cart/delete/${item.productInfo.slug}`,
+                          title="Xóa sản phẩm",
+                          onclick="return confirm('Bạn chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')"
+                        )
+                          i.fas.fa-trash-alt.me-1
+                          | Xóa
+                else    
+                  tr
+                    td(colspan="8")
+                      .alert.alert-warning.text-center.py-4.fs-5.mb-0
+                        i.fas.fa-shopping-cart.me-2
+                        | Giỏ hàng của bạn đang trống!
+
+          .card-footer.bg-white.py-4
+            .d-flex.flex-column.flex-md-row.justify-content-between.align-items-center.gap-3
+              .d-flex.align-items-center.gap-3
+                h4.mb-0.fw-bold.text-danger Tổng đơn hàng:
+                span.fs-3.fw-bold.text-success
+                  i.fas.fa-coins.me-2
+                  | #{cartDetail.totalPrice ? cartDetail.totalPrice.toLocaleString('vi-VN') : 0}₫
+              a.btn.btn-gradient-success.btn-lg.fw-semibold.shadow-lg.px-5.py-2.rounded-pill(href="/checkout")
+                i.fas.fa-credit-card.me-2
+                | THANH TOÁN
+
+//- CSS bổ sung cho hiệu ứng lộng lẫy (có thể đặt vào style block/layout)
+
+  
