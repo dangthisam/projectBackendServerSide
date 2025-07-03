@@ -63,7 +63,7 @@ block main
                       td.text-danger.fw-bold.fs-5 #{item.totalPrice.toLocaleString('vi-VN')}₫
                       td
                         a.btn.btn-danger.btn-sm.rounded-pill.shadow-sm(
-                          href=`/cart/delete/${item.productInfo.slug}`,
+                          href=`/cart/delete/${item.product_id}`,
                           title="Xóa sản phẩm",
                           onclick="return confirm('Bạn chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')"
                         )

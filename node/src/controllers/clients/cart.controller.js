@@ -77,4 +77,24 @@ cart.totalPrice=cart.products.reduce((sum, item) =>  sum+item.productInfo.priceN
   }
 
 
-module.exports={cardProducts, cartProducts};
+  const deleteProductInCart=async(req,res)=>{
+    productId=req.params.id
+    const cartId=req.cookies.cardId;
+   const cart=await Cart.findById(cartId)
+    await Cart.updateOne({
+        _id:cartId,
+       
+    },{
+        $pull:{
+            products:{
+                product_id:productId
+            }
+        }
+    })
+  req.flash("success","Xóa sản phẩm khỏi giỏ hàng thành công")
+  res.redirect("back")
+}
+ 
+
+
+module.exports={cardProducts, cartProducts , deleteProductInCart};
