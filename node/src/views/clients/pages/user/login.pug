@@ -1,0 +1,53 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main
+  //- Gradient động cho background
+  style.
+    body {
+      min-height: 100vh;
+      background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+      animation: bgmove 10s ease-in-out infinite alternate;
+      background-size: 200% 200%;
+    }
+    @keyframes bgmove {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+  +alertError(3000)
+  +alert(5000)
+  .container.my-5
+    .row.justify-content-center
+      .col-md-6.col-lg-5
+        .glass-card.shadow-lg.rounded-4.border-0
+          .card-header.bg-gradient-primary.text-white.rounded-top-4.text-center.py-4.position-relative.overflow-hidden
+            h2.mb-1.fw-bold
+              i.fas.fa-sign-in-alt.me-2.animated-icon
+              | Đăng nhập tài khoản
+            p.mb-0.fs-6.opacity-75 Đăng nhập để trải nghiệm mua sắm tuyệt vời!
+            //- Hiệu ứng sóng phía dưới header
+            .wave
+          .card-body.p-4.bg-white.bg-opacity-75
+            if error
+              .alert.alert-danger.text-center= error
+            form(action="/user/login", method="POST", autocomplete="off")
+              .mb-3
+                label.form-label(for="email")
+                  i.fas.fa-envelope.me-2.text-primary
+                  | Email
+                input.email.form-control.shadow-sm(type="email", name="email", id="email", required, placeholder="Nhập email")
+              .mb-3
+                label.form-label(for="password")
+                  i.fas.fa-lock.me-2.text-primary
+                  | Mật khẩu
+                input.password.form-control.shadow-sm(type="password", name="password", id="password", required, placeholder="Nhập mật khẩu")
+              button.btn.btn-gradient-success.btn-lg.w-100.mt-2(type="submit")
+                i.fas.fa-sign-in-alt.me-2
+                | Đăng nhập
+              .mt-3.text-center
+                span.text-muted Chưa có tài khoản?
+                a(href="/user/register" class="ms-1 text-primary.fw-semibold") Đăng ký
+
+//- CSS hiệu ứng nâng cao
+

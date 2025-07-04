@@ -24,6 +24,7 @@ const userRegisterPost=async (req, res)=>{
 req.body.password=md5(req.body.password);
 const user=new User(req.body);
 await user.save();
+res.cookie("tookenUser" , user.tokenUser)
 req.flash("success" , "Đăng ký thành công");
 res.redirect("back")
 
@@ -31,10 +32,51 @@ res.redirect("back")
 }
 
 
+const userLogin=async (req, res)=>{
+    res.render('clients/pages/user/login',{
+      title:"Đăng nhập tài khoản"
+    })
+}
 
+const userLoginPost=async (req, res)=>{
+  
+ const email=req.body.email;
+ const password=md5(req.body.password);
 
+ const user=await User.findOne({
+  email,
+deleted:false,
+ });
+
+ if(!user){
+  req.flash("error", "Email không tồn tại")
+  res.redirect("back")
+  return;
+ }
+
+ if(user.password!==password){
+  req.flash("error", "Mật khẩu không đúng")
+  res.redirect("back")
+  return;
+ }
+
+ if(user.status=="inactive"){
+  req.flash("error", "Tài khoản chưa được kích hoạt")
+  res.redirect("back")
+  return;
+ }
+ res.cookie("tookenUser" , user.tokenUser)
+ req.flash("success" , "Đăng nhập thành công");
+ res.redirect("/home")
+ 
+
+  
+}
 module.exports={
     userRegister,
-    userRegisterPost
+    userRegisterPost,
+    userLogin,
+    userLoginPost
+
 
 }

@@ -63,15 +63,7 @@ header.header
               | Sản phẩm
             +sub-menu(records , pathProducts)
           
-               
-                  
-                  
-
-
-
-
-
-              
+                
           // Additional menu items
           li.nav-item
             a.nav-link.text-white.fw-semibold.px-3.rounded-pill.nav-hover(href="/about") 
@@ -97,28 +89,43 @@ header.header
                   style="font-size:0.75rem; min-width:1.2em; height:1.2em; display:flex; align-items:center; justify-content:center; border:2px solid #fff; z-index:1;"
                 )
                   | #{totalQuantity > 99 ? '99+' : totalQuantity}
+            if(user)
+              li.nav-item.dropdown
+                a.nav-link.dropdown-toggle.text-white.fw-semibold.px-3.rounded-pill.nav-hover(
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                )
+                  i.fas.fa-user-circle.me-2
+                  | Tài khoản
+                ul.dropdown-menu.dropdown-menu-end.shadow-lg.border-0.rounded-3.mt-2
+                  li
+                    a.dropdown-item.py-2.px-3(href="/user/logout")
+                      i.fas.fa-sign-in-alt.me-2.text-success
+                      | Đăng xuất
+                  li
+                    a.dropdown-item.py-2.px-3(href="/user/profile")
+                      i.fas.fa-user-plus.me-2.text-primary
+                      | Thông tin cá nhân
+            else
+              li.nav-item.dropdown
+                a.nav-link.dropdown-toggle.text-white.fw-semibold.px-3.rounded-pill.nav-hover(
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                )
+                  i.fas.fa-user-circle.me-2
+                  | Tài khoản
+                ul.dropdown-menu.dropdown-menu-end.shadow-lg.border-0.rounded-3.mt-2
+                  li
+                    a.dropdown-item.py-2.px-3(href="/user/login")
+                      i.fas.fa-sign-in-alt.me-2.text-success
+                      | Đăng nhập
+                  li
+                    a.dropdown-item.py-2.px-3(href="/user/register")
+                      i.fas.fa-user-plus.me-2.text-primary
+                      | Đăng ký
+                
 
-          li.nav-item.dropdown
-            a.nav-link.dropdown-toggle.text-white.fw-semibold.px-3.rounded-pill.nav-hover(
-              href="#" 
-              role="button" 
-              data-bs-toggle="dropdown" 
-              aria-expanded="false"
-            )
-              i.fas.fa-user-circle.me-2
-              | Tài khoản
-            ul.dropdown-menu.dropdown-menu-end.shadow-lg.border-0.rounded-3.mt-2
-              li
-                a.dropdown-item.py-2.px-3(href="/user/register")
-                  i.fas.fa-user.me-2.text-primary
-                  | Đăng ký
-              li
-                a.dropdown-item.py-2.px-3(href="/orders")
-                  i.fas.fa-shopping-bag.me-2.text-success
-                  | Đơn hàng của tôi
-              li
-                hr.dropdown-divider
-              li
-                a.dropdown-item.py-2.px-3.text-danger(href="/logout")
-                  i.fas.fa-sign-out-alt.me-2
-                  | Đăng xuất
