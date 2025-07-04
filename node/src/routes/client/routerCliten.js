@@ -9,6 +9,8 @@ const homeRouter=require("./homeRouter");
 const searchProductsRouter=require("./searchRouter");
 const cardProductsRouter=require("./card.router");
 const checkoutProductsRouter=require("./checkount.router");
+const userRegister=require("./user.router");
+
 
 // Route chính
 
@@ -22,4 +24,6 @@ router.use("/search" , searchProductsRouter)
 router.use("/cart", cardProductsRouter)
 
 router.use("/checkout", checkoutProductsRouter)
+
+router.use("/user" , userRegister);
 module.exports = router;

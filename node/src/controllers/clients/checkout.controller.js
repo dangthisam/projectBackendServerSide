@@ -61,10 +61,6 @@ for (const product of cart.products){
     objectProduct.price=productInfo.price;
     objectProduct.discountPercentage=productInfo.discountPercentage;
     products.push(objectProduct)
-
-
-   
-         
 }
 
 const orderInfo={
@@ -85,7 +81,8 @@ await Cart.updateOne({
         totalPrice:0
     }   
 })
-    
+
+
 res.redirect(`/checkout/success/${order.id}`)
 }
  
@@ -105,9 +102,6 @@ const successOrder=async (req, res)=>{
         productInfo.priceNew=productHelp.priceNew(productInfo)
           product.productInfo=productInfo;
           product.totalPrice=product.productInfo.priceNew*product.quantity
-          
-         
-          
 
     
 }   
