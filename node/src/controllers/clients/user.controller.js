@@ -24,7 +24,7 @@ const userRegisterPost=async (req, res)=>{
 req.body.password=md5(req.body.password);
 const user=new User(req.body);
 await user.save();
-res.cookie("tookenUser" , user.tokenUser)
+// res.cookie("tokenUser" , user.tokenUser)
 req.flash("success" , "Đăng ký thành công");
 res.redirect("back")
 
@@ -65,18 +65,22 @@ deleted:false,
   res.redirect("back")
   return;
  }
- res.cookie("tookenUser" , user.tokenUser)
+ res.cookie("tokenUser" , user.tokenUser)
  req.flash("success" , "Đăng nhập thành công");
  res.redirect("/home")
- 
-
   
+}
+
+const logoutUser=async (req, res)=>{
+ res.clearCookie("tokenUser")
+ req.flash("success" , "Đăng xuất thành công");
+ res.redirect("/home")
 }
 module.exports={
     userRegister,
     userRegisterPost,
     userLogin,
-    userLoginPost
+    userLoginPost, 
+    logoutUser
 
-
-}
+} 
