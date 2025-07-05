@@ -1,7 +1,13 @@
 mixin sub-menu(items, path)
-  ul
+  ul.sub-menu-list.list-unstyled.ms-2.mb-0
     each item in items
-      li
-        a(href=`${path}/${item.slug}`)= item.title
+      li.sub-menu-item.position-relative.mb-1
+        a.sub-menu-link.d-flex.align-items-center.justify-content-between.px-3.py-2.rounded.text-decoration-none(
+          href=`${path}/${item.slug}`
+          title=item.title
+        )
+          span= item.title
+          if item.children && item.children.length > 0
+            i.fas.fa-angle-right.ms-2.text-muted
         if item.children && item.children.length > 0
           +sub-menu(item.children, path)

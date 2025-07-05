@@ -1,27 +1,162 @@
 mixin products-grid(item)
-  
   .col-12.col-sm-6.col-md-4.col-lg-3.mb-4
-    .card.product-item.shadow-sm.border-0.h-100.position-relative
-      //- Hình ảnh sản phẩm
-      .inner-image.position-relative
-        img.card-img-top.rounded-3(
-          src=item.thumbnail, 
-          alt=item.title, 
-          style="object-fit:cover; height:220px; background:#f8f9fa;"
+    .card.product-item.shadow-sm.border-0.h-100.position-relative.overflow-hidden(
+      style="transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 16px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);"
+    )
+      //- Product Image Container
+      .inner-image.position-relative.overflow-hidden(
+        style="border-radius: 16px 16px 0 0; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);"
+      )
+        .image-wrapper.position-relative(style="height: 220px; overflow: hidden;")
+          img.card-img-top.w-100.h-100(
+            src=item.thumbnail,
+            alt=item.title,
+            style="object-fit: cover; transition: all 0.4s ease; border-radius: 16px 16px 0 0;"
+          )
+          
+          //- Image Overlay on Hover
+          .image-overlay.position-absolute.top-0.start-0.w-100.h-100.d-flex.align-items-center.justify-content-center(
+            style="background: rgba(0,0,0,0.7); opacity: 0; transition: all 0.3s ease; border-radius: 16px 16px 0 0;"
+          )
+            .overlay-content.text-center
+              .btn.btn-light.btn-sm.rounded-pill.mb-2.fw-semibold(
+                style="padding: 8px 16px; backdrop-filter: blur(10px); background: rgba(255,255,255,0.9);"
+              )
+                i.fas.fa-eye.me-2
+                | Xem nhanh
+              .btn.btn-danger.btn-sm.rounded-pill.fw-semibold(
+                style="padding: 8px 16px; backdrop-filter: blur(10px);"
+              )
+                i.fas.fa-cart-plus.me-2
+                | Thêm giỏ hàng
+        
+        //- Product Badges
+        .badges-container.position-absolute.top-0.start-0.w-100.p-2
+          .d-flex.justify-content-between.align-items-start
+            .badges-left
+              if item.featured=='1'
+                .badge.bg-gradient.text-dark.fw-bold.rounded-pill.px-3.py-2.mb-2(
+                  style="background: linear-gradient(135deg, #ffd700, #ffed4e); font-size: 0.8rem; box-shadow: 0 4px 12px rgba(255,215,0,0.3);"
+                )
+                  i.fas.fa-star.me-1
+                  | Nổi bật
+              if item.new
+                .badge.bg-gradient.text-white.fw-bold.rounded-pill.px-3.py-2.mb-2(
+                  style="background: linear-gradient(135deg, #28a745, #20c997); font-size: 0.8rem; box-shadow: 0 4px 12px rgba(40,167,69,0.3);"
+                )
+                  i.fas.fa-sparkles.me-1
+                  | Mới
+            .badges-right
+              if item.discountPercentage && item.discountPercentage > 0
+                .badge.bg-gradient.text-white.fw-bold.rounded-pill.px-3.py-2(
+                  style="background: linear-gradient(135deg, #dc3545, #c82333); font-size: 0.8rem; box-shadow: 0 4px 12px rgba(220,53,69,0.3);"
+                )
+                  i.fas.fa-percent.me-1
+                  | -#{item.discountPercentage}%
+        
+        //- Quick Action Buttons
+        .quick-actions.position-absolute.end-0.top-50.translate-middle-y.me-3(
+          style="opacity: 0; transition: all 0.3s ease;"
         )
-        if item.featured=='1'
-          .badge.bg-warning.text-dark.position-absolute.top-0.start-0.m-2.fw-bold(style="font-size:0.9rem;") Nổi bật
-        if item.discountPercentage && item.discountPercentage > 0
-          .badge.bg-danger.position-absolute.top-0.end-0.m-2(style="font-size:0.9rem;") -#{item.discountPercentage}%
-      //- Nội dung sản phẩm
-      .card-body.d-flex.flex-column
-        h5.card-title.mb-2.text-truncate(style="font-size:1.1rem;")
-          a.text-decoration-none.text-dark.fw-semibold(href=`/products/detail/${item.slug}`)= item.title
+          .d-flex.flex-column.gap-2
+            .btn.btn-light.btn-sm.rounded-circle.shadow-sm(
+              style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); background: rgba(255,255,255,0.9);"
+              title="Yêu thích"
+            )
+              i.fas.fa-heart.text-danger
+            .btn.btn-light.btn-sm.rounded-circle.shadow-sm(
+              style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); background: rgba(255,255,255,0.9);"
+              title="So sánh"
+            )
+              i.fas.fa-balance-scale.text-info
+            .btn.btn-light.btn-sm.rounded-circle.shadow-sm(
+              style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); background: rgba(255,255,255,0.9);"
+              title="Chia sẻ"
+            )
+              i.fas.fa-share-alt.text-success
+
+      //- Product Content
+      .card-body.d-flex.flex-column.p-4
+        .product-category.mb-2
+          span.badge.bg-light.text-muted.fw-medium.rounded-pill.px-3.py-1(
+            style="font-size: 0.75rem; letter-spacing: 0.5px;"
+          )
+            i.fas.fa-tag.me-1
+            | #{item.category || 'Điện tử'}
+        
+        h5.card-title.mb-3.lh-sm(style="font-size: 1.1rem; font-weight: 600; color: #2c3e50;")
+          a.text-decoration-none.text-dark.product-title(
+            href=`/products/detail/${item.slug}`
+            style="transition: color 0.3s ease;"
+          )= item.title
+        
+        .product-rating.mb-3
+          .d-flex.align-items-center.gap-2
+            .stars.d-flex.align-items-center
+              - for (let i = 1; i <= 5; i++)
+                i.fas.fa-star(
+                  class= i <= (item.rating || 4) ? 'text-warning' : 'text-light'
+                  style="font-size: 0.85rem;"
+                )
+            .rating-text.small.text-muted.fw-medium
+              | #{item.rating || 4.0} (#{item.reviews || Math.floor(Math.random() * 100) + 10} đánh giá)
+        
+        .product-features.mb-3
+          .d-flex.flex-wrap.gap-1
+            if item.features && item.features.length > 0
+              each feature in item.features.slice(0, 2)
+                span.badge.bg-light.text-muted.fw-normal.rounded-pill.px-2.py-1(
+                  style="font-size: 0.7rem;"
+                )
+                  | #{feature}
+            else
+              span.badge.bg-light.text-muted.fw-normal.rounded-pill.px-2.py-1(
+                style="font-size: 0.7rem;"
+              )
+                | Chính hãng
+              span.badge.bg-light.text-muted.fw-normal.rounded-pill.px-2.py-1(
+                style="font-size: 0.7rem;"
+              )
+                | Bảo hành 12 tháng
+        
         .mt-auto
-          .d-flex.align-items-center.justify-content-between.gap-2
-            .text-danger.fw-bold(style="font-size:1.1rem;") #{item.priceNew}$ 
-            if item.price && item.price > item.priceNew
-              .text-muted.text-decoration-line-through(style="font-size:0.95rem;") #{item.price}$ 
-      //- Nút xem chi tiết hoặc mua ngay
-      .card-footer.bg-transparent.border-0.pt-0
-        a.btn.btn-outline-danger.w-100.fw-semibold(href=`/products/detail/${item.slug}`) Xem chi tiết
+          .price-section.mb-3
+            .d-flex.align-items-center.justify-content-between.flex-wrap.gap-2
+              .current-price.text-danger.fw-bold(style="font-size: 1.2rem;")
+                | #{item.priceNew}$
+              if item.price && item.price > item.priceNew
+                .original-price.text-muted.text-decoration-line-through(style="font-size: 0.95rem;")
+                  | #{item.price}$
+            
+            if item.discountPercentage && item.discountPercentage > 0
+              .savings.small.text-success.fw-medium.mt-1
+                i.fas.fa-piggy-bank.me-1
+                | Tiết kiệm #{(item.price - item.priceNew).toFixed(2)}$
+          
+          .stock-info.mb-3
+            .d-flex.align-items-center.gap-2
+              .stock-indicator.rounded-circle(
+                style=`width: 8px; height: 8px; background: ${item.stock > 10 ? '#28a745' : item.stock > 0 ? '#ffc107' : '#dc3545'};`
+              )
+              .stock-text.small.fw-medium(
+                class=item.stock > 10 ? 'text-success' : item.stock > 0 ? 'text-warning' : 'text-danger'
+              )
+                | #{item.stock > 10 ? 'Còn hàng' : item.stock > 0 ? 'Sắp hết' : 'Hết hàng'}
+
+      //- Action Buttons
+      .card-footer.bg-transparent.border-0.p-4.pt-0
+        .d-grid.gap-2
+          .row.g-2
+            .col-8
+              a.btn.btn-danger.w-100.fw-semibold.rounded-pill(
+                href=`/products/detail/${item.slug}`
+                style="padding: 12px 0; background: linear-gradient(135deg, #dc3545, #c82333); border: none; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(220,53,69,0.3);"
+              )
+                i.fas.fa-eye.me-2
+                | Xem chi tiết
+            .col-4
+              button.btn.btn-outline-danger.w-100.rounded-pill(
+                style="padding: 12px 0; transition: all 0.3s ease; border-width: 2px;"
+                title="Thêm vào giỏ hàng"
+              )
+                i.fas.fa-cart-plus

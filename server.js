@@ -7,6 +7,17 @@ const session = require('express-session')
 const app = express();
 const methodOverride = require('method-override')
 const moment = require("moment");
+
+
+//limit req to IP to server 
+const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window`
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
 const port = process.env.PORT || 4000;
 //file dot nay có nhiệm vụ lưu các biến dùng nhiều để fix cho dễ
 const {configViewEngine , configPug }= require(path.join(__dirname, "node/src/config/viewEngine"));
@@ -35,6 +46,7 @@ const middlewareAuth =require(path.join(__dirname, "node/src/middleware/admin/au
 const { MongoClient } = require("mongodb");
 const { mongo, default: mongoose } = require("mongoose");
 //hien thi thong bao khi thay doi tang trang thai app.use(express.cookieParser('keyboard cat'));
+app.use(limiter);
 console.log(__dirname)
 app.use(cookieParser('nguyenvansamthichdangthithuy'));
 app.use(session({ cookie: { maxAge: 60000 }}));
