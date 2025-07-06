@@ -1,10 +1,127 @@
-extend ../../layouts/default.pug
+extends ../../layouts/default.pug
 
+block main
 
-block main 
- h1 Trang tong quan
- div #{user}
- div -----------------
- div #{role.title}
- div #{role.permissions}
- div #{settingereral}
+  .dashboard-container
+    h1.section-title Trang tổng quan
+
+    .row.mt-4
+      .col-12
+        .stats-card
+          .card-header-custom.user-profile
+            i.fas.fa-user.me-2
+            | Thông tin tài khoản
+          .user-info
+            if user.avatar
+              .avatar-container
+                img.avatar-image(
+                  src=user.avatar
+                  alt="Avatar"
+                )
+            .user-details
+              if user.fullName
+                .info-row
+                  span.info-label Họ tên:
+                  span.info-value #{user.fullName}
+              if user.email
+                .info-row
+                  span.info-label Email:
+                  span.info-value #{user.email}
+              if user.phone
+                .info-row
+                  span.info-label Số điện thoại:
+                  span.info-value #{user.phone}
+              if role.title
+                .info-row
+                  span.info-label Phân quyền:
+                  span.info-value #{role.title}
+
+    .row.mt-4
+      .col-lg-6.col-md-12
+        .stats-card
+          .card-header-custom.category-card
+            i.fas.fa-list.me-2
+            | Danh mục sản phẩm
+          .card-body-custom
+            .stat-row
+              span.stat-label
+                i.fas.fa-chart-bar.me-2
+                | Tổng số lượng:
+              span.stat-value #{static.categoryProduct.total}
+            .stat-row
+              span.stat-label
+                i.fas.fa-check-circle.me-2
+                | Đang hoạt động:
+              span.stat-value.text-success #{static.categoryProduct.active}
+            .stat-row
+              span.stat-label
+                i.fas.fa-pause-circle.me-2
+                | Dừng hoạt động:
+              span.stat-value.text-warning #{static.categoryProduct.inactive}
+
+      .col-lg-6.col-md-12
+        .stats-card
+          .card-header-custom.product-card
+            i.fas.fa-box.me-2
+            | Sản phẩm
+          .card-body-custom
+            .stat-row
+              span.stat-label
+                i.fas.fa-chart-bar.me-2
+                | Tổng số lượng:
+              span.stat-value #{static.product.total}
+            .stat-row
+              span.stat-label
+                i.fas.fa-check-circle.me-2
+                | Đang hoạt động:
+              span.stat-value.text-success #{static.product.active}
+            .stat-row
+              span.stat-label
+                i.fas.fa-pause-circle.me-2
+                | Dừng hoạt động:
+              span.stat-value.text-warning #{static.product.inactive}
+
+    .row.mt-4
+      .col-lg-6.col-md-12
+        .stats-card
+          .card-header-custom.client-card
+            i.fas.fa-users.me-2
+            | Tài khoản Client
+          .card-body-custom
+            .stat-row
+              span.stat-label
+                i.fas.fa-chart-bar.me-2
+                | Tổng số lượng:
+              span.stat-value #{static.client.total}
+            .stat-row
+              span.stat-label
+                i.fas.fa-check-circle.me-2
+                | Đang hoạt động:
+              span.stat-value.text-success #{static.client.active}
+            .stat-row
+              span.stat-label
+                i.fas.fa-pause-circle.me-2
+                | Dừng hoạt động:
+              span.stat-value.text-warning #{static.client.inactive}
+
+      .col-lg-6.col-md-12
+        .stats-card
+          .card-header-custom.admin-card
+            i.fas.fa-user-shield.me-2
+            | Quản trị viên
+          .card-body-custom
+            .stat-row
+              span.stat-label
+                i.fas.fa-chart-bar.me-2
+                | Tổng số lượng:
+              span.stat-value #{static.admin.total}
+            .stat-row
+              span.stat-label
+                i.fas.fa-check-circle.me-2
+                | Đang hoạt động:
+              span.stat-value.text-success #{static.admin.active}
+            .stat-row
+              span.stat-label
+                i.fas.fa-pause-circle.me-2
+                | Dừng hoạt động:
+              span.stat-value.text-warning #{static.admin.inactive}
