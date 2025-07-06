@@ -2,6 +2,7 @@
 const md5=require("md5");
 const bcrypt=require("bcrypt");
 const User=require("../../models/user.model")
+const Card=require("../../models/card.model")
 
 const PasswordReset = require('../../models/passwordReset');
 
@@ -74,7 +75,25 @@ deleted:false,
   res.redirect("back")
   return;
  }
+
  res.cookie("tokenUser" , user.tokenUser)
+ const cart = await Card.findOne({
+  user_id:user.id
+ 
+ })
+ if(cart){
+   res.cookie("cardId" , cart.id)
+ }else{
+ const cardId=req.cookies.cardId;
+await Card.findOneAndUpdate({
+  _id:cardId
+},{
+  user_id:user.id
+})
+ }
+
+
+
  req.flash("success" , "Đăng nhập thành công");
  res.redirect("/home")
   
@@ -82,6 +101,7 @@ deleted:false,
 
 const logoutUser=async (req, res)=>{
  res.clearCookie("tokenUser")
+ res.clearCookie("cardId")
  req.flash("success" , "Đăng xuất thành công");
  res.redirect("/home")
 }

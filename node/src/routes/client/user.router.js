@@ -8,6 +8,8 @@ const userValidation=require("../../validate/client/register");
 
 const validateResetPassword=require("../../validate/client/resetPassword");
 
+const userMiddleware=require("../../middleware/client/auth.middleware");
+
 
 
 router.get("/register" , userRegister);
@@ -19,7 +21,7 @@ router.post("/login",  userValidation.loginValidation , userLoginPost)
 
 router.get("/logout", logoutUser);
 
-router.get("/profile" , userProfile);
+router.get("/profile" ,userMiddleware.authMiddleware, userProfile);
 
 router.get("/password/forgot", userForgotPassword);
 

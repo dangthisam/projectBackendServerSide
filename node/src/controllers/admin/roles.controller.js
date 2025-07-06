@@ -1,8 +1,6 @@
 
 const Role = require('../../models/role.model');
-const filter =require("../../helps/filterStatus");
-const search =require("../../helps/search");
-const pagination=require("../../helps/pagination");
+
 const systemConfig = require("../../config/system");
 
 const indexRoles = async (req, res) => {

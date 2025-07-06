@@ -19,6 +19,49 @@ h1{
   text-align: center;
   color: green;
 }
+.settings-card {
+      background: rgba(255,255,255,0.97);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.10);
+      padding: 2.5rem 2rem 2rem 2rem;
+      margin-top: 30px;
+      transition: box-shadow 0.3s;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .image-preview {
+      display: block;
+      max-width: 120px;
+      max-height: 120px;
+      margin-top: 10px;
+      border-radius: 12px;
+      border: 1px solid #eee;
+      object-fit: contain;
+      background: #fafbfc;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .form-label {
+      font-weight: 500;
+      color: #333;
+    }
+    .btn-gradient {
+      background: linear-gradient(90deg, #4e54c8 0%, #8f94fb 100%);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 25px;
+      padding: 0.75rem 2rem;
+      box-shadow: 0 4px 16px rgba(78,84,200,0.12);
+      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+    }
+    .btn-gradient:hover, .btn-gradient:focus {
+      background: linear-gradient(90deg, #8f94fb 0%, #4e54c8 100%);
+      color: #fff;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 28px rgba(78,84,200,0.18);
+      text-decoration: none;
+    }
 
 .navbar {
   background: linear-gradient(90deg, #9fa8a3, #565253); /* Gradient đỏ */

@@ -1,0 +1,92 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+  h1.text-center.mb-4.fw-bold Cài đặt chung
+
+  +alertError(5000)
+  +alert(5000)
+
+  
+    
+  .settings-card
+    form(
+      action=`${prefixAdmin}/settings/general?_method=PATCH`
+      method="POST"
+      enctype="multipart/form-data"
+      autocomplete="off"
+    )
+      .mb-3
+        label.form-label(for="siteName") Tên website
+        input#websiteName.form-control(
+          type="text"
+          name="siteName"
+          required
+          value=(setting ? setting.siteName : "")
+          placeholder="Nhập tên website"
+        )
+
+      .mb-3
+        label.form-label(for="logo") Logo
+        input#logo.form-control(type="file" name="logo" accept="image/*" onchange="previewLogo(event)")
+        img#logoPreview.image-preview(src=(setting ? setting.logo : "") alt="Xem trước logo" style="display:none;")
+
+      .mb-3
+        label.form-label(for="hotline") Số điện thoại
+        input#phone.form-control(
+          type="text"
+          name="hotline"
+          value=(setting ? setting.hotline : "")
+          placeholder="Nhập số điện thoại"
+        )
+
+      .mb-3
+        label.form-label(for="email") Email
+        input#email.form-control(
+          type="email"
+          name="email"
+          value=(setting ? setting.email : "")
+          placeholder="Nhập email"
+        )
+
+      .mb-3
+        label.form-label(for="address") Địa chỉ
+        input#address.form-control(
+          type="text"
+          name="address"
+          value=(setting ? setting.address : "")
+          placeholder="Nhập địa chỉ"
+        )
+
+      .mb-3
+        label.form-label(for="copyright") Copyright
+        input#copyright.form-control(
+          type="text"
+          name="copyright"
+          value=(setting ? setting.copyright : "")
+          placeholder="Bản quyền website"
+        )
+      .mb-3
+        label.form-label(for="facebook") Facebook
+        input#copyright.form-control(
+          type="text"
+          name="facebook"
+          value=(setting ? setting.facebook : "")
+          placeholder="Nhập link facebook"
+          
+        )
+      .mb-3
+        label.form-label(for="instagram") Instagram
+        input#copyright.form-control(
+          type="text"
+          name="instagram"
+          value=(setting ? setting.instagram : "")
+          placeholder="Nhập link Instagram"
+          )
+        
+
+      button.btn.btn-gradient.btn-lg.w-100.mt-3(type="submit")
+        i.fas.fa-save.me-2
+        | Cập nhật
+
+  

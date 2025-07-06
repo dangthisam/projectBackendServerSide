@@ -34,6 +34,8 @@ header.header
               if (role.permissions.includes("accounts_view"))
                 li
                   a.dropdown-item(href=`${prefixAdmin}/accounts`) Danh sách tài khoản
+              li 
+                a.dropdown-item(href=`${prefixAdmin}/settings/general`) Cài đặt chung
           li.nav-item
             a(class="btn btn-success"
             href=`${prefixAdmin}/profile`) #{user.username}

@@ -34,11 +34,13 @@ const Kitten = require(path.join(__dirname, "node/src/models/user"));
 const middlewareCaterory = require(path.join(__dirname, "node/src/middleware/client/category.middleware"));
 const prefixAdmin = require(path.join(__dirname, "node/src/config/system"));
 const routeradmin = require(path.join(__dirname, "node/src/routes/admin/index.router"));
+const settingGeneral = require(path.join(__dirname, "node/src/routes/admin/setting-general.router"));
 const productAdmin = require(path.join(__dirname, "node/src/routes/admin/products.router"));
 const detailProfile = require(path.join(__dirname, "node/src/routes/admin/profile.router"));
 const authAdmin = require(path.join(__dirname, "node/src/routes/admin/auth.router"));
 const cardMiddleware=require(path.join(__dirname, "node/src/middleware/client/card.middleware"));
 const userMiddleware=require(path.join(__dirname, "node/src/middleware/client/user.middleware"));
+const generalSetting=require(path.join(__dirname, "node/src/middleware/admin/setting-gereral.middleware"));
 const rolesAdmin = require(path.join(__dirname, "node/src/routes/admin/roles.router"));
 const accountAdmin = require(path.join(__dirname, "node/src/routes/admin/account-router"));
 const productCateroryAdmin=require(path.join(__dirname,"node/src/routes/admin/product-category"))
@@ -62,9 +64,11 @@ app.use(methodOverride('_method'))
 configPug(app); 
 app.use("", webRouter);
  app.use(middlewareCaterory.Category)
+ app.use(generalSetting.settingGeneral)
  app.use(userMiddleware.userMiddleware)
  app.use(cardMiddleware.cardId)
 app.use(prefixAdmin.prefixAdmin, authAdmin);
+app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, settingGeneral);
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, accountAdmin);
 app.use(prefixAdmin.prefixAdmin, detailProfile)
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, rolesAdmin);
