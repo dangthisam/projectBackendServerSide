@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-
+const textbelt = require('textbelt');
 module.exports.sendEmail = (email, subject , html) => {
    
     const transporter = nodemailer.createTransport({
@@ -26,3 +26,4 @@ transporter.sendMail(mailOptions, (error, info) => {
     console.log('Email sent: ', info.response);
 });
 }
+

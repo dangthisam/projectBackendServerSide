@@ -16,6 +16,7 @@ const orderSchema = new mongoose.Schema(
         phone:String,
         address:String
     },
+    status: { type: String, enum: ['pending', 'processing', 'shipped', 'completed', 'cancelled'], default: 'pending' },
     deleted:{
         type:Boolean,
         default:false
