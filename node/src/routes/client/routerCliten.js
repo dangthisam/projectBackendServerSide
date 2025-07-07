@@ -11,6 +11,7 @@ const cardProductsRouter=require("./card.router");
 const checkoutProductsRouter=require("./checkount.router");
 const userRegister=require("./user.router");
 
+const userChatRouter=require("./chat.router");
 
 // Route chính
 
@@ -27,11 +28,13 @@ router.use("/checkout", checkoutProductsRouter)
 
 router.use("/user" , userRegister);
 
-router.get("*" , (req, res) =>{
-    res.render("clients/pages/error/404",{
-        title:"404 Error"
-    })
+router.use("/chat" , userChatRouter);
+
+// router.get("*" , (req, res) =>{
+//     res.render("clients/pages/error/404",{
+//         title:"404 Error"
+//     })
 
   
-})
+// })
 module.exports = router;

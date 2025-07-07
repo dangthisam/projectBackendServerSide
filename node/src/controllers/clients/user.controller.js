@@ -159,7 +159,7 @@ const objectForgotPassword={
   expiresAt:expiresAt
 
 }
-console.log(objectForgotPassword)
+
 
 const passwordReset=new PasswordReset(objectForgotPassword);
 const subject="Mã OTP để đặt lại mật khẩu"
@@ -197,7 +197,7 @@ const userPasswordOtp=async (req, res)=>{
 
 
 const userPasswordPost=async (req, res)=>{
-  console.log(req.body)
+
   const email=req.body.email
   const otp=req.body.otp;
 

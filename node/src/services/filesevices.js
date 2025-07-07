@@ -29,25 +29,8 @@ const uploadFile = async (fileObject) => {
       error: JSON.stringify(error),
     };
   }
-  // fileObject.mv(uploadPath, function (err) {
-  //   if (err) {
-  //     console.log("__dirname", __dirname);
-  //     console.log("check err :", err);
-  //     return {
-  //       status: "failed",
-  //       path: null,
-  //       error: JSON.stringify(err),
-  //     };
-  //   }
-  //   //res.send("File uploaded!");
-  //   //truowng hop khong co loi
-  //   return {
-  //     status: "success",
-  //     path: "link-image",
-  //     error: null,
-  //   };
-  // });
-  //};
+  
+  
 };
 const uploadMutipleFile = async (fileObjects) => {
   let uploadPath = path.resolve(__dirname, "../public/img/upload");

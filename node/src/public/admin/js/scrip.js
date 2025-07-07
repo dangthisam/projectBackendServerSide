@@ -194,7 +194,7 @@ if(closeAlert){
 // xử lý upload ảnh
 const uploadImage = document.querySelector("[data-upload-image]");
 
-console.log(uploadImage);
+
 if (uploadImage) {
     const uploadImageInput = uploadImage.querySelector("[data-upload-image-input]");
     const uploadImagePreview = uploadImage.querySelector("[data-upload-image-preview]");

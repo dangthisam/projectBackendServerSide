@@ -43,8 +43,7 @@ const createProject = async (data) => {
   }
 
   if (data.type === "ADD_TASK") {
-    console.log(data);
-
+    
     let myProject = await Project.findById(data.projectID).exec();
     // myProject.userInfor.push(data.userArr);
 
@@ -119,11 +118,9 @@ const getProject = async (queryString) => {
 
     const { filter, limit, population } = aqp(queryString);
 
-    console.log("sdjkfs", queryString);
+    
     delete filter.page;
-    console.log(population);
-    console.log(">>>>check filter", filter);
-    // console.log(limit);
+
 
     let offset = (page - 1) * limit;
     let project = await Project.find(filter)

@@ -95,7 +95,7 @@ const getProductBySlug = async (req, res) => {
       const product = await Product.findOne(find);
 
       if(product.product_category_id){
-        console.log(product.product_category_id)
+       
         const category = await ProductCategory.findOne({
           _id: product.product_category_id,
           status: "active",

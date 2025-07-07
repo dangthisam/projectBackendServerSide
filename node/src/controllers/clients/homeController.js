@@ -22,7 +22,7 @@ const newProductCreate=await Product.find(finds).sort({position:"desc"}).limit(7
 
 const newProductCreates=productsHelper.priceNewProducts(newProductCreate)
    
-    console.log(productsFeatured)
+   
     res.render('clients/pages/home/index.pug', {
         title:"Sản phẩm nổi bật",
         titles:"Sản phẩm mới",

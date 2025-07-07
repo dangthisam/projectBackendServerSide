@@ -14,7 +14,7 @@ const settingGeneral=async (req, res)=>{
 
 
 const settingGeneralPatch=async (req, res)=>{
-   console.log(req.body)
+
    const setting=await settingGenerals.findOne({})
    if(setting){
       await settingGenerals.updateOne({},{$set:req.body})
