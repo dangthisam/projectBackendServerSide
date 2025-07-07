@@ -18,6 +18,9 @@ const limiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
+
+//get IP user
+
 const port = process.env.PORT || 4000;
 //file dot nay có nhiệm vụ lưu các biến dùng nhiều để fix cho dễ
 const {configViewEngine , configPug }= require(path.join(__dirname, "node/src/config/viewEngine"));
@@ -45,11 +48,12 @@ const rolesAdmin = require(path.join(__dirname, "node/src/routes/admin/roles.rou
 const accountAdmin = require(path.join(__dirname, "node/src/routes/admin/account-router"));
 const productCateroryAdmin=require(path.join(__dirname,"node/src/routes/admin/product-category"))
 const middlewareAuth =require(path.join(__dirname, "node/src/middleware/admin/auth.middleware"));
-const { MongoClient } = require("mongodb");
-const { mongo, default: mongoose } = require("mongoose");
+
+
+
 //hien thi thong bao khi thay doi tang trang thai app.use(express.cookieParser('keyboard cat'));
 app.use(limiter);
-console.log(__dirname)
+
 app.use(cookieParser('nguyenvansamthichdangthithuy'));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
@@ -78,6 +82,7 @@ app.use("", middlewareAuth.authMiddleware, clienRouter);
 
 // tao mot bien toan cuj de su dung trong cac file pug 
 app.use(prefixAdmin.prefixAdmin, routeradmin);
+
 //tinyEcm
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 

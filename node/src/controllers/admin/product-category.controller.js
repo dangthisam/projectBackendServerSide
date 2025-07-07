@@ -191,7 +191,7 @@ const newRecords = createTree(records);
 const postcreateCategoryAdmin=async(req,res)=>{
   const permissions=res.locals.role.permissions;
   if (permissions.includes("products-category_create")){
-  console.log(req.body);
+
   if(req.body.position==""){
     const count=await ProductCategory.countDocuments();
     req.body.position=count+1;

@@ -10,7 +10,7 @@ const getUsersAPI = async (req, res) => {
 };
 
 const postUser = (req, res) => {
-  console.log("req.body>>> :", req.body);
+
   let code = req.body.code;
   let name = req.body.name;
   let address = req.body.address;
@@ -56,7 +56,7 @@ const deleteUser = async (req, res) => {
 };
 
 const postFile = async (req, res) => {
-  console.log("req.file ==", req.files);
+ 
 
   if (!req.files || Object.keys(req.files).length === 0) {
     res.status(400).send("No files were uploaded.");
@@ -64,7 +64,7 @@ const postFile = async (req, res) => {
   }
 
   let result = await uploadMutipleFile(req.files.image);
-  console.log(result);
+  
 
   return res.send("ok single");
 };

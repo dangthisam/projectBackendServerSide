@@ -31,9 +31,7 @@ if(buttonChangeStatus.length>0){
             const statusCurrent = button.getAttribute("data-status");
             const id = button.getAttribute("data-id");
             let statusChange =statusCurrent == "active" ? "inactive" : "active";
-            console.log(statusCurrent);
-            console.log(statusChange);
-            console.log(id);
+         
             const action =path+ `/${statusChange}/${id}/?_method=PATCH`;
             formChangeStatus.action = action;
             formChangeStatus.submit();

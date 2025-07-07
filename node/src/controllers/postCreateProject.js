@@ -27,7 +27,7 @@ const createTask = async (req, res) => {
 //fetch data Task
 
 const getTask = async (req, res) => {
-  console.log(req.query);
+
   let result = await getDataTask(req.query);
   return res.status(200).json({
     EC: 0,
@@ -55,7 +55,7 @@ const deleteTask = async (req, res) => {
   });
 };
 const getAllProject = async (req, res) => {
-  console.log(req.query);
+
   let result = await getProject(req.query);
   return res.status(200).json({
     EC: 0,

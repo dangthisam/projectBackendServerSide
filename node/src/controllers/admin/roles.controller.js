@@ -59,7 +59,7 @@ const editRole = async (req, res) => {
             _id: id
           };
   const record = await Role.findOne(find);
-  console.log(record);
+  
   res.render('admin/pages/roles/editRoles', {
     title: 'Chỉnh sửa vai trò',
     record: record,

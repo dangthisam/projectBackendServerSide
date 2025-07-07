@@ -29,7 +29,7 @@ const postCustomer = async (req, res) => {
   });
 
   schema.validate(req.body);
-  console.log(">>>name", name, description);
+
   // name: String,
   // phone: String,
   // address: String,
@@ -41,11 +41,10 @@ const postCustomer = async (req, res) => {
     // return;
   } else {
     let result = await uploadMutipleFile(req.files.image);
-    console.log(">>result ", result);
+  
 
     imgUrl = result[0].path;
-    console.log(imgUrl);
-    console.log("file", req.files.image);
+
   }
   let customerData = {
     name,
@@ -71,7 +70,7 @@ const createArrCus = async (req, res) => {
 };
 
 const getCustomer = async (req, res) => {
-  console.log(req.query);
+
   let limit = req.query.limit;
   let page = req.query.page;
   let name = req.query.name;
@@ -104,7 +103,7 @@ const deleteCuss = async (req, res) => {
 };
 const deleteManyCus = async (req, res) => {
   let id = req.body.customerID;
-  console.log(id);
+
   let result = await deleleManyCuss(id);
   return res.status(200).json({
     EC: 0,

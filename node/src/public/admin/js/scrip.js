@@ -47,7 +47,7 @@ const statusButtons = document.querySelectorAll('[button-status]');
 
     // Xử lý phân trang
     const buttonPagination = document.querySelectorAll('[button-pagination]');
-    console.log(buttonPagination); 
+    
    if(buttonPagination){
     buttonPagination.forEach(button => {
         button.addEventListener('click', (e) => {
@@ -70,9 +70,9 @@ const statusButtons = document.querySelectorAll('[button-status]');
 const checkboxMulti = document.querySelector("[multiTable]");
 if( checkboxMulti){
     const checkAll= checkboxMulti.querySelector("input[name='check-all']");
-    console.log(checkAll);
+   
     const checkboxs = checkboxMulti.querySelectorAll("input[name='id']");
-    console.log(checkboxs);
+    
    checkAll.addEventListener("click", ()=>{
        if(checkAll.checked){
         checkboxs.forEach(checkbox=>{
@@ -113,7 +113,7 @@ if(formChangeMulite){
      
         const typeChange=e.target.elements.type.value;
 
-        console.log(typeChange);
+       
         if(typeChange === "delete-all"){
             const isConfirm = confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?");
             if(!isConfirm){
@@ -124,18 +124,17 @@ if(formChangeMulite){
         
        if(checkboxes.length>0){
         const inputIds = formChangeMulite.querySelector("input[name='ids']");
-        console.log(inputIds);
+
          let ids = [];
          checkboxes.forEach(checkbox => {
             const id = checkbox.getAttribute("value");
-            console.log(id);
-            console.log("ok")
+ 
  
             if(typeChange === "update-position"){
                 const position=checkbox
                 .closest("tr")
                 .querySelector("input[name='position']").value;
-                console.log(position);
+              
                 ids.push(`${id}-${position}`);
             }else{
                 ids.push(id);

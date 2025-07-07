@@ -9,7 +9,7 @@ const createProject = async (data) => {
   }
 
   if (data.type === "ADD_USER") {
-    console.log(data);
+
 
     let myProject = await Project.findById(data.projectID).exec();
     // myProject.userInfor.push(data.userArr);
@@ -21,12 +21,12 @@ const createProject = async (data) => {
 
     //console.log(">>>>>>", myProject.userInfor);
     let newProject = await myProject.save();
-    console.log(myProject);
+
     return newProject;
   }
 
   if (data.type === "DELETE_USER") {
-    console.log(data);
+  
 
     let myProject = await Project.findById(data.projectID).exec();
     // myProject.userInfor.push(data.userArr);

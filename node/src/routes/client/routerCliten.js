@@ -26,4 +26,12 @@ router.use("/cart", cardProductsRouter)
 router.use("/checkout", checkoutProductsRouter)
 
 router.use("/user" , userRegister);
+
+router.get("*" , (req, res) =>{
+    res.render("clients/pages/error/404",{
+        title:"404 Error"
+    })
+
+  
+})
 module.exports = router;
