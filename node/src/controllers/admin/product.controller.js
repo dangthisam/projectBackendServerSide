@@ -103,8 +103,7 @@ const productAdmin= async (req,res)=>{
       }
     );
     req.flash('success', 'Cập nhật trạng thái thành công!');
-    // trở về trang trước đó
-    // redirect là chuyển hướng đến một trang khác
+
     res.redirect("back" );
   }
    // thay đổi trạng thái nhiều sản phẩm cùng lúc

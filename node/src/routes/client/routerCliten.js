@@ -10,7 +10,7 @@ const searchProductsRouter=require("./searchRouter");
 const cardProductsRouter=require("./card.router");
 const checkoutProductsRouter=require("./checkount.router");
 const userRegister=require("./user.router");
-
+const userMiddleware=require("../../middleware/client/auth.middleware");
 const userChatRouter=require("./chat.router");
 
 // Route chính
@@ -28,7 +28,7 @@ router.use("/checkout", checkoutProductsRouter)
 
 router.use("/user" , userRegister);
 
-router.use("/chat" , userChatRouter);
+router.use("/chat" , userMiddleware.authMiddleware , userChatRouter);
 
 // router.get("*" , (req, res) =>{
 //     res.render("clients/pages/error/404",{

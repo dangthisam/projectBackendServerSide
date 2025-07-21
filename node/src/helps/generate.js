@@ -12,8 +12,6 @@ result += characters.charAt(Math.floor(Math.random() * characters.length));
     return result;
 }
 
-
-
 const generateRandomNumber = (length) => {
 const characters =
 "0123456789";

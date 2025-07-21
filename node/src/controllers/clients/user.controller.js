@@ -165,11 +165,11 @@ const passwordReset=new PasswordReset(objectForgotPassword);
 const subject="Mã OTP để đặt lại mật khẩu"
 const html=`Mã OTP để  láy lại mật khẩu là ${OTP}`
 
+  // helpSendMail.sendSMS(OTP);
   helpSendMail.sendEmail(email, subject, html)
   
 
 await passwordReset.save();
-
 
 
 res.redirect(`/user/password/otp?email=${email}`)

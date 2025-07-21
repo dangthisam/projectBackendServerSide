@@ -21,17 +21,19 @@ router.post("/login",  userValidation.loginValidation , userLoginPost)
 
 router.get("/logout", logoutUser);
 
-router.get("/profile" ,userMiddleware.authMiddleware, userProfile);
+router.get("/profile" , userMiddleware.authMiddleware , userProfile);
 
 router.get("/password/forgot", userForgotPassword);
 
  router.post("/password/forgot", userForgotPasswordPost)
+
+ 
  router.get("/password/otp",userPasswordOtp);
 
  router.post("/password/otp",userPasswordPost)
 
  router.get("/password/reset" , userResetPassword);
  
- router.post("/password/reset", validateResetPassword.resetPassword,userResetPasswordPost)
+ router.post("/password/reset",userResetPasswordPost)
 
 module.exports = router;

@@ -10,13 +10,13 @@ const moment = require("moment");
 
 
 //limit req to IP to server 
-const rateLimit = require("express-rate-limit");
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window`
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
+// const rateLimit = require("express-rate-limit");
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, // Limit each IP to 100 requests per `window`
+//   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+//   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+// });
 
 
 //get IP user
@@ -27,7 +27,8 @@ const {configViewEngine , configPug }= require(path.join(__dirname, "node/src/co
 
 // Fix the incomplete require statement - complete the path properly
 const clienRouter = require(path.join(__dirname, "node/src/routes/client/routerCliten"));
-
+const http = require('http');
+const { Server } = require('socket.io');
 //const productsRouter = require(path.join(__dirname, "node/src/routes/client/routerProducts"));
 const webRouter = require(path.join(__dirname, "node/src/routes/web"));
 const connection = require(path.join(__dirname, "node/src/config/db"));
@@ -52,13 +53,20 @@ const middlewareAuth =require(path.join(__dirname, "node/src/middleware/admin/au
 
 
 //hien thi thong bao khi thay doi tang trang thai app.use(express.cookieParser('keyboard cat'));
-app.use(limiter);
+// app.use(limiter);
 
 app.use(cookieParser('nguyenvansamthichdangthithuy'));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 
 //
+
+const server = http.createServer(app);
+const io = new Server(server);
+
+
+global._io = io; // tạo ra một biến dùng chung cho cả server
+
 app.use(express.json()); // for json
 app.use(express.urlencoded({ extended: true }));
 const systemAdmin = require("./node/src/config/system");
@@ -92,6 +100,6 @@ app.locals.moment = moment; // Để sử dụng moment trong các file Pug
 // Thêm vào trước các app.use cho router
 connection();
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(` app listening on port ${port}`);
 });

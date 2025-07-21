@@ -132,6 +132,14 @@ header.header
             )
               i.fas.fa-home.me-2
               span.nav-text Trang chủ
+          li.nav-item
+            a.nav-link.active.text-white.fw-semibold.px-3.py-2.rounded-pill.nav-hover.d-flex.align-items-center(
+              href="/chat"
+              aria-current="page"
+              style="transition: all 0.3s ease; backdrop-filter: blur(10px);"
+            )
+              i.fa-brands.fa-rocketchat
+              span.nav-text Chat
 
           li.nav-item.sub-menu
             - const pathProducts = "/products";
