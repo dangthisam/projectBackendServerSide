@@ -52,7 +52,7 @@ block main
             | Xem tất cả
       .row
         +products-layout(productsFeatured)
-    
+        
     //- Promotional Banner
     .promo-banner.my-5
       .promo-content
@@ -74,10 +74,10 @@ block main
         a.btn.btn-warning.promo-btn(href="/flash-sale")
           i.fas.fa-lightning-bolt.me-2
           | Mua Ngay
-
+    
     //- Divider
     hr.my-5
-
+    
     //- Sản phẩm mới
     section.products-section
       .row.align-items-center.mb-2
@@ -89,7 +89,7 @@ block main
             | Xem tất cả
       .row
         +products-layout(newProductCreate)
-
+    
     //- Newsletter Banner
     .newsletter-banner.my-5
       .newsletter-content
@@ -104,3 +104,11 @@ block main
             button.btn.btn-success(type="submit")
               i.fas.fa-paper-plane.me-2
               | Đăng Ký
+
+  //- Floating Chat Button
+  .chat-float-button
+    a.btn.btn-primary.chat-btn(href="/chat", data-bs-toggle="tooltip", data-bs-placement="left", title="Chat với chúng tôi")
+      i.fas.fa-comments
+
+
+  

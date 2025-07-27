@@ -1,9 +1,11 @@
 //- Import sub-menu mixin
 include ../mixins/sub-menu.pug
 
-header.header
+header.header.fixed-top(
+  style="z-index: 9999; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);"
+)
   nav.navbar.navbar-expand-lg.navbar-dark.shadow-lg.py-0(
-    style="background: linear-gradient(135deg, #dc3545 0%, #e74c3c 50%, #c0392b 100%); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);"
+    style="background: linear-gradient(135deg, #dc3545 0%, #e74c3c 50%, #c0392b 100%); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); position: relative;"
   )
     .container
       //- Brand Logo
@@ -36,13 +38,15 @@ header.header
         aria-controls="navbarNav"
         aria-expanded="false"
         aria-label="Toggle navigation"
-        style="background: rgba(255,255,255,0.1); border-radius: 12px; transition: all 0.3s ease;"
+        style="background: rgba(255,255,255,0.1); border-radius: 12px; transition: all 0.3s ease; z-index: 10000;"
       )
         span.navbar-toggler-icon
 
-      #navbarNav.collapse.navbar-collapse
+      #navbarNav.collapse.navbar-collapse(
+        style="z-index: 9998;"
+      )
         //- Search Form
-        .search-container.mx-auto.my-3.my-lg-0.position-relative(style="max-width: 450px; width: 100%;")
+        .search-container.mx-auto.my-3.my-lg-0.position-relative(style="max-width: 450px; width: 100%; z-index: 9997;")
           form.search-form.d-flex.align-items-center.position-relative(
             action="/search"
             method="GET"
@@ -50,7 +54,7 @@ header.header
           )
             .input-group.search-input-group.position-relative
               .search-icon.position-absolute.start-0.top-50.translate-middle-y.ms-3.text-muted(
-                style="z-index: 5; font-size: 16px; pointer-events: none;"
+                style="z-index: 9996; font-size: 16px; pointer-events: none;"
               )
                 i.fas.fa-search
               input#searchInput.form-control.border-0.text-dark.fw-medium.ps-5.pe-5(
@@ -60,17 +64,17 @@ header.header
                 placeholder="Tìm kiếm sản phẩm, thương hiệu..."
                 aria-label="Search"
                 autocomplete="off"
-                style="padding: 14px 20px; font-size: 14px; border-radius: 25px; background: rgba(255,255,255,0.95); box-shadow: 0 8px 25px rgba(0,0,0,0.15); transition: all 0.3s ease; backdrop-filter: blur(10px); position: relative; z-index: 1;"
+                style="padding: 14px 20px; font-size: 14px; border-radius: 25px; background: rgba(255,255,255,0.95); box-shadow: 0 8px 25px rgba(0,0,0,0.15); transition: all 0.3s ease; backdrop-filter: blur(10px); position: relative; z-index: 9995;"
               )
               button.btn.search-btn.position-absolute.end-0.top-50.translate-middle-y.me-2.border-0.bg-transparent.text-danger(
                 type="submit"
                 aria-label="Search"
-                style="z-index: 10; padding: 6px 8px; border-radius: 8px; transition: all 0.3s ease; pointer-events: auto;"
+                style="z-index: 9994; padding: 6px 8px; border-radius: 8px; transition: all 0.3s ease; pointer-events: auto;"
               )
                 i.fas.fa-search.fs-5
             //- Search Suggestions (ẩn mặc định)
             .search-suggestions.position-absolute.w-100.bg-white.rounded-3.shadow-lg.mt-1.d-none(
-              style="top: 100%; z-index: 1000; max-height: 350px; overflow-y: auto; border: 1px solid rgba(0,0,0,0.1);"
+              style="top: 100%; z-index: 9993; max-height: 350px; overflow-y: auto; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.2);"
             )
               .suggestions-header.p-3.border-bottom.bg-light.rounded-top-3
                 .d-flex.justify-content-between.align-items-center
@@ -123,7 +127,9 @@ header.header
                     i.fas.fa-bolt.text-warning
 
         //- Navigation Menu
-        ul.navbar-nav.ms-auto.mb-2.mb-lg-0.gap-1
+        ul.navbar-nav.ms-auto.mb-2.mb-lg-0.gap-1(
+          style="z-index: 9992;"
+        )
           li.nav-item
             a.nav-link.active.text-white.fw-semibold.px-3.py-2.rounded-pill.nav-hover.d-flex.align-items-center(
               href="/home"
@@ -132,16 +138,8 @@ header.header
             )
               i.fas.fa-home.me-2
               span.nav-text Trang chủ
-          li.nav-item
-            a.nav-link.active.text-white.fw-semibold.px-3.py-2.rounded-pill.nav-hover.d-flex.align-items-center(
-              href="/chat"
-              aria-current="page"
-              style="transition: all 0.3s ease; backdrop-filter: blur(10px);"
-            )
-              i.fa-brands.fa-rocketchat
-              span.nav-text Chat
 
-          li.nav-item.sub-menu
+          li.nav-item.sub-menu.position-relative
             - const pathProducts = "/products";
             a.nav-link.text-white.fw-semibold.px-3.py-2.rounded-pill.nav-hover.d-flex.align-items-center(
               href=pathProducts
@@ -179,14 +177,13 @@ header.header
                 i.fas.fa-shopping-cart.fs-5
                 if totalQuantity && totalQuantity > 0
                   span.cart-badge.position-absolute.top-0.start-100.translate-middle.badge.rounded-pill.bg-warning.text-dark(
-                    style="font-size:0.7rem; min-width:1.4em; height:1.4em; display:flex; align-items:center; justify-content:center; border:2px solid #fff; z-index:1; box-shadow: 0 2px 8px rgba(0,0,0,0.2); animation: pulse 2s infinite;"
+                    style="font-size:0.7rem; min-width:1.4em; height:1.4em; display:flex; align-items:center; justify-content:center; border:2px solid #fff; z-index:9991; box-shadow: 0 2px 8px rgba(0,0,0,0.2); animation: pulse 2s infinite;"
                   )
                     | #{totalQuantity > 99 ? '99+' : totalQuantity}
               span.nav-text.ms-2.d-none.d-lg-inline Giỏ hàng
-              
 
           //- User Account Dropdown
-          li.nav-item.dropdown
+          li.nav-item.dropdown.position-relative
             a.nav-link.dropdown-toggle.text-white.fw-semibold.px-3.py-2.rounded-pill.nav-hover.d-flex.align-items-center(
               href="#"
               role="button"
@@ -200,10 +197,9 @@ header.header
               i.fas.fa-chevron-down.ms-1.small
 
             ul.dropdown-menu.dropdown-menu-end.shadow-lg.border-0.rounded-3.mt-2(
-              style="min-width: 280px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);"
+              style="min-width: 280px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); z-index: 9990; box-shadow: 0 15px 35px rgba(0,0,0,0.2);"
             )
               if !users
-               
                 li
                   hr.dropdown-divider.my-2
                 li
@@ -227,7 +223,6 @@ header.header
                       .item-title.fw-semibold Đăng ký
                       .item-desc.small.text-muted Tạo tài khoản mới miễn phí
               else
-                
                 li
                   hr.dropdown-divider.my-2
                 li

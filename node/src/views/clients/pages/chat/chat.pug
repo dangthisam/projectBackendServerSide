@@ -10,9 +10,9 @@ block main
           .chat(my-id=user.id)
             .inner-body
               each chat in chats
-                div(class=(chat.userId===user.id ? "inner-outgoing" : "inner-incoming"))
-                  if chat.userId!==user.id
-                    .inner-name 
+                div(class=(chat.userId === user.id ? "inner-outgoing" : "inner-incoming"))
+                  if chat.userId !== user.id
+                    .inner-name
                       | #{chat.infoUser.fullName}
                       span.online-status
                     .inner-content #{chat.content}
@@ -20,7 +20,7 @@ block main
                   else
                     .inner-content #{chat.content}
                     .message-time Đã gửi
-              
+
               //- Typing indicator (hiển thị khi có người đang gõ)
               .inner-incoming.typing-indicator(style="display: none;")
                 .typing-dot
@@ -30,9 +30,12 @@ block main
             .inner-foot
               form.inner-form(action="", method="POST", autocomplete="off")
                 input(type="text", placeholder="Nhập nội dung ...", name="content", required)
+                span.emoji-picker
+                  i.fa-solid.fa-face-smile
                 button(type="submit")
                   i.fa-solid.fa-paper-plane
-
-          //- Scroll to bottom button
-          button.scroll-to-bottom(onclick="scrollToBottom()")
-            i.fa-solid.fa-chevron-down
+        .tooltip(role="tooltip")
+          emoji-picker(class="light")
+        //- Scroll to bottom button
+        button.scroll-to-bottom(onclick="scrollToBottom()")
+          i.fa-solid.fa-chevron-down
