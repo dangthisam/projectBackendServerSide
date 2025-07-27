@@ -76,7 +76,7 @@ if( checkboxMulti){
    checkAll.addEventListener("click", ()=>{
        if(checkAll.checked){
         checkboxs.forEach(checkbox=>{
-            checkbox.checked = true;
+            checkbox.checked = true; 
         });
        } else {
            checkboxs.forEach(checkbox=>{
@@ -124,7 +124,7 @@ if(formChangeMulite){
         
        if(checkboxes.length>0){
         const inputIds = formChangeMulite.querySelector("input[name='ids']");
-
+            
          let ids = [];
          checkboxes.forEach(checkbox => {
             const id = checkbox.getAttribute("value");

@@ -12,7 +12,7 @@ const productAdmin= async (req,res)=>{
      
 
  //Đoạn Lọc
-    filterStatus =filter(req.query.status);
+    const filterStatus =filter(req.query.status);
     let find = {
       deleted: false
     };

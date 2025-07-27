@@ -69,9 +69,9 @@ sort={};
 //end sort 
         
     const records= await ProductCategory.find(find)
-    // .sort(sort)
-    // .limit(objectPagination.limitPage)
-    // .skip(objectPagination.skip)
+    .sort(sort)
+    .limit(objectPagination.limitPage)
+    .skip(objectPagination.skip)
     
 const newRecords = createTree(records);
     

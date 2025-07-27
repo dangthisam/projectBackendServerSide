@@ -3,24 +3,104 @@ include ../../mixins/box-head.pug
 include ../../mixins/products-layout.pug
 
 block main
+  //- Hero Banner
+  section.hero-banner
+    .container-fluid
+      .row.align-items-center.min-vh-100
+        .col-lg-6
+          .hero-content
+            .hero-badge
+              i.fas.fa-fire.me-2
+              | Hot Deal
+            h1.hero-title Khuyến Mãi Lớn
+            h2.hero-subtitle Giảm giá lên đến 
+              span.highlight 70%
+            p.hero-description Hàng ngàn sản phẩm chất lượng cao với mức giá không thể tin được. Nhanh tay đặt hàng trước khi hết stock!
+            .hero-actions
+              a.btn.btn-primary.btn-lg.me-3(href="/products?sale=1")
+                i.fas.fa-shopping-bag.me-2
+                | Mua Ngay
+              a.btn.btn-outline-light.btn-lg(href="#products")
+                i.fas.fa-arrow-down.me-2
+                | Khám Phá
+        .col-lg-6
+          .hero-visual
+            .hero-circle.circle-1
+            .hero-circle.circle-2
+            .hero-circle.circle-3
+            .hero-image
+              i.fas.fa-gift.hero-icon
+            .floating-elements
+              .floating-element.element-1
+                i.fas.fa-star
+              .floating-element.element-2
+                i.fas.fa-heart
+              .floating-element.element-3
+                i.fas.fa-bolt
+              .floating-element.element-4
+                i.fas.fa-diamond
+
   .container.my-4
     //- Sản phẩm nổi bật
-    .row.align-items-center.mb-2
-      .col
-        +box-head(title)
-      .col-auto
-        a.btn.btn-outline-danger.btn-sm.fw-semibold(href="/products?featured=1") Xem tất cả
-    .row
-      +products-layout(productsFeatured)
+    section#products.products-section
+      .row.align-items-center.mb-2
+        .col
+          +box-head(title)
+        .col-auto
+          a.btn.btn-outline-danger.btn-sm.fw-semibold(href="/products?featured=1") 
+            i.fas.fa-fire.me-2
+            | Xem tất cả
+      .row
+        +products-layout(productsFeatured)
+    
+    //- Promotional Banner
+    .promo-banner.my-5
+      .promo-content
+        .promo-icon
+          i.fas.fa-percent
+        .promo-text
+          h3.promo-title Flash Sale 24h
+          p.promo-subtitle Giảm giá cực sốc - Chỉ hôm nay!
+        .promo-timer
+          .timer-item
+            span.timer-number 12
+            span.timer-label Giờ
+          .timer-item
+            span.timer-number 34
+            span.timer-label Phút
+          .timer-item
+            span.timer-number 56
+            span.timer-label Giây
+        a.btn.btn-warning.promo-btn(href="/flash-sale")
+          i.fas.fa-lightning-bolt.me-2
+          | Mua Ngay
 
     //- Divider
     hr.my-5
 
     //- Sản phẩm mới
-    .row.align-items-center.mb-2
-      .col
-        +box-head("Sản phẩm mới")
-      .col-auto
-        a.btn.btn-outline-primary.btn-sm.fw-semibold(href="/products?sort=new") Xem tất cả
-    .row
-      +products-layout(newProductCreate)
+    section.products-section
+      .row.align-items-center.mb-2
+        .col
+          +box-head("Sản phẩm mới")
+        .col-auto
+          a.btn.btn-outline-primary.btn-sm.fw-semibold(href="/products?sort=new")
+            i.fas.fa-sparkles.me-2
+            | Xem tất cả
+      .row
+        +products-layout(newProductCreate)
+
+    //- Newsletter Banner
+    .newsletter-banner.my-5
+      .newsletter-content
+        .newsletter-icon
+          i.fas.fa-envelope-open
+        .newsletter-text
+          h3.newsletter-title Đăng Ký Nhận Tin
+          p.newsletter-subtitle Nhận thông báo về khuyến mãi và sản phẩm mới nhất
+        .newsletter-form
+          .input-group
+            input.form-control(type="email", placeholder="Nhập email của bạn...")
+            button.btn.btn-success(type="submit")
+              i.fas.fa-paper-plane.me-2
+              | Đăng Ký
