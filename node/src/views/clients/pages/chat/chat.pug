@@ -2,33 +2,37 @@ extends ../../layout/default.pug
 include ../../mixins/box-head.pug
 
 block main
-
-   
-
   .container.my-3
     .row
       .col-12
         .chat-container
           +box-head("Chat")
-          //- .inner-head
-          //-   .inner-avatar EY
-          //-   .inner-name Em Yêu
-          .chat
+          .chat(my-id=user.id)
             .inner-body
               each chat in chats
                 div(class=(chat.userId===user.id ? "inner-outgoing" : "inner-incoming"))
                   if chat.userId!==user.id
-                    div.inner-name #{chat.infoUser.fullName}
-                    div.inner-content #{chat.content}
+                    .inner-name 
+                      | #{chat.infoUser.fullName}
+                      span.online-status
+                    .inner-content #{chat.content}
+                    .message-time Vừa xong
                   else
-                    div.inner-content #{chat.content}
-              //- .inner-outgoing
-              //-   .inner-content Ck đến rồi mà thấy ai ở nhà đâu e? Khóa cửa mà : (
-              //- .inner-incoming
-              //-   .inner-name Em Yêu
-              //-   .inner-content Thì em bảo nhà e không ai ở nhà mà :) 
-          .inner-foot
-            form.inner-form(action="", method="POST", autocomplete="off")
-              input(type="text", placeholder="Nhập nội dung ...", name="content", required)
-              button(type="submit")
-                i.fa-solid.fa-paper-plane
+                    .inner-content #{chat.content}
+                    .message-time Đã gửi
+              
+              //- Typing indicator (hiển thị khi có người đang gõ)
+              .inner-incoming.typing-indicator(style="display: none;")
+                .typing-dot
+                .typing-dot
+                .typing-dot
+
+            .inner-foot
+              form.inner-form(action="", method="POST", autocomplete="off")
+                input(type="text", placeholder="Nhập nội dung ...", name="content", required)
+                button(type="submit")
+                  i.fa-solid.fa-paper-plane
+
+          //- Scroll to bottom button
+          button.scroll-to-bottom(onclick="scrollToBottom()")
+            i.fa-solid.fa-chevron-down
