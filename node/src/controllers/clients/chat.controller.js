@@ -19,7 +19,16 @@ const chat=async (req, res)=>{
     content:content
   });
 
+ 
     });
+// client typing event
+     socket.on("CLIENT_TYPING", async (content) => {
+    socket.broadcast.emit("SERVER_TYPING", {
+         userId:userId,
+    fullName:fullName,
+    content:content
+    });
+  });
   })
 
 

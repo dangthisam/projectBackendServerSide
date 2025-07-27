@@ -22,10 +22,19 @@ block main
                     .message-time Đã gửi
 
               //- Typing indicator (hiển thị khi có người đang gõ)
-              .inner-incoming.typing-indicator(style="display: none;")
-                .typing-dot
-                .typing-dot
-                .typing-dot
+              .inner-list-typing
+                .box-typing
+                  .inner-name Le Van A
+                  .inner-dots
+                    span
+                    span
+                    span
+                .box-typing
+                  .inner-name Le Van B
+                  .inner-dots
+                    span
+                    span
+                    span
 
             .inner-foot
               form.inner-form(action="", method="POST", autocomplete="off")
@@ -35,7 +44,7 @@ block main
                 button(type="submit")
                   i.fa-solid.fa-paper-plane
         .tooltip(role="tooltip")
-          emoji-picker(class="light")
+          emoji-picker.light
         //- Scroll to bottom button
         button.scroll-to-bottom(onclick="scrollToBottom()")
           i.fa-solid.fa-chevron-down

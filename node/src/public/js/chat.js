@@ -51,6 +51,7 @@ button.onclick=() => {
   tooltip.classList.toggle('shown')
 }
 
+
 // insert emoji
 const emojiPicker = document.querySelector('emoji-picker');
 if(emojiPicker){
@@ -59,4 +60,16 @@ if(emojiPicker){
     const contentInput = document.querySelector('.chat .inner-form input[name="content"]');
     contentInput.value += emoji;
   });
+
+     const contentInput = document.querySelector('.chat .inner-form input[name="content"]');
+     contentInput.addEventListener("keyup", () => {
+       const value = contentInput.value;
+       socket.emit("CLIENT_TYPING","data");
+     });
+
+     socket.on("SERVER_TYPING" , (data) =>{
+      console.log(data)
+     })
 }
+
+
