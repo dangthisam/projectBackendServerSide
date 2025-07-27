@@ -10,24 +10,23 @@ block main
       .col-12
         .chat-container
           +box-head("Chat")
-          .inner-head
-            .inner-avatar EY
-            .inner-name Em Yêu
+          //- .inner-head
+          //-   .inner-avatar EY
+          //-   .inner-name Em Yêu
           .chat
             .inner-body
-              .inner-incoming
-                .inner-name Em Yêu
-                .inner-content A ơi sang nhà e nha, nhà e không có ai ở nhà cả
-              .inner-outgoing
-                .inner-content Thế à? Ok e iu
-              .inner-incoming
-                .inner-name Em Yêu
-                .inner-content Nhanh nha nhanh nha
-              .inner-outgoing
-                .inner-content Ck đến rồi mà thấy ai ở nhà đâu e? Khóa cửa mà : (
-              .inner-incoming
-                .inner-name Em Yêu
-                .inner-content Thì em bảo nhà e không ai ở nhà mà :) 
+              each chat in chats
+                div(class=(chat.userId===user.id ? "inner-outgoing" : "inner-incoming"))
+                  if chat.userId!==user.id
+                    div.inner-name #{chat.infoUser.fullName}
+                    div.inner-content #{chat.content}
+                  else
+                    div.inner-content #{chat.content}
+              //- .inner-outgoing
+              //-   .inner-content Ck đến rồi mà thấy ai ở nhà đâu e? Khóa cửa mà : (
+              //- .inner-incoming
+              //-   .inner-name Em Yêu
+              //-   .inner-content Thì em bảo nhà e không ai ở nhà mà :) 
           .inner-foot
             form.inner-form(action="", method="POST", autocomplete="off")
               input(type="text", placeholder="Nhập nội dung ...", name="content", required)
