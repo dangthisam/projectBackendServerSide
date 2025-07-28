@@ -3,112 +3,246 @@ include ../../mixins/box-head.pug
 include ../../mixins/products-layout.pug
 
 block main
-  //- Hero Banner
-  section.hero-banner
-    .container-fluid
-      .row.align-items-center.min-vh-100
-        .col-lg-6
-          .hero-content
-            .hero-badge
+  //- Enhanced Hero Banner với animation và effects
+  section.hero-banner.position-relative.overflow-hidden
+    //- Animated Background
+    .hero-bg-animation
+      .floating-shape.shape-1
+      .floating-shape.shape-2
+      .floating-shape.shape-3
+      .floating-shape.shape-4
+      .floating-shape.shape-5
+    
+    //- Gradient Overlay
+    .hero-overlay
+    
+    .container-fluid.h-100
+      .row.align-items-center.min-vh-100.position-relative
+        .col-lg-6.hero-content-wrapper
+          .hero-content.text-white
+            //- Animated Badge
+            .hero-badge.animate-bounce-in
+              .badge-glow
               i.fas.fa-fire.me-2
-              | Hot Deal
-            h1.hero-title Khuyến Mãi Lớn
-            h2.hero-subtitle Giảm giá lên đến 
-              span.highlight 70%
-            p.hero-description Hàng ngàn sản phẩm chất lượng cao với mức giá không thể tin được. Nhanh tay đặt hàng trước khi hết stock!
-            .hero-actions
-              a.btn.btn-primary.btn-lg.me-3(href="/products?sale=1")
+              span Hot Deal
+              .badge-sparkle ✨
+            
+            //- Main Title với typing effect
+            h1.hero-title.animate-slide-up
+              span.title-line Khuyến Mãi 
+              span.title-line.highlight-gradient Siêu Lớn
+            
+            //- Subtitle với gradient text
+            h2.hero-subtitle.animate-slide-up.animation-delay-1
+              | Giảm giá lên đến 
+              span.highlight.percentage(data-target="70") 70%
+              .discount-badge OFF
+            
+            //- Description
+            p.hero-description.animate-fade-in.animation-delay-2
+              | Hàng ngàn sản phẩm chất lượng cao với mức giá không thể tin được. 
+              strong Nhanh tay đặt hàng 
+              | trước khi hết stock!
+            
+            //- Action Buttons
+            .hero-actions.animate-slide-up.animation-delay-3
+              a.btn.btn-primary.btn-hero.me-3(href="/products?sale=1")
+                .btn-bg-effect
                 i.fas.fa-shopping-bag.me-2
-                | Mua Ngay
-              a.btn.btn-outline-light.btn-lg(href="#products")
+                span Mua Ngay
+                .btn-shine
+              
+              a.btn.btn-outline-light.btn-hero(href="#products")
+                .btn-bg-effect
                 i.fas.fa-arrow-down.me-2
-                | Khám Phá
-        .col-lg-6
-          .hero-visual
-            .hero-circle.circle-1
-            .hero-circle.circle-2
-            .hero-circle.circle-3
-            .hero-image
-              i.fas.fa-gift.hero-icon
-            .floating-elements
-              .floating-element.element-1
-                i.fas.fa-star
-              .floating-element.element-2
-                i.fas.fa-heart
-              .floating-element.element-3
-                i.fas.fa-bolt
-              .floating-element.element-4
-                i.fas.fa-diamond
-
-  .container.my-4
-    //- Sản phẩm nổi bật
-    section#products.products-section
-      .row.align-items-center.mb-2
-        .col
-          +box-head(title)
-        .col-auto
-          a.btn.btn-outline-danger.btn-sm.fw-semibold(href="/products?featured=1") 
-            i.fas.fa-fire.me-2
-            | Xem tất cả
-      .row
-        +products-layout(productsFeatured)
+                span Khám Phá
+            
+            //- Stats Counter
+            .hero-stats.animate-fade-in.animation-delay-4
+              .stat-item
+                .stat-number(data-target="1000") 0
+                .stat-label Sản phẩm
+              .stat-item
+                .stat-number(data-target="50000") 0
+                .stat-label Khách hàng
+              .stat-item
+                .stat-number(data-target="99") 0
+                .stat-label % Hài lòng
         
-    //- Promotional Banner
-    .promo-banner.my-5
-      .promo-content
-        .promo-icon
-          i.fas.fa-percent
-        .promo-text
-          h3.promo-title Flash Sale 24h
-          p.promo-subtitle Giảm giá cực sốc - Chỉ hôm nay!
-        .promo-timer
-          .timer-item
-            span.timer-number 12
-            span.timer-label Giờ
-          .timer-item
-            span.timer-number 34
-            span.timer-label Phút
-          .timer-item
-            span.timer-number 56
-            span.timer-label Giây
-        a.btn.btn-warning.promo-btn(href="/flash-sale")
-          i.fas.fa-lightning-bolt.me-2
-          | Mua Ngay
+        .col-lg-6.hero-image-wrapper.p-0
+          .hero-image-container.position-relative
+            //- Main Banner Image
+            .hero-image-frame
+              img.hero-main-image.animate-zoom-in(
+                src="/img/banners.png"
+                alt="Khuyến mãi lớn"
+                loading="eager"
+              )
+              .image-glow-effect
+            
+            //- Floating Elements
+            .floating-elements
+              .floating-card.card-1
+                i.fas.fa-gift.fa-2x
+                span Quà Tặng
+              .floating-card.card-2
+                i.fas.fa-shipping-fast.fa-2x
+                span Giao Nhanh
+              .floating-card.card-3
+                i.fas.fa-shield-alt.fa-2x
+                span Bảo Hành
     
-    //- Divider
-    hr.my-5
-    
-    //- Sản phẩm mới
-    section.products-section
-      .row.align-items-center.mb-2
-        .col
-          +box-head("Sản phẩm mới")
-        .col-auto
-          a.btn.btn-outline-primary.btn-sm.fw-semibold(href="/products?sort=new")
-            i.fas.fa-sparkles.me-2
-            | Xem tất cả
-      .row
-        +products-layout(newProductCreate)
-    
-    //- Newsletter Banner
-    .newsletter-banner.my-5
-      .newsletter-content
-        .newsletter-icon
-          i.fas.fa-envelope-open
-        .newsletter-text
-          h3.newsletter-title Đăng Ký Nhận Tin
-          p.newsletter-subtitle Nhận thông báo về khuyến mãi và sản phẩm mới nhất
-        .newsletter-form
-          .input-group
-            input.form-control(type="email", placeholder="Nhập email của bạn...")
-            button.btn.btn-success(type="submit")
-              i.fas.fa-paper-plane.me-2
-              | Đăng Ký
+    //- Scroll Indicator
+    .scroll-indicator.animate-bounce
+      i.fas.fa-chevron-down
 
-  //- Floating Chat Button
-  .chat-float-button
-    a.btn.btn-primary.chat-btn(href="/chat", data-bs-toggle="tooltip", data-bs-placement="left", title="Chat với chúng tôi")
-      i.fas.fa-comments
+  //- Enhanced Main Content
+  .main-content.position-relative
+    //- Background Pattern
+    .content-bg-pattern
+    
+    .container.content-container
+      //- Featured Products Section
+      section#products.products-section.animate-on-scroll
+        .section-header.text-center.mb-5
+          .section-badge
+            i.fas.fa-star.me-2
+            span Nổi Bật
+          h2.section-title #{title}
+          p.section-subtitle Những sản phẩm được yêu thích nhất
+          .section-divider
+        
+        .row.align-items-center.mb-4
+          .col
+            // Title được hiển thị ở section-header
+          .col-auto
+            a.btn.btn-outline-danger.btn-modern(href="/products?featured=1")
+              i.fas.fa-fire.me-2
+              span Xem tất cả
+              .btn-arrow →
+        
+        .products-wrapper
+          +products-layout(productsFeatured)
+
+      //- Enhanced Promotional Banner
+      .promo-banner-enhanced.my-5
+        .promo-bg-animation
+          .promo-wave.wave-1
+          .promo-wave.wave-2
+          .promo-wave.wave-3
+        
+        .promo-content.position-relative
+          .promo-icon-wrapper
+            .promo-icon-bg
+            i.fas.fa-percent.promo-icon
+          
+          .promo-text
+            h3.promo-title
+              span.text-flash Flash Sale 
+              span.text-highlight 24h
+            p.promo-subtitle Giảm giá cực sốc - Chỉ hôm nay!
+            .promo-features
+              .feature-item
+                i.fas.fa-check-circle
+                span Miễn phí vận chuyển
+              .feature-item
+                i.fas.fa-check-circle
+                span Đổi trả 30 ngày
+          
+          .promo-timer
+            .timer-item
+              .timer-circle
+                span.timer-number(data-target="12") 12
+              span.timer-label Giờ
+            .timer-item
+              .timer-circle
+                span.timer-number(data-target="34") 34
+              span.timer-label Phút
+            .timer-item
+              .timer-circle
+                span.timer-number(data-target="56") 56
+              span.timer-label Giây
+          
+          a.btn.btn-warning.promo-btn-enhanced(href="/flash-sale")
+            .btn-lightning
+            i.fas.fa-lightning-bolt.me-2
+            span Mua Ngay
+            .btn-pulse
+
+      //- Stylish Divider
+      .section-divider-fancy.my-5
+        .divider-line
+        .divider-icon
+          i.fas.fa-gem
+        .divider-line
+
+      //- New Products Section
+      section.products-section.animate-on-scroll
+        .section-header.text-center.mb-5
+          .section-badge.badge-new
+            i.fas.fa-sparkles.me-2
+            span Mới Nhất
+          h2.section-title Sản phẩm mới
+          p.section-subtitle Cập nhật những xu hướng mới nhất
+          .section-divider
+        
+        .row.align-items-center.mb-4
+          .col
+            // Title được hiển thị ở section-header
+          .col-auto
+            a.btn.btn-outline-primary.btn-modern(href="/products?sort=new")
+              i.fas.fa-sparkles.me-2
+              span Xem tất cả
+              .btn-arrow →
+        
+        .products-wrapper
+          +products-layout(newProductCreate)
+
+      //- Enhanced Newsletter Banner
+      .newsletter-banner-enhanced.my-5
+        .newsletter-bg-pattern
+        .newsletter-content.position-relative
+          .row.align-items-center
+            .col-lg-6
+              .newsletter-icon-wrapper
+                .newsletter-icon-bg
+                i.fas.fa-envelope-open.newsletter-icon
+              
+              .newsletter-text
+                h3.newsletter-title
+                  span.gradient-text Đăng Ký 
+                  span Nhận Tin
+                p.newsletter-subtitle Nhận thông báo về khuyến mãi và sản phẩm mới nhất
+                .newsletter-benefits
+                  .benefit-item
+                    i.fas.fa-check
+                    span Khuyến mãi độc quyền
+                  .benefit-item
+                    i.fas.fa-check
+                    span Sản phẩm mới sớm nhất
+                  .benefit-item
+                    i.fas.fa-check
+                    span Voucher miễn phí
+            
+            .col-lg-6
+              .newsletter-form-wrapper
+                .newsletter-form
+                  .form-group
+                    .input-wrapper
+                      input.form-control.newsletter-input(
+                        type="email"
+                        placeholder="Nhập email của bạn..."
+                        required
+                      )
+                      .input-focus-line
+                    button.btn.btn-success.newsletter-submit(type="submit")
+                      i.fas.fa-paper-plane.me-2
+                      span Đăng Ký
+                      .btn-success-ripple
+                
+                .newsletter-note
+                  i.fas.fa-shield-alt.me-2
+                  span Chúng tôi không chia sẻ thông tin của bạn
 
 
   

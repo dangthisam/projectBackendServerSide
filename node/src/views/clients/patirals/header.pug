@@ -2,7 +2,7 @@
 include ../mixins/sub-menu.pug
 
 header.header.fixed-top(
-  style="z-index: 9999; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);"
+  style="z-index: 9999; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 0px 0px 0;"
 )
   nav.navbar.navbar-expand-lg.navbar-dark.shadow-lg.py-0(
     style="background: linear-gradient(135deg, #dc3545 0%, #e74c3c 50%, #c0392b 100%); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); position: relative;"
@@ -30,7 +30,7 @@ header.header.fixed-top(
             style="font-size: 0.75rem; letter-spacing: 0.5px;"
           ) Điện tử - Công nghệ
 
-      //- Toggle Button
+      //- Toggle Button for mobile view
       button.navbar-toggler.border-0.p-2(
         type="button"
         data-bs-toggle="collapse"
@@ -42,10 +42,11 @@ header.header.fixed-top(
       )
         span.navbar-toggler-icon
 
+      //- Collapsible Navbar content
       #navbarNav.collapse.navbar-collapse(
         style="z-index: 9998;"
       )
-        //- Search Form
+        //- Search Form centered
         .search-container.mx-auto.my-3.my-lg-0.position-relative(style="max-width: 450px; width: 100%; z-index: 9997;")
           form.search-form.d-flex.align-items-center.position-relative(
             action="/search"
@@ -61,7 +62,7 @@ header.header.fixed-top(
                 type="search"
                 name="keyword"
                 value=keyword
-                placeholder="Tìm kiếm sản phẩm, thương hiệu..."
+                placeholder="Tìm kiếm "
                 aria-label="Search"
                 autocomplete="off"
                 style="padding: 14px 20px; font-size: 14px; border-radius: 25px; background: rgba(255,255,255,0.95); box-shadow: 0 8px 25px rgba(0,0,0,0.15); transition: all 0.3s ease; backdrop-filter: blur(10px); position: relative; z-index: 9995;"
@@ -72,7 +73,7 @@ header.header.fixed-top(
                 style="z-index: 9994; padding: 6px 8px; border-radius: 8px; transition: all 0.3s ease; pointer-events: auto;"
               )
                 i.fas.fa-search.fs-5
-            //- Search Suggestions (ẩn mặc định)
+            //- Search Suggestions (hidden by default)
             .search-suggestions.position-absolute.w-100.bg-white.rounded-3.shadow-lg.mt-1.d-none(
               style="top: 100%; z-index: 9993; max-height: 350px; overflow-y: auto; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.2);"
             )
@@ -81,6 +82,7 @@ header.header.fixed-top(
                   span.fw-semibold.text-muted.small Gợi ý tìm kiếm
                   span.badge.bg-primary.rounded-pill.small Hot
               .suggestions-content.p-3
+                //- Example suggestion items
                 .search-suggestion-item.p-3.rounded-3.cursor-pointer.d-flex.align-items-center.mb-2(
                   data-value="iphone"
                   style="transition: all 0.3s ease; border: 1px solid transparent;"
@@ -235,7 +237,7 @@ header.header.fixed-top(
                     .item-content
                       .item-title.fw-semibold Thông tin cá nhân
                       .item-desc.small.text-muted Chỉnh sửa hồ sơ
-                
+
                 li
                   hr.dropdown-divider.my-2
                 li
