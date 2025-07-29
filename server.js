@@ -77,7 +77,7 @@ configPug(app);
 app.use("", webRouter);
  app.use(middlewareCaterory.Category)
  app.use(generalSetting.settingGeneral)
- app.use(userMiddleware.userMiddleware)
+app.use(userMiddleware.userMiddleware)
  app.use(cardMiddleware.cardId)
 app.use(prefixAdmin.prefixAdmin, authAdmin);
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, settingGeneral);
@@ -86,7 +86,7 @@ app.use(prefixAdmin.prefixAdmin, detailProfile)
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, rolesAdmin);
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, productAdmin);
 app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, productCateroryAdmin);
-app.use("", middlewareAuth.authMiddleware, clienRouter);
+app.use("", clienRouter);
 
 // tao mot bien toan cuj de su dung trong cac file pug 
 app.use(prefixAdmin.prefixAdmin, routeradmin);

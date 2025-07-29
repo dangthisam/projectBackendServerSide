@@ -2,17 +2,18 @@
   const Product =require("../../models/products");
   const ProductCategory=require("../../models/products-category-model")
   const productsHelper=require("../../helps/products")
-  const categoryHelper=require("../../helps/products-category")
+  const {search,toSlug} =require("../../helps/search")
 
   const searchProducts=async(req,res)=>{
-    const keyword=req.query.keyword;
+    const keyword=toSlug(req.query.keyword);
+    
     let newProducts=[];
     if(keyword){
         const regex=new RegExp(keyword,"i");
         const products=await Product.find({
             deleted:false,
             status:"active",
-            title:regex
+            slug:regex
 
     })
 
