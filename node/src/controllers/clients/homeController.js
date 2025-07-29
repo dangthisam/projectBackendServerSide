@@ -3,6 +3,7 @@ const {search,toSlug} =require("../../helps/search")
 
   const productsHelper=require("../../helps/products")
 const Product = require("../../models/products");
+const User = require("../../models/user.model");
 
 
 const index= async (req, res)=>{
@@ -20,20 +21,32 @@ const finds={
     
 }
 const newProductCreate=await Product.find(finds).sort({position:"desc"}).limit(7)
-
+const categoryProducts=await ProductCategory.find({
+    deleted:false,
+    status:"active"
+})
 const newProductCreates=productsHelper.priceNewProducts(newProductCreate)
    
-   
+   const totalUser=await User.countDocuments({
+    deleted:false
+   })
+   const totalProducts=await Product.countDocuments({
+       deleted:false
+   })
     res.render('clients/pages/home/index.pug', {
         title:"Sản phẩm nổi bật",
         titles:"Sản phẩm mới",
+        categoryProducts:categoryProducts,
        productsFeatured:newProducts,
-       newProductCreate:newProductCreates
+       newProductCreate:newProductCreates,
+       totalProducts:totalProducts,
+       totalUser:totalUser
     });
 
 }
 
 const filterProducts = async (req, res) => {
+    console.log(req.query)
  const slugCategory = toSlug(req.query.category);
  if (!slugCategory || slugCategory.trim() === '') {
        const products=await Product.find({
@@ -55,7 +68,21 @@ const filterProducts = async (req, res) => {
         console.log('Category not found for slug:', slugCategory);
         return; // hoặc xử lý case không tìm thấy
     }
-    console.log(categorys.id)
+    if(req.query.price_gte && req.query.price_lte){
+        const products=await Product.find({
+            product_category_id:categorys.id,
+            status:"active",
+            price:{
+                $gte:req.query.price_gte,
+                $lte:req.query.price_lte
+            }
+        });
+        return res.json({
+            code:200,
+            data:products
+        });
+    }
+    
   const products=await Product.find({
     product_category_id:categorys.id,
     status:"active",

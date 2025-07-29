@@ -2105,7 +2105,12 @@ footer .text-center.bg-danger a:hover {
   right: 1.5rem;
   z-index: 1050;
 }
-
+.facebook-float-button{
+  position: fixed;
+  bottom: 6rem;
+  right: 1.5rem;
+  z-index: 1050;
+}
 .chat-float-button .chat-btn {
   border-radius: 50%;
   width: 56px;
@@ -2117,6 +2122,22 @@ footer .text-center.bg-danger a:hover {
   justify-content: center;
   box-shadow: 0 6px 15px rgb(0 123 255 / 0.6);
   transition: background-color 0.3s ease;
+}
+.facebook-float-button .facebook-btn {
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 1.5rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 15px rgb(0 123 255 / 0.6);
+  transition: background-color 0.3s ease;
+}
+.facebook-float-button .facebook-btn:hover {
+  background-color: #3b5998;
+  box-shadow: 0 8px 20px rgb(59 89 152 / 0.8);
 }
 
 .chat-float-button .chat-btn:hover {

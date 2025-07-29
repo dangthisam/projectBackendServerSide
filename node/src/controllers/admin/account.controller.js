@@ -70,7 +70,7 @@ const detailAccount = async (req, res) => {
     };
   
     const account = await Account.findOne(find).select("-password -token");
-    //console.log(product);
+ 
 
    const findRole = {
      _id: account.role_id,

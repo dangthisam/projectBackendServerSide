@@ -61,13 +61,13 @@ block main
             //- Stats Counter
             .hero-stats.animate-fade-in.animation-delay-4
               .stat-item
-                .stat-number(data-target="1000") 0
+                .stat-number(data-target="1000") #{totalProducts}
                 .stat-label Sản phẩm
               .stat-item
-                .stat-number(data-target="50000") 0
+                .stat-number(data-target="50000") #{totalUser}
                 .stat-label Khách hàng
               .stat-item
-                .stat-number(data-target="99") 0
+                .stat-number(data-target="99") 1000
                 .stat-label % Hài lòng
 
         //- Right Column: Hero Image + Floating elements
@@ -112,10 +112,8 @@ block main
             label.form-label.me-2(for="filter-category") Danh mục:
             select#filter-category.form-select(style="min-width: 150px;")
               option(value="") Tất cả
-              option(value="Máy tính") Máy tính
-              option(value="Laptop") Laptop
-              option(value="Điện thoại") Điện thoại
-              option(value="Phụ kiện") Phụ kiện
+              each category in categoryProducts
+                option(value=category.slug) #{category.title}
 
           //- Lọc theo thương hiệu (checkbox)
           .filter-group

@@ -31,7 +31,7 @@ function renderProductList(products) {
       <div class="card-body d-flex flex-column">
         <h5 class="card-title">${product.title}</h5>
         <p class="card-text mt-auto">Giá: ${product.price || "Liên hệ"} $</p>
-        <button class="btn btn-primary mt-2">Thêm vào giỏ</button>
+        <a href="/products/detail/${product.slug}" class="btn btn-primary mt-2">Xem chi tiết </a>
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@ const fetchFilteredProducts = async (filters) => {
     if (min) params.append("price_gte", min);
     if (max) params.append("price_lte", max);
   }
-  console.log(params.toString());
+
   const link = `/home/filter?${params.toString()}`;
   const options = {
     method: "GET",
@@ -63,7 +63,7 @@ const fetchFilteredProducts = async (filters) => {
   fetch(link, options)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data.data);
+
       renderProductList(data.data);
     })
     .catch((error) => {
