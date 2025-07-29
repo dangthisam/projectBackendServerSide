@@ -1,7 +1,7 @@
 
 const Product =require("../../models/products");
 const filter =require("../../helps/filterStatus");
-const search =require("../../helps/search");
+const {search} =require("../../helps/search");
 const pagination=require("../../helps/pagination");
 const systemConfig = require("../../config/system");
 const ProductCategory = require("../../models/products-category-model");

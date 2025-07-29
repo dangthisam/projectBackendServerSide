@@ -1,11 +1,12 @@
 const ProductCategory = require("../../models/products-category-model");
+const {search,toSlug} =require("../../helps/search")
 
   const productsHelper=require("../../helps/products")
 const Product = require("../../models/products");
 
 
 const index= async (req, res)=>{
- 
+
     const find ={
         deleted:false,
         status:"active",
@@ -29,7 +30,42 @@ const newProductCreates=productsHelper.priceNewProducts(newProductCreate)
        productsFeatured:newProducts,
        newProductCreate:newProductCreates
     });
+
+}
+
+const filterProducts = async (req, res) => {
+ const slugCategory = toSlug(req.query.category);
+ if (!slugCategory || slugCategory.trim() === '') {
+       const products=await Product.find({
+           deleted: false,
+           status: "active"
+       }).limit(7);
+       return res.json({
+           code: 200,
+           data: products
+       });
+    }
+    
+    const categorys = await ProductCategory.findOne({
+        slug: slugCategory,
+        deleted: false
+    });
+    
+    if (!categorys) {
+        console.log('Category not found for slug:', slugCategory);
+        return; // hoặc xử lý case không tìm thấy
+    }
+    console.log(categorys.id)
+  const products=await Product.find({
+    product_category_id:categorys.id,
+    status:"active",
+    deleted:false
+  })
+  res.json({
+    code:200,
+    data:products
+  })
 }
 
 
-module.exports={index}
+module.exports={index , filterProducts}

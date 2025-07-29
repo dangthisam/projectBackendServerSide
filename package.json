@@ -44,6 +44,7 @@
     "textbelt": "^0.0.4",
     "tinymce": "^7.9.0",
     "twilio": "^5.7.2",
+    "unidecode": "^1.1.0",
     "vnpay": "^2.4.0"
   },
   "devDependencies": {
