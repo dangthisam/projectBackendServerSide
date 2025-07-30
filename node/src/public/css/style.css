@@ -1304,6 +1304,7 @@ footer .text-center.bg-danger a:hover {
   .search-container {
     max-width: 400px;
     width: 100%;
+    z-index: -1;
   }
   
   .search-input-group {
@@ -3256,3 +3257,276 @@ emoji-picker {
     .contact-form {
       animation-delay: 0.2s;
     }
+
+    .about-container {
+      font-size: 18px; /* kích thước căn bản lớn hơn */
+      line-height: 1.6;
+      font-family: Arial, sans-serif;
+    }
+    .about-container h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    .about-container h2 {
+      font-size: 2.5rem;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+    .about-container p {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .about-container ul {
+      font-size: 1.25rem;
+      margin-left: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .about-container ul li {
+      margin-bottom: 0.5rem;
+    }
+    .team-section ul li strong {
+      font-size: 1.3rem;
+    }
+    .contact-info p {
+      font-size: 1.25rem;
+    }
+
+    /* Ẩn dropdown mặc định */
+li.sub-menu > ul.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+/* Hiện khi hover vào phần li cha */
+li.sub-menu:hover > ul.dropdown-menu {
+  display: block;
+}
+
+/* Với dropdown con (sub-menu con) */
+ul.dropdown-menu li.sub-menu > ul.dropdown-menu {
+  top: 0;
+  left: 100%;
+}
+.banner-carousel {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            margin-top: 20px;
+            z-index: 10;
+          
+        }
+
+        .banner-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .banner-slide.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .banner-slide.prev {
+            transform: translateX(-100%);
+        }
+
+        .banner-content {
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            transform: translateY(-50%);
+            color: white;
+            z-index: 2;
+            max-width: 500px;
+        }
+
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+            z-index: 1;
+        }
+
+        .banner-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .banner-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: slideInLeft 1s ease-out 0.3s both;
+        }
+
+        .banner-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+            transition: all 0.3s ease;
+            animation: slideInLeft 1s ease-out 0.6s both;
+        }
+
+        .banner-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+            color: white;
+        }
+
+        /* Navigation Controls */
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3;
+        }
+
+        .carousel-controls.prev {
+            left: 20px;
+        }
+
+        .carousel-controls.next {
+            right: 20px;
+        }
+
+        .carousel-btn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .carousel-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        /* Indicators */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .indicator.active {
+            background: white;
+            transform: scale(1.2);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        /* Animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #ff8e53);
+            z-index: 3;
+            animation: progressBar 5s linear infinite;
+        }
+
+        @keyframes progressBar {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .banner-carousel {
+                height: 400px;
+                border-radius: 15px;
+            }
+
+            .banner-content {
+                left: 30px;
+                max-width: 300px;
+            }
+
+            .banner-title {
+                font-size: 2rem;
+            }
+
+            .banner-subtitle {
+                font-size: 1rem;
+            }
+
+            .carousel-controls {
+                display: none;
+            }
+        }
+
+        /* Auto-play pause on hover */
+        .banner-carousel:hover .progress-bar {
+            animation-play-state: paused;
+        }

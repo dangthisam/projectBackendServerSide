@@ -5,16 +5,17 @@ include ../../mixins/alert.pug
 block main
   +alert(5000)
   +alertError(5000)
-  
+
   .container.my-5
     .row
       .col-12
         +box-head(title)
+
     .row
       .col-12
         .alert.alert-success.py-4.fs-5.shadow-sm.rounded-3
           i.fas.fa-check-circle.text-success.fs-3.me-2
-          | 🎉 Chúc mừng bạn đã đặt hàng thành công! 
+          | 🎉 Chúc mừng bạn đã đặt hàng thành công!
           br
           | Chúng tôi sẽ xử lý đơn hàng trong thời gian sớm nhất.
 
@@ -82,17 +83,15 @@ block main
                         td.fw-bold #{index + 1}
                         td
                           img(
-                            src=item.productInfo.thumbnail, 
-                            alt=item.productInfo.title, 
-                            width="70", 
-                            height="70", 
+                            src=item.productInfo.thumbnail,
+                            alt=item.productInfo.title,
+                            width="70",
+                            height="70",
                             class="rounded shadow border bg-light",
                             style="object-fit:cover;"
                           )
                         td.text-start.fw-semibold
-                          a.text-decoration-none.text-dark(
-                            title=item.productInfo.title
-                          ) 
+                          a.text-decoration-none.text-dark(title=item.productInfo.title)
                             | #{item.productInfo.title}
                         td.text-success.fw-bold #{item.productInfo.priceNew.toLocaleString('vi-VN')}₫
                         td.text-center.mx-auto #{item.quantity}
@@ -108,3 +107,6 @@ block main
                   span.fs-3.fw-bold.text-success
                     i.fas.fa-coins.me-2
                     | #{order.totalPrice ? order.totalPrice.toLocaleString('vi-VN') : 0}₫
+                a.btn.btn-primary.btn-lg.ms-auto(href="/checkout/payment/vnpay/create")
+                  i.fas.fa-credit-card.me-2
+                  | THANH TOÁN

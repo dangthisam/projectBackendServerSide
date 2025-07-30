@@ -4,100 +4,68 @@ include ../../mixins/products-layout.pug
 
 block main
   //- Enhanced Hero Banner với animation và effects
-  section.hero-banner.position-relative.overflow-hidden
-    //- Animated Background Shapes
-    .hero-bg-animation
-      .floating-shape.shape-1
-      .floating-shape.shape-2
-      .floating-shape.shape-3
-      .floating-shape.shape-4
-      .floating-shape.shape-5
+  .banner-carousel#bannerCarousel
+    //- Slide 1
+    .banner-slide.active(style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://cdn.prod.website-files.com/6705f4b15aee7ca914fff083/685e47a2b2ab5e3998c98aac_Table%20Usage%20Template%20Image-p-2000.png');")
+      .banner-overlay
+      .banner-content
+        h1.banner-title iPhone 15 Pro Max
+        p.banner-subtitle Công nghệ tiên tiến nhất với chip A17 Pro và camera 48MP siêu nét
+        a.banner-btn.btn.btn-primary(href="/products/iphone-15")
+          i.fas.fa-shopping-cart.me-2
+          | Mua ngay
+      .progress-bar
 
-    //- Gradient Overlay
-    .hero-overlay
+    //- Slide 2
+    .banner-slide(style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');")
+      .banner-overlay
+      .banner-content
+        h1.banner-title Laptop Gaming ROG
+        p.banner-subtitle Hiệu năng vượt trội với RTX 4080 và màn hình 240Hz
+        a.banner-btn.btn.btn-primary(href="/products/laptop-gaming")
+          i.fas.fa-bolt.me-2
+          | Khám phá
+      .progress-bar
 
-    .container-fluid.h-100
-      .row.align-items-center.min-vh-100.position-relative
-        //- Left Column: Text / Content
-        .col-lg-6.hero-content-wrapper
-          .hero-content.text-white
-            //- Animated Badge
-            .hero-badge.animate-bounce-in
-              .badge-glow
-              i.fas.fa-fire.me-2
-              span Hot Deal
-              .badge-sparkle ✨
+    //- Slide 3
+    .banner-slide(style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');")
+      .banner-overlay
+      .banner-content
+        h1.banner-title Tai nghe Sony WH-1000XM5
+        p.banner-subtitle Chống ồn hoàn hảo, âm thanh Hi-Res và pin 30 giờ
+        a.banner-btn.btn.btn-primary(href="/products/headphones")
+          i.fas.fa-headphones.me-2
+          | Nghe thử
+      .progress-bar
 
-            //- Main Title với typing effect
-            h1.hero-title.animate-slide-up
-              span.title-line Khuyến Mãi
-              span.title-line.highlight-gradient Siêu Lớn
+    //- Slide 4
+    .banner-slide(style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://ix-marketing.imgix.net/case-study_tile_bentobox.png?auto=format,compress&w=1946');")
+      .banner-overlay
+      .banner-content
+        h1.banner-title Apple Watch Ultra 2
+        p.banner-subtitle Thiết kế titan cứng cáp, GPS chính xác và pin 36 giờ
+        a.banner-btn.btn.btn-primary(href="/products/apple-watch")
+          i.fas.fa-clock.me-2
+          | Đặt hàng
+      .progress-bar
 
-            //- Subtitle với gradient text
-            h2.hero-subtitle.animate-slide-up.animation-delay-1
-              | Giảm giá lên đến
-              span.highlight.percentage(data-target="70") 70%
-              .discount-badge OFF
+    //- Controls
+    .carousel-controls.prev
+      button.carousel-btn(type="button" onclick="prevSlide()")
+        i.fas.fa-chevron-left
 
-            //- Description
-            p.hero-description.animate-fade-in.animation-delay-2
-              | Hàng ngàn sản phẩm chất lượng cao với mức giá không thể tin được.
-              strong Nhanh tay đặt hàng
-              | trước khi hết stock!
+    .carousel-controls.next
+      button.carousel-btn(type="button" onclick="nextSlide()")
+        i.fas.fa-chevron-right
 
-            //- Action Buttons
-            .hero-actions.animate-slide-up.animation-delay-3
-              a.btn.btn-primary.btn-hero.me-3(href="/products?sale=1")
-                .btn-bg-effect
-                i.fas.fa-shopping-bag.me-2
-                span Mua Ngay
-                .btn-shine
+    //- Indicators
+    .carousel-indicators
+      each val, idx in [0,1,2,3]
+        .indicator(class= idx === 0 ? "active" : "", onclick=`currentSlide(${idx})`)
 
-              a.btn.btn-outline-light.btn-hero(href="#products")
-                .btn-bg-effect
-                i.fas.fa-arrow-down.me-2
-                span Khám Phá
-
-            //- Stats Counter
-            .hero-stats.animate-fade-in.animation-delay-4
-              .stat-item
-                .stat-number(data-target="1000") #{totalProducts}
-                .stat-label Sản phẩm
-              .stat-item
-                .stat-number(data-target="50000") #{totalUser}
-                .stat-label Khách hàng
-              .stat-item
-                .stat-number(data-target="99") 1000
-                .stat-label % Hài lòng
-
-        //- Right Column: Hero Image + Floating elements
-        .col-lg-6.hero-image-wrapper.p-0
-          .hero-image-container.position-relative
-            //- Main Banner Image
-            .hero-image-frame
-              img.hero-main-image.animate-zoom-in(
-                src="/img/banners.png"
-                alt="Khuyến mãi lớn"
-                loading="eager"
-              )
-              .image-glow-effect
-
-            //- Floating Elements (icons with labels)
-            .floating-elements
-              .floating-card.card-1
-                i.fas.fa-gift.fa-2x
-                span Quà Tặng
-              .floating-card.card-2
-                i.fas.fa-shipping-fast.fa-2x
-                span Giao Nhanh
-              .floating-card.card-3
-                i.fas.fa-shield-alt.fa-2x
-                span Bảo Hành
-
-    //- Scroll Indicator Arrow
-    .scroll-indicator.animate-bounce
-      i.fas.fa-chevron-down
-
+  //- Scroll indicator arrow
+  .scroll-indicator.animate-bounce
+    i.fas.fa-chevron-down
 
   //- Enhanced Main Content
   .main-content.position-relative
@@ -147,11 +115,12 @@ block main
           .section-divider
 
         .row.align-items-center.mb-4
-     
+
         .products-wrapper
-          //- Gọi mixin products-layout với productsFeatured, cần đảm bảo mỗi sản phẩm có data-* attribute theo dưới
+          //- Gọi mixin products-layout với productsFeatured
           +products-layout(productsFeatured)
-      //- Featured Products Section
+
+      //- Featured Products Section (lặp lại - bạn có thể gộp nếu cần)
       section#products.products-section.animate-on-scroll
         .section-header.text-center.mb-5
           .section-badge
@@ -163,7 +132,6 @@ block main
 
         .row.align-items-center.mb-4
           .col
-            // Title hiển thị ở section-header
           .col-auto
             a.btn.btn-outline-danger.btn-modern(href="/products?featured=1")
               i.fas.fa-fire.me-2
@@ -172,7 +140,6 @@ block main
 
         .products-wrapper
           +products-layout(productsFeatured)
-
 
       //- Enhanced Promotional Banner
       .promo-banner-enhanced.my-5
@@ -219,14 +186,12 @@ block main
             span Mua Ngay
             .btn-pulse
 
-
       //- Stylish Divider
       .section-divider-fancy.my-5
         .divider-line
         .divider-icon
           i.fas.fa-gem
         .divider-line
-
 
       //- New Products Section
       section.products-section.animate-on-scroll
@@ -248,7 +213,6 @@ block main
 
         .products-wrapper
           +products-layout(newProductCreate)
-
 
       //- Enhanced Newsletter Banner
       .newsletter-banner-enhanced.my-5

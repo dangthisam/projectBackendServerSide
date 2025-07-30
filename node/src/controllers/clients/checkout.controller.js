@@ -3,8 +3,9 @@ const Cart=require("../../models/card.model")
 const Order=require("../../models/order.model")
 const Product=require("../../models/products")
 const productHelp=require("../../helps/products")
-
-
+const dotenv = require('dotenv');
+dotenv.config();
+const { VNPay, ignoreLogger, ProductCode, VnpLocale, dateFormat } = require('vnpay');   
 const checkoutProducts=async (req, res)=>{
    const cartId=req.cookies.cardId;
      const cart=await Cart.findById(cartId);
@@ -111,4 +112,31 @@ res.render("clients/pages/checkout/success",{
         order:order
     })
 }
-module.exports={checkoutProducts, checkProductDetail  , successOrder}
+
+const paymentOrder=async(req,res)=>{
+    const vnpay = new VNPay({
+        tmnCode: "FQ1FXS2P",
+        secureSecret: 'FSLKKXGZ8WGH7ZPOAQJM1EI8B7O6OSOJ',
+        vnpayHost: "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html",
+        testMode: true,
+        hashAlgorithm: 'SHA512',
+        loggerFn: ignoreLogger
+    });
+
+   const vnpayResponse = await vnpay.buildPaymentUrl({
+  vnp_Amount: 1000000, // Kiểm tra SDK nhân 100 hay chưa
+  vnp_TxnRef:'123456',
+  vnp_OrderInfo: 'Thanh toán đơn hàng',
+  vnp_OrderType: 'other',
+  vnp_CreateDate: dateFormat(new Date(), 'yyyyMMddHHmmss'),
+  vnp_CurrCode: 'VND',
+  vnp_IpAddr: '127.0.0.1',
+  vnp_ReturnUrl: 'http://localhost:3000/checkout/success',
+  vnp_Locale: VnpLocale.VN, // hoặc VnpLocale.VN nếu đã import đúng
+  vnp_OrderInfo: 'Thanh toán đơn hàng',
+  vnp_ExpireDate: dateFormat(new Date(Date.now() + 15 * 60 * 1000), 'yyyyMMddHHmmss'),
+  vnp_OrderType: 'other' // nếu cần
+});
+res.redirect(vnpayResponse);
+}
+module.exports={checkoutProducts, checkProductDetail  , successOrder, paymentOrder}

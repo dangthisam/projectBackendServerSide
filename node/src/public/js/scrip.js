@@ -126,3 +126,92 @@ document.addEventListener("DOMContentLoaded", () => {
 
   onFiltersChanged(); // Load lần đầu
 });
+
+ let currentSlideIndex = 0;
+  let autoSlideInterval;
+  const slides = document.querySelectorAll('.banner-slide');
+  const indicators = document.querySelectorAll('.indicator');
+  const totalSlides = slides.length;
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove('active', 'prev');
+      if (i === index) {
+        slide.classList.add('active');
+      } else if (i < index) {
+        slide.classList.add('prev');
+      }
+    });
+
+    indicators.forEach((indicator, i) => {
+      indicator.classList.toggle('active', i === index);
+    });
+
+    // Restart animations
+    const activeSlide = slides[index];
+    const progressBar = activeSlide.querySelector('.progress-bar');
+    if (progressBar) {
+      progressBar.style.animation = 'none';
+      progressBar.offsetHeight;
+      progressBar.style.animation = 'progressBar 5s linear infinite';
+    }
+  }
+
+  function nextSlide() {
+    currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
+    showSlide(currentSlideIndex);
+    resetAutoSlide();
+  }
+
+  function prevSlide() {
+    currentSlideIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides;
+    showSlide(currentSlideIndex);
+    resetAutoSlide();
+  }
+
+  function currentSlide(index) {
+    currentSlideIndex = index;
+    showSlide(currentSlideIndex);
+    resetAutoSlide();
+  }
+
+  function startAutoSlide() {
+    autoSlideInterval = setInterval(nextSlide, 5000);
+  }
+
+  function stopAutoSlide() {
+    if (autoSlideInterval) {
+      clearInterval(autoSlideInterval);
+    }
+  }
+
+  function resetAutoSlide() {
+    stopAutoSlide();
+    startAutoSlide();
+  }
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    showSlide(0);
+    startAutoSlide();
+
+    // Pause on hover
+    const carousel = document.getElementById('bannerCarousel');
+    carousel.addEventListener('mouseenter', stopAutoSlide);
+    carousel.addEventListener('mouseleave', startAutoSlide);
+
+    // Touch support
+    let startX = 0;
+    carousel.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    });
+
+    carousel.addEventListener('touchend', (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) nextSlide();
+        else prevSlide();
+      }
+    });
+  })
