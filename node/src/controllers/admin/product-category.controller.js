@@ -2,87 +2,93 @@
 const systemConfig = require("../../config/system");
 const ProductCategory = require("../../models/products-category-model");
 const filter =require("../../helps/filterStatus");
-const search =require("../../helps/search");
+const {search} =require("../../helps/search");
 const pagination=require("../../helps/pagination");
 // const validate = require("../../validates/product.validate");
 let count=0;
-const productCategoryAdmin= async (req,res)=>{ 
-
-  // start filter status ON or OFF    
- filterStatus =filter(req.query.status);
-
-    const find={
-      deleted:false
+const productCategoryAdmin = async (req, res) => {
+    // start filter status ON or OFF
+    filterStatus = filter(req.query.status);
+    const find = {
+        deleted: false
     }
 
     if (req.query.status) {
-        find.status = req.query.status;  
+        find.status = req.query.status;
     }
-//end filter status ON or OFF
-function createTree(arr, parentId = "") {
+    //end filter status ON or OFF
+
+    let count = 0;
+    
+    function createTree(arr, parentId = "") {
         const tree = [];
         arr.forEach((item) => {
-        if (item.parent_id === parentId) {  
-          count++;
-        const newItem = item;
-        newItem.index=count
-        const children = createTree(arr, item.id);
-        if (children.length > 0) {
-        newItem.children = children;
-        }
-        tree.push(newItem);
-      }
+            if (item.parent_id === parentId) {
+                count++;
+                const newItem = item;
+                newItem.index = count;
+                const children = createTree(arr, item.id);
+                if (children.length > 0) {
+                    newItem.children = children;
+                }
+                tree.push(newItem);
+            }
         });
         return tree;
-          }
-let count=0
-
-     // start search products
-        const objectSearch =search(req.query);
-        
-            if(objectSearch.regex){
-              find.title=objectSearch.regex;
-            }
-    //end search products
- 
-    //start pagination 
- const countProducts = await ProductCategory.countDocuments(find);
-  let objectPagination = pagination(
-        {
-          currentPage:1,
-          limitPage:4
-        },
-        req.query,
-        countProducts
-      )
-    //end pagination
-  
-    
-//start sort 
-sort={};
-    if(req.query.sortKey && req.query.sortValue){
-      sort[req.query.sortKey] = req.query.sortValue
-    }else{
-      sort.position='desc'
     }
 
-//end sort 
-        
-    const records= await ProductCategory.find(find)
-    .sort(sort)
-    .limit(objectPagination.limitPage)
-    .skip(objectPagination.skip)
+    // start search products
+    const objectSearch = search(req.query);
+
+    if (objectSearch.regex) {
+        find.title = objectSearch.regex;
+    }
+    //end search products
+
+    //start sort
+    sort = {};
+    if (req.query.sortKey && req.query.sortValue) {
+        sort[req.query.sortKey] = req.query.sortValue;
+    } else {
+        sort.position = 'desc';
+    }
+    //end sort
+
+    // LẤY TẤT CẢ RECORDS TRƯỚC KHI TẠO TREE
+    const allRecords = await ProductCategory.find(find).sort(sort);
     
-const newRecords = createTree(records);
+    // TẠO TREE STRUCTURE HOÀN CHỈNH
+    const fullTree = createTree(allRecords);
     
-    res.render('admin/pages/products/index-category', { 
-      pageTitle: "Danh mục sản phẩm",
-      records: newRecords,
-      filterStatus :filterStatus,
-      keyword:objectSearch.keyword,
-      pagination : objectPagination
-     });
-  }
+    // TÍNH TOÁN PAGINATION CHO CÂY (chỉ tính danh mục gốc)
+    const rootCategories = fullTree; // Chỉ các danh mục gốc
+    const countRootCategories = rootCategories.length;
+    
+    let objectPagination = pagination(
+        {
+            currentPage: 1,
+            limitPage: 4
+        },
+        req.query,
+        countRootCategories
+    );
+
+    // ÁP DỤNG PAGINATION CHO CÂY
+    const paginatedTree = rootCategories.slice(
+        objectPagination.skip, 
+        objectPagination.skip + objectPagination.limitPage
+    );
+
+
+    
+    res.render('admin/pages/products/index-category', {
+        pageTitle: "Danh mục sản phẩm",
+        records: paginatedTree,
+        filterStatus: filterStatus,
+        keyword: objectSearch.keyword,
+        pagination: objectPagination
+    });
+}
  // start one products status
    const  changeStatusCategory = async(req, res)=>{
      const permissions =res.locals.role.permissions;
