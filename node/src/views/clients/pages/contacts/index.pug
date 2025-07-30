@@ -1,0 +1,92 @@
+extends ../../layout/default.pug
+
+block main
+  .contact-container
+    .contact-wrapper
+      .page-title
+        h1 Liên Hệ Với Chúng Tôi
+        p Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn
+
+      .contact-info
+        h2.info-title Thông Tin Liên Hệ
+
+        .contact-item
+          .contact-icon 📍
+          .contact-text
+            h3 Địa chỉ
+            p 123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh
+
+        .contact-item
+          .contact-icon 📞
+          .contact-text
+            h3 Điện thoại
+            p +84 123 456 789
+
+        .contact-item
+          .contact-icon ✉️
+          .contact-text
+            h3 Email
+            p contact@example.com
+
+        .contact-item
+          .contact-icon 🕒
+          .contact-text
+            h3 Giờ làm việc
+            p Thứ 2 - Thứ 6: 8:00 - 17:30
+
+        .social-links
+          h3 Kết nối với chúng tôi
+          .social-icons
+            a.social-icon(href="#" aria-label="Facebook") 📘
+            a.social-icon(href="#" aria-label="Twitter") 🐦
+            a.social-icon(href="#" aria-label="Instagram") 📷
+            a.social-icon(href="#" aria-label="LinkedIn") 💼
+
+      .contact-form
+        h2.form-title Gửi Tin Nhắn
+
+        form(action="#" method="POST")
+          .form-group
+            label(for="fullName") Họ và tên *
+            input#fullName.form-control(
+              type="text", 
+              name="fullName", 
+              placeholder="Nhập họ và tên của bạn", 
+              required
+            )
+          
+          .form-group
+            label(for="email") Email *
+            input#email.form-control(
+              type="email", 
+              name="email", 
+              placeholder="Nhập địa chỉ email của bạn", 
+              required
+            )
+          
+          .form-group
+            label(for="phone") Số điện thoại
+            input#phone.form-control(
+              type="tel", 
+              name="phone", 
+              placeholder="Nhập số điện thoại của bạn"
+            )
+          
+          .form-group
+            label(for="subject") Chủ đề *
+            input#subject.form-control(
+              type="text", 
+              name="subject", 
+              placeholder="Nhập chủ đề tin nhắn", 
+              required
+            )
+          
+          .form-group
+            label(for="message") Nội dung tin nhắn *
+            textarea#message.form-control(
+              name="message", 
+              placeholder="Nhập nội dung tin nhắn của bạn...", 
+              required
+            )
+          
+          button.btn-submit(type="submit") Gửi tin nhắn
