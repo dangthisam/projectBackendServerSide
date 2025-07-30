@@ -13,6 +13,8 @@ const userRegister=require("./user.router");
 const userMiddleware=require("../../middleware/client/auth.middleware");
 const userChatRouter=require("./chat.router");
 const  contactRouter=require("./contact.router");
+const  aboutRouter=require("./about.router");
+
 
 // Route chính
 
@@ -33,11 +35,6 @@ router.use("/chat" , userMiddleware.authMiddleware , userChatRouter);
 
 router.use("/contact" , contactRouter);
 
-// router.get("*" , (req, res) =>{
-//     res.render("clients/pages/error/404",{
-//         title:"404 Error"
-//     })
+router.use("/about" , aboutRouter);
 
-  
-// })
 module.exports = router;
