@@ -4,7 +4,7 @@ const Cart = require("../../models/card.model");
 const Order = require("../../models/order.model");
 const Product = require("../../models/products");
 const productHelp = require("../../helps/products");
-
+const { generateRandomString } = require("../../helps/generate");
 const {
   VNPay,
   ignoreLogger,
@@ -122,7 +122,7 @@ const paymentOrder = async (req, res) => {
 
   const vnpayResponse = await vnpay.buildPaymentUrl({
     vnp_Amount: 1000000, // Kiểm tra SDK nhân 100 hay chưa
-    vnp_TxnRef: "123456783",
+    vnp_TxnRef: generateRandomString(10),
     vnp_OrderInfo: "Thanh toán đơn hàng",
     vnp_OrderType: "other",
     vnp_CreateDate: dateFormat(new Date(), "yyyyMMddHHmmss"),
