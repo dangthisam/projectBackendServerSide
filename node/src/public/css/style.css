@@ -14,7 +14,7 @@ body {
 
 /* Navbar styles */
 .navbar {
-  background-color: #474a47 !important; /* Màu đỏ đậm như Airpaz */
+  background-color: #397f6e !important; /* Màu đỏ đậm như Airpaz */
   
 }
 
@@ -120,7 +120,7 @@ body {
 } */
 /* Căn giữa khung chat trên trang */
 .container.my-3 {
-  height: 100vh;
+ 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -368,7 +368,7 @@ hr {
     background: linear-gradient(90deg, #f7971e 0%, #ffd200 100%) !important;
   }
   .cart-item-row:hover {
-    background: #fdf6e3 !important;
+    background: #378579 !important;
     transition: background 0.2s;
   }
   
@@ -1300,11 +1300,14 @@ footer .text-center.bg-danger a:hover {
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255,255,255,0.1);
   }
-  
+.body{
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+
+}
   .search-container {
     max-width: 400px;
     width: 100%;
-    z-index: -1;
+    z-index: 0.5;
   }
   
   .search-input-group {
@@ -3530,3 +3533,31 @@ ul.dropdown-menu li.sub-menu > ul.dropdown-menu {
         .banner-carousel:hover .progress-bar {
             animation-play-state: paused;
         }
+         @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+      }
+      
+      .product-item:hover {
+        z-index: 10;
+      }
+      
+      .image-overlay .btn {
+        animation: slideUp 0.4s ease forwards;
+      }
+      
+      .image-overlay .btn:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
