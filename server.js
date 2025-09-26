@@ -90,7 +90,7 @@ app.use("", clienRouter);
 
 // tao mot bien toan cuj de su dung trong cac file pug 
 app.use(prefixAdmin.prefixAdmin, routeradmin);
-
+app.set('trust proxy' , true);
 //tinyEcm
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 

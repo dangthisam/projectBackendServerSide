@@ -2,6 +2,8 @@ const { name } = require("ejs");
 const User = require("../models/user");
 const { uploadFile, uploadMutipleFile } = require("../services/filesevices");
 const getUsersAPI = async (req, res) => {
+  const ip =req.ip;
+  console.log(ip)
   let result = await User.find({});
   return res.status(200).json({
     errcode: 0,
