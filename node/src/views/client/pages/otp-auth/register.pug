@@ -1,0 +1,113 @@
+extends ../../layouts/default.pug
+
+block main
+  .container.mt-5
+    .row.justify-content-center
+      .col-md-6
+        .card
+          .card-header.bg-primary.text-white
+            h4.mb-0.text-center Đăng ký OTP Authentication
+          .card-body
+            form#registerForm
+              .mb-3
+                label.form-label(for="username") Username
+                input.form-control(type="text" id="username" name="username" required)
+                
+              .mb-3
+                label.form-label(for="email") Email
+                input.form-control(type="email" id="email" name="email" required)
+                
+              button.btn.btn-primary.w-100(type="submit") Đăng ký
+              
+            .mt-3.text-center
+              a(href="/otp-auth/login") Đã có tài khoản? Đăng nhập
+              
+    // Modal hiển thị kết quả
+    .modal.fade#resultModal(tabindex="-1")
+      .modal-dialog.modal-lg
+        .modal-content
+          .modal-header
+            h5.modal-title Thông tin đăng ký
+            button.btn-close(type="button" data-bs-dismiss="modal")
+          .modal-body
+            #modalContent
+          .modal-footer
+            button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Đóng
+
+  script.
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      
+      try {
+        const response = await fetch('/otp-auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          // Hiển thị thông tin thành công
+          let content = `
+            <div class="alert alert-success">
+              <h6>Đăng ký thành công!</h6>
+              <p><strong>Username:</strong> ${result.data.username}</p>
+              <p><strong>Seed:</strong> <code>${result.data.seed}</code></p>
+              <p><strong>Số lần đăng nhập tối đa:</strong> ${result.data.maxIterations}</p>
+            </div>
+            
+            <div class="alert alert-info">
+              <h6>Chuỗi OTP Demo (10 OTP đầu tiên):</h6>
+              <p class="small">Sử dụng các OTP này theo thứ tự để đăng nhập:</p>
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Lần</th>
+                      <th>OTP (8 ký tự đầu)</th>
+                      <th>OTP đầy đủ</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+          `;
+          
+          result.data.otpSequence.forEach(item => {
+            content += `
+              <tr>
+                <td>${item.iteration}</td>
+                <td><code>${item.shortOtp}</code></td>
+                <td><small><code>${item.otp}</code></small></td>
+              </tr>
+            `;
+          });
+          
+          content += `
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <div class="alert alert-warning">
+              <strong>Lưu ý:</strong> Hãy lưu lại seed và chuỗi OTP này. Trong thực tế, bạn sẽ tự tính toán OTP từ seed.
+            </div>
+          `;
+          
+          document.getElementById('modalContent').innerHTML = content;
+          new bootstrap.Modal(document.getElementById('resultModal')).show();
+          
+          // Reset form
+          this.reset();
+        } else {
+          alert('Lỗi: ' + result.message);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Có lỗi xảy ra khi đăng ký');
+      }
+    });

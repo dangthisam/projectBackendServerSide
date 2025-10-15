@@ -1,0 +1,162 @@
+extends ../../layouts/default.pug
+
+block main
+  .container.mt-5
+    .row.justify-content-center
+      .col-md-8
+        .card
+          .card-header.bg-info.text-white
+            h4.mb-0.text-center Thông tin tài khoản OTP
+          .card-body
+            .row
+              .col-md-6
+                h6 Thông tin cơ bản
+                table.table.table-borderless
+                  tr
+                    td <strong>Username:</strong>
+                    td= user.username
+                  tr
+                    td <strong>Email:</strong>
+                    td= user.email
+                  tr
+                    td <strong>Ngày tạo:</strong>
+                    td= moment(user.createdAt).format('DD/MM/YYYY HH:mm')
+                  if user.lastLoginAt
+                    tr
+                      td <strong>Lần đăng nhập cuối:</strong>
+                      td= moment(user.lastLoginAt).format('DD/MM/YYYY HH:mm')
+                      
+              .col-md-6
+                h6 Thống kê OTP
+                table.table.table-borderless
+                  tr
+                    td <strong>Lần đăng nhập hiện tại:</strong>
+                    td= user.currentIndex
+                  tr
+                    td <strong>Tổng số lần tối đa:</strong>
+                    td= user.maxIndex
+                  tr
+                    td <strong>Còn lại:</strong>
+                    td 
+                      span.badge(class=user.remainingLogins > 10 ? 'bg-success' : user.remainingLogins > 5 ? 'bg-warning' : 'bg-danger')
+                        = user.remainingLogins + ' lần'
+                        
+            .progress.mb-3
+              .progress-bar(
+                role="progressbar" 
+                style=`width: ${(user.currentIndex / user.maxIndex) * 100}%`
+                aria-valuenow=user.currentIndex
+                aria-valuemin="0" 
+                aria-valuemax=user.maxIndex
+              )
+                = Math.round((user.currentIndex / user.maxIndex) * 100) + '%'
+                
+            if user.remainingLogins <= 10
+              .alert.alert-warning
+                strong Cảnh báo: 
+                | Bạn chỉ còn #{user.remainingLogins} lần đăng nhập. Hãy chuẩn bị đăng ký lại tài khoản mới.
+                
+            if user.remainingLogins <= 0
+              .alert.alert-danger
+                strong Hết lượt đăng nhập: 
+                | Tài khoản đã hết số lần đăng nhập. Vui lòng đăng ký tài khoản mới.
+                
+            .d-flex.gap-2
+              button.btn.btn-primary#getDemoBtn Lấy Demo OTP
+              button.btn.btn-secondary#logoutBtn Đăng xuất
+              
+        // Modal hiển thị demo OTP
+        .modal.fade#demoModal(tabindex="-1")
+          .modal-dialog.modal-lg
+            .modal-content
+              .modal-header
+                h5.modal-title Demo OTP Sequence
+                button.btn-close(type="button" data-bs-dismiss="modal")
+              .modal-body
+                #demoContent
+              .modal-footer
+                button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Đóng
+
+  script.
+    // Lấy demo OTP
+    document.getElementById('getDemoBtn').addEventListener('click', async function() {
+      try {
+        const response = await fetch(`/otp-auth/demo/${encodeURIComponent('#{user.username}')}`);
+        const result = await response.json();
+        
+        if (result.success) {
+          let content = `
+            <div class="alert alert-info">
+              <h6>Thông tin hiện tại:</h6>
+              <p><strong>Username:</strong> ${result.data.username}</p>
+              <p><strong>Lần đăng nhập hiện tại:</strong> ${result.data.currentIndex}</p>
+              <p><strong>Còn lại:</strong> ${result.data.remainingLogins} lần</p>
+            </div>
+            
+            <div class="alert alert-warning">
+              <h6>Demo với Seed mới:</h6>
+              <p><strong>Seed:</strong> <code>${result.data.newSeed}</code></p>
+              <p class="small">${result.data.note}</p>
+            </div>
+            
+            <div class="table-responsive">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>Lần</th>
+                    <th>OTP (8 ký tự đầu)</th>
+                    <th>OTP đầy đủ</th>
+                  </tr>
+                </thead>
+                <tbody>
+          `;
+          
+          result.data.otpSequence.forEach(item => {
+            content += `
+              <tr>
+                <td>${item.iteration}</td>
+                <td><code>${item.shortOtp}</code></td>
+                <td><small><code>${item.otp}</code></small></td>
+              </tr>
+            `;
+          });
+          
+          content += `
+                </tbody>
+              </table>
+            </div>
+          `;
+          
+          document.getElementById('demoContent').innerHTML = content;
+          new bootstrap.Modal(document.getElementById('demoModal')).show();
+        } else {
+          alert('Lỗi: ' + result.message);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Có lỗi xảy ra');
+      }
+    });
+    
+    // Đăng xuất
+    document.getElementById('logoutBtn').addEventListener('click', async function() {
+      if (confirm('Bạn có chắc muốn đăng xuất?')) {
+        try {
+          const response = await fetch('/otp-auth/logout', {
+            method: 'POST'
+          });
+          
+          const result = await response.json();
+          
+          if (result.success) {
+            alert('Đăng xuất thành công');
+            window.location.href = '/otp-auth/login';
+          } else {
+            alert('Lỗi: ' + result.message);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Có lỗi xảy ra khi đăng xuất');
+        }
+      }
+    });

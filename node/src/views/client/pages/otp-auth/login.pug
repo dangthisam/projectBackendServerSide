@@ -1,0 +1,68 @@
+extends ../../layouts/default.pug
+
+block main
+  .container.mt-5
+    .row.justify-content-center
+      .col-md-6
+        .card
+          .card-header.bg-success.text-white
+            h4.mb-0.text-center Đăng nhập OTP Authentication
+          .card-body
+            form#loginForm
+              .mb-3
+                label.form-label(for="username") Username
+                input.form-control(type="text" id="username" name="username" required)
+                
+              .mb-3
+                label.form-label(for="otp") OTP
+                input.form-control(type="text" id="otp" name="otp" required placeholder="Nhập OTP từ chuỗi hash chain")
+                .form-text Sử dụng OTP theo thứ tự từ chuỗi đã tạo khi đăng ký
+                
+              button.btn.btn-success.w-100(type="submit") Đăng nhập
+              
+            .mt-3.text-center
+              a(href="/otp-auth/register") Chưa có tài khoản? Đăng ký
+              
+        // Hướng dẫn sử dụng
+        .card.mt-3
+          .card-header
+            h6.mb-0 Hướng dẫn sử dụng OTP
+          .card-body
+            .alert.alert-info.small
+              p <strong>Cách tính OTP:</strong>
+              ol
+                li Sử dụng seed đã lưu khi đăng ký
+                li Tính OTP = f^(n-i)(seed), với i là lần đăng nhập (bắt đầu từ 1)
+                li Ví dụ: Lần đăng nhập đầu tiên (i=1): OTP = f^(100-1)(seed) = f^99(seed)
+              p <strong>Hoặc:</strong> Sử dụng API demo để lấy chuỗi OTP: 
+                code GET /otp-auth/demo/{username}
+
+  script.
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      
+      try {
+        const response = await fetch('/otp-auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          alert(`Đăng nhập thành công! Còn lại ${result.data.remainingLogins} lần đăng nhập.`);
+          window.location.href = '/otp-auth/profile';
+        } else {
+          alert('Lỗi: ' + result.message);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Có lỗi xảy ra khi đăng nhập');
+      }
+    });
