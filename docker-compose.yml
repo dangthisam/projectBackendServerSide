@@ -9,14 +9,18 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=3000
-      - MONGODB_URL=mongodb://mongo:27017/projectbackend
+      - DB_HOST=mongodb://mongo:27017/projectbackend
       - MYSQL_HOST=mysql
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root123
       - MYSQL_DATABASE=projectbackend
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SESSION_SECRET=nguyenvansamthichdangthithuy
     depends_on:
       - mongo
       - mysql
+      - redis
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
