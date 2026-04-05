@@ -7,70 +7,49 @@ on:
     branches: [master, develop]
 
 jobs:
-  # Kiểm tra và linting
-  lint:
+  test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [22.x]
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+    env:
+      DB_HOST: mongodb://localhost:27017/testdb
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ""
+      SESSION_SECRET: test_secret
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Sử dụng Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22.x
           cache: 'npm'
-      
-      - name: Cài đặt dependencies
+      - name: Cài dependencies
         run: npm ci
-      
-      - name: Kiểm tra cú pháp
-        run: npm run lint --if-present || echo "No lint script defined"
-
-  # Build và test
-  build:
-    runs-on: ubuntu-latest
-    needs: lint
-    strategy:
-      matrix:
-        node-version: [22.x]
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Sử dụng Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      
-      - name: Cài đặt dependencies
-        run: npm ci
-      
       - name: Chạy test
-        run: npm test --if-present
-      
-      - name: Build ứng dụng
-        run: npm run build --if-present || echo "No build script defined"
+        run: npm test
 
-  # Build Docker image
   docker-build:
     runs-on: ubuntu-latest
-    needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: test
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Thiết lập Docker Buildx
+      - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v2
-      
       - name: Đăng nhập Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      
-      - name: Build và push Docker image
+      - name: Build và push image
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -78,7 +57,15 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/nguyenvansam-backend:latest
             ${{ secrets.DOCKER_USERNAME }}/nguyenvansam-backend:${{ github.sha }}
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/nguyenvansam-backend:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/nguyenvansam-backend:buildcache,mode=max
 
- 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docker-build
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Deploy lên Railway
+        run: |
+          npm install -g @railway/cli
+          railway up --image ${{ secrets.DOCKER_USERNAME }}/nguyenvansam-backend:latest
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
