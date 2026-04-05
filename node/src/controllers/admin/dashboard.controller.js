@@ -5,7 +5,7 @@ const Client=require("../../models/user.model")
 const Admin=require("../../models/account")
 const admin= async (req, res)=>{
 
-const static={
+const staticData={
     categoryProduct:{
         total:0,
         active:0,
@@ -29,50 +29,50 @@ const static={
     
 }
 
-static.categoryProduct.total=await Productcategory.countDocuments({
+staticData.categoryProduct.total=await Productcategory.countDocuments({
     deleted:false
 })
-static.categoryProduct.active=await Productcategory.countDocuments({
+staticData.categoryProduct.active=await Productcategory.countDocuments({
     deleted:false,
     status:"active"
 })
-static.categoryProduct.inactive=await Productcategory.countDocuments({
+staticData.categoryProduct.inactive=await Productcategory.countDocuments({
     deleted:false,
     status:"inactive"
 })
 
-static.product.total=await Product.countDocuments({
+staticData.product.total=await Product.countDocuments({
     deleted:false
 })
-static.product.active=await Product.countDocuments({
+staticData.product.active=await Product.countDocuments({
     deleted:false,
     status:"active"
 })
-static.product.inactive=await Product.countDocuments({
+staticData.product.inactive=await Product.countDocuments({
     deleted:false,
     status:"inactive"
 })
 
-static.client.total=await Client.countDocuments({
+staticData.client.total=await Client.countDocuments({
     deleted:false
 })
-static.client.active=await Client.countDocuments({
+staticData.client.active=await Client.countDocuments({
     deleted:false,
     status:"active"
 })
-static.client.inactive=await Client.countDocuments({
+staticData.client.inactive=await Client.countDocuments({
     deleted:false,
     status:"inactive"
 })
 
-static.admin.total=await Admin.countDocuments({
+staticData.admin.total=await Admin.countDocuments({
     deleted:false
 })
-static.admin.active=await Admin.countDocuments({
+staticData.admin.active=await Admin.countDocuments({
     deleted:false,
     status:"active"
 })
-static.admin.inactive=await Admin.countDocuments({
+staticData.admin.inactive=await Admin.countDocuments({
     deleted:false,
     status:"inactive"
 })
@@ -84,7 +84,7 @@ static.admin.inactive=await Admin.countDocuments({
     res.render('admin/pages/dashboard/index.pug', {
         title:"Sản phẩm nổi bật",
         titles:"Sản phẩm mới",
-        static:static,
+        static:staticData,
         message: req.flash('message'),
         error: req.flash('error')
     });
