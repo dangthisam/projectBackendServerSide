@@ -23,7 +23,7 @@ jobs:
       REDIS_HOST: localhost
       REDIS_PORT: 6379
       REDIS_PASSWORD: ""
-      SESSION_SECRET: test_secret
+      SESSION_SECRET: nguyenvansamthichdangthithuy
     steps:
       - uses: actions/checkout@v3
       - name: Setup Node.js
