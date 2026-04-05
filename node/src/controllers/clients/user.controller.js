@@ -67,7 +67,13 @@ const userLoginPost = async (req, res) => {
     return;
   }
 
-  res.cookie("tokenUser", user.tokenUser);
+  //res.cookie("tokenUser", user.tokenUser);
+  req.session.user={
+    id:user.id,
+    name:user.fullName,
+    email:user.email,
+    role:user.role,
+  }
   const cart = await Card.findOne({
     user_id: user.id,
   });
@@ -90,15 +96,22 @@ const userLoginPost = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-  res.clearCookie("tokenUser");
-  res.clearCookie("cardId");
-  req.flash("success", "Đăng xuất thành công");
-  res.redirect("/home");
+  req.session.destroy(() => {
+    res.clearCookie("cardId");
+    req.flash("success", "Đăng xuất thành công");
+    res.redirect("/home");
+  });
 };
 
 const userProfile = async (req, res) => {
-  const user = await User.find({
-    tokenUser: req.cookies.tokenUser,
+  // Lấy user từ session thay vì cookie
+  if(!req.session || !req.session.user) {
+    req.flash("error", "Vui lòng đăng nhập để xem thông tin");
+    return res.redirect("/user/login");
+  }
+  
+  const user = await User.findOne({
+    _id: req.session.user.id,
     status: "active",
   });
   res.render("clients/pages/user/userprofile", {

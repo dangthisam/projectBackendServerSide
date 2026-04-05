@@ -13,8 +13,6 @@ module.exports.sendEmail = (email, subject , html) => {
     }
 });
 
-
-
 const mailOptions = {
     from:process.env.SMTP_MAIL,
     to: email,

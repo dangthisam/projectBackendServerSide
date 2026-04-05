@@ -7,8 +7,10 @@ const session = require('express-session')
 const app = express();
 const methodOverride = require('method-override')
 const moment = require("moment");
+const {RedisStore} = require('connect-redis');
 
-
+const helmet = require("helmet");
+const swaggerConfig = require(path.join(__dirname, "node/src/config/swagger"));
 //limit req to IP to server 
 // const rateLimit = require("express-rate-limit");
 // const limiter = rateLimit({
@@ -32,7 +34,7 @@ const { Server } = require('socket.io');
 //const productsRouter = require(path.join(__dirname, "node/src/routes/client/routerProducts"));
 const webRouter = require(path.join(__dirname, "node/src/routes/web"));
 const connection = require(path.join(__dirname, "node/src/config/db"));
-
+const redisClient = require(path.join(__dirname, "node/src/config/redis"));
 //const fileUpload = require("express-fileupload");
 const Kitten = require(path.join(__dirname, "node/src/models/user"));
 const middlewareCaterory = require(path.join(__dirname, "node/src/middleware/client/category.middleware"));
@@ -55,8 +57,23 @@ const middlewareAuth =require(path.join(__dirname, "node/src/middleware/admin/au
 //hien thi thong bao khi thay doi tang trang thai app.use(express.cookieParser('keyboard cat'));
 // app.use(limiter);
 
+
+
 app.use(cookieParser('nguyenvansamthichdangthithuy'));
-app.use(session({ cookie: { maxAge: 60000 }}));
+//app.use(session({ cookie: { maxAge: 60000 }}));
+let redisStore = new RedisStore({ client: redisClient
+});
+app.use(session({
+  store: redisStore,
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false, // Chỉ lưu session khi có data (tránh lưu session rỗng)
+  cookie: { 
+    secure: false, // Đặt true nếu dùng HTTPS
+    httpOnly: true, // Bảo mật: cookie không thể truy cập từ JavaScript
+    maxAge: 24 * 60 * 60 * 1000 // 1 ngày
+  }
+}));
 app.use(flash());
 
 //
@@ -89,6 +106,14 @@ app.use(prefixAdmin.prefixAdmin, middlewareAuth.authMiddleware, productCateroryA
 app.use("", clienRouter);
 
 // tao mot bien toan cuj de su dung trong cac file pug 
+app.use(helmet({
+  contentSecurityPolicy: false,
+}));
+//limit req to IP to server
+
+
+//app.use(limiter); 
+//end limit req to IP to server
 app.use(prefixAdmin.prefixAdmin, routeradmin);
 app.set('trust proxy' , true);
 //tinyEcm

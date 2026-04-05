@@ -1,0 +1,84 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+jobs:
+  # Kiểm tra và linting
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Sử dụng Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      
+      - name: Cài đặt dependencies
+        run: npm ci
+      
+      - name: Kiểm tra cú pháp
+        run: npm run lint --if-present || echo "No lint script defined"
+
+  # Build và test
+  build:
+    runs-on: ubuntu-latest
+    needs: lint
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Sử dụng Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      
+      - name: Cài đặt dependencies
+        run: npm ci
+      
+      - name: Chạy test
+        run: npm test --if-present
+      
+      - name: Build ứng dụng
+        run: npm run build --if-present || echo "No build script defined"
+
+  # Build Docker image
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Thiết lập Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Đăng nhập Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Build và push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/nguyenvansam-backend:latest
+            ${{ secrets.DOCKER_USERNAME }}/nguyenvansam-backend:${{ github.sha }}
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/nguyenvansam-backend:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/nguyenvansam-backend:buildcache,mode=max
+
+ 

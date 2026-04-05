@@ -11,7 +11,13 @@ const validateResetPassword=require("../../validate/client/resetPassword");
 const userMiddleware=require("../../middleware/client/auth.middleware");
 
 
-
+router.get("/ok" , (req,res)=>{
+  res.json({
+    create_on:"2024-06-12",
+    probability:"0.9",
+    lable:"smoking",
+  })
+});
 router.get("/register" , userRegister);
 router.post("/register" , userValidation.userValidation , userRegisterPost);
 
